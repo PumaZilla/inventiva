@@ -48,6 +48,35 @@ Create a production-ready transparent PNG game prop asset, a single open Victori
 
 Create a production-ready transparent PNG game prop: an antique brass two-ring alphabet cipher disk, but absolutely NO letters, NO numbers, NO text (these will be added as interactive game UI). Square canvas, strictly orthographic FRONT view, perfectly circular, precisely centered at 50% 50%, outer circle occupies 94% of canvas diameter. Two spacious concentric blank brass bands: outer writing band at radius 40% of canvas (between 35% and 45%), inner writing band at radius 29.4% (between 25% and 34%). Thin engraved circles separate the bands. Warm gold outer ring, slightly lighter pale golden inner ring, center medallion occupies only central radius 21%, engraved beautiful simple maritime compass rose and center slotted screw. Small burgundy triangle at very top pointing downward, tiny rivets only along outer edge. Fine restrained wear and subtle verdigris along edges, dark brown contour outlines, gorgeous warm hand-painted 2D cel shading in a Professor Layton inspired Victorian adventure-game style matching reference's craftsmanship (reference STYLE ONLY). No photorealism, no perspective, no elliptical shape, no extra surrounding items, no hands, no tabletop, true transparent background. Empty clean lettering bands are vital; do not place decorative markings or alphabet there. Rich illustrated metal with elegant engraved edge details.
 
+# Gestos y fachada de la relojería
+
+Assets generados con Imagegen integrado. Los sprites son hojas transparentes de 1024 × 1536, con cuatro celdas de 512 × 768: columnas boca cerrada/abierta; filas gesto explicativo/pensativo. CSS alterna las columnas del personaje que habla y oscurece al que escucha. Con reducción de movimiento se muestra una pose fija.
+
+## criptobal-gestos.png
+
+Ruta: dist/assets/criptobal-gestos.png
+
+Create a production sprite sheet for the SAME original professor character shown in reference: Professor Criptóbal, brown bowler hat, round spectacles, grey sideburns and moustache, olive long coat, orange waistcoat, burgundy cravat, magnifying glass. Professor Layton inspired clean 2D cel animation linework exactly matching reference. True transparent background, NO glow or shadow halos. Portrait 2:3 overall canvas, divided into EXACT equal 2 columns x 2 rows, no grid lines. Four separate thigh-up sprites, each fully contained within its equal cell, same size head, same camera/framing, same head position and baseline in all cells; hat safely within each cell with 5% margin. Top left: friendly explaining gesture with one palm up, mouth CLOSED. Top right: EXACT SAME pose as top left, only mouth OPEN speaking, clearly visible dark mouth under moustache. Bottom left: thoughtful pose hand to chin with magnifier lowered, mouth CLOSED. Bottom right: EXACT SAME thoughtful pose as bottom left, only mouth OPEN speaking. Two matched mouth pairs for game animation. All four face three-quarter right. Preserve identity, costume, proportions and colors. Four independent cutouts, no captions, no scenery. No sprite overlapping another cell. Transparent canvas everywhere outside characters.
+
+## lola-gestos.png
+
+Ruta: dist/assets/lola-gestos.png
+
+Production game sprite sheet for EXACT SAME Lola character in reference: teenage young detective with auburn bob, tan cap with brass goggles, teal fitted jacket, ochre necktie, white collar, brown skirt and satchel, small brown notebook. Same original Professor Layton inspired clean cel illustrated linework, original identity and proportions. Portrait 2:3 overall canvas divided into EXACT 2 columns x 2 rows equal cells, no borders. Four independent thigh-up sprites, SAME camera scale, head position, cap height and baseline inside each cell, 5 percent clear margin, nothing crossing cell boundaries. Top-left: curious friendly, notebook held at chest, other hand on hip, mouth CLOSED. Top-right: EXACT same top-left pose, mouth clearly OPEN speaking enthusiastically. Bottom-left: surprised/investigating, index finger pointing upward beside face, notebook in other hand, mouth CLOSED and inquisitive eyebrows. Bottom-right: EXACT same bottom-left pose, mouth OPEN speaking with small round shape. Two matched closed/open mouth pairs. All face three-quarter LEFT toward professor. Transparent background absolutely no painted background, NO glow, no shadow cloud. No labels, no text, no scenery, no duplicate props. The reference is character identity and costume. Four full cutouts on true transparent alpha.
+
+## relojeria-cerrada.png
+
+Ruta: dist/assets/relojeria-cerrada.png
+
+New full-screen background for the same illustrated Victorian detective adventure set in Vigo, Galicia, 1893. Match the warm hand-painted watercolor architecture and crisp cel outlines in reference, Professor Layton inspired. WIDE 16:9 landscape. Front-facing close establishing view of Clotilde's charming clockmaker shop in the Casco Vello: golden grey Galician granite stone facade, carved stone arch, white glazed galleries above, dark bottle-green wooden shopfront, large clock-filled display windows on LEFT and RIGHT. A very clearly SHUT solid dark green entrance door at exact center x50%, complete closed door visible from y25% to y85%, handle and keyhole. Above it ornate faded shop sign reads 'RELOJERÍA TIC-TAC'. Several antique pendulum and pocket clocks in windows, large hanging clock top-left, warm lamplight late afternoon, damp cobblestones foreground. On stone jamb immediately RIGHT of central door, at x61% y48%, a curious small brass doorbell with a horizontal card/password slot; above slot engraved exact text 'HASH MD5', and a separate small plaque below reads 'ABRIR'. Keep mechanism simple and readable. Leave central doorway unobstructed and bottom corners spacious for character overlays. NO people, no characters, no interface, no speech boxes. Geometrically coherent frontal facade, no distant street or bridge, door firmly CLOSED and locked, no opening. Elegant richly illustrated game environment, not photorealistic.
+
+## relojeria-abierta.png
+
+Ruta: dist/assets/relojeria-abierta.png
+
+Edit only the CENTRAL DOOR in this game background: show this same green wooden door swung open INWARD to the left, revealing a warmly lit clockmaker workshop through the doorway with a small wooden workbench and clocks inside. Keep every other pixel composition as close as possible: identical stone facade, shop sign, clock displays, cobblestones, lighting, camera, exact image dimensions, brass HASH MD5 slot and ABRIR plaque on right jamb. No people. Match same illustrated cel watercolor style. The open doorway is the reward after solving the lock. Do not change any windows, signs, wall, objects, perspective or crop.
+
+
 # Botones ilustrados del dispositivo
 
 Generados con la herramienta integrada `image_gen`, sobre fondo transparente, usando `dist/assets/dispositivo-laton.png` como referencia de estilo.
