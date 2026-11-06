@@ -21,3 +21,7 @@ Sprite transparente vertical 2:3 de Iris Finch, aprendiz de 15 años. Melena cor
 ## ada-v2.png
 
 Sprite transparente vertical 2:3 de Ada Wren, relojera victoriana adulta. Pelo oscuro con moño, gafas de latón, rostro sencillo, ojos pequeños, sonrisa inteligente. Capa corta burdeos sobre vestido azul marino de cuello alto y botones de latón. Sostiene mecanismo de reloj. Tres cuartos mirando a la izquierda, cabeza y manos completas hasta muslos. Sin sombras exteriores, fondo o texto.
+
+## meridian-v3.png · Corrección de continuidad
+
+Edición precisa del fondo meridian-v2.png con Imagegen integrado. Corregir únicamente la arquitectura de la calle detrás del puente: las fachadas que se ven a través del arco deben ser la continuación de los mismos edificios que sobresalen por encima. Alinear aristas, escala, ventanas y perspectiva. Prolongar la torre del reloj hacia abajo, a la derecha de la abertura, hasta la calle; eliminar el segundo horizonte de pequeños tejados del interior del arco. Conservar encuadre, puente, librería, buzón, farola, taller, pavimento, estilo y luz. Sin personajes ni texto.

@@ -26,7 +26,7 @@ Visita http://localhost:4173. No requiere instalación ni compilación. Google F
 - `dist/style.css`: diseño y vistas adaptables.
 - `dist/app.js`: contenido, historia, validación de respuestas y estado.
 - `dist/assets/vale-v2.png`, `iris-v2.png`, `ada-v2.png`: personajes actuales con transparencia, descargables desde la galería.
-- `dist/assets/meridian-v2.png`: escenario actual.
+- `dist/assets/meridian-v3.png`: escenario actual, con continuidad arquitectónica corregida detrás del arco.
 - `dist/assets/personajes.png`: lámina original alternativa.
 - `dist/assets/meridian-street.png`: escenario original.
 - `dist/assets/emblem.svg`: emblema vectorial.
