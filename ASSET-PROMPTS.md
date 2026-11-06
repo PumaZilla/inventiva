@@ -50,7 +50,13 @@ Create a production-ready transparent PNG game prop: an antique brass two-ring a
 
 # Gestos y fachada de la relojería
 
-Assets generados con Imagegen integrado. Los sprites son hojas transparentes de 1024 × 1536, con cuatro celdas de 512 × 768: columnas boca cerrada/abierta; filas gesto explicativo/pensativo. CSS alterna las columnas del personaje que habla y oscurece al que escucha. Con reducción de movimiento se muestra una pose fija.
+Revisión actual: las poses al hablar son fijas, con boca abierta; no se alternan los fotogramas. La fachada usada por el juego es `dist/assets/relojeria-cerrada-v2.png`, generada con Imagegen integrado tomando `vigo-casco-vello.png` como referencia principal de estilo. El timbre y su placa no contienen texto.
+
+## Prompt de la fachada revisada
+
+Use case: style-transfer. Create the second background for this same illustrated 2D detective game. INPUT 1 is the strict ART STYLE and LOCATION reference: match its clean brown ink outlines, restrained painted/cel shading, warm soft afternoon light, muted granite stone with very restrained texture, ivory glazed galleries, burgundy wooden clock shop and terracotta roofs in Vigo Casco Vello. INPUT 2 is only a loose COMPOSITION reference for a clock shop facade; it is too hyperdetailed, too glossy, ornate and golden. Redraw the clock shop as though painted by the very same background artist as image 1. Landscape 16:9 game background with no people. The camera now faces the clock shop seen at the right of image 1: a modest CLOSED burgundy paneled wooden door centered, not ajar and no opening, one glass clock display to each side with a few simple antique clocks, granite facade, white wooden gallery above, hanging golden pocket watch sign. Simpler clean architectural forms and slightly wider view with pavement foreground, no enormous decorative shop name banner or carved swirls. On the granite immediately to the RIGHT of the closed door, place a small antique brass doorbell with narrow slot and a small plain rectangular label beneath. The bell panel and label are entirely BLANK, no text, no letters, no symbols, absolutely no HASH MD5 or ABRIR. Important all text is added later in a close-up puzzle, so background has no writing. Keep doorbell at roughly 60% horizontal so remains visible on mobile. Closed door centered, room at lower sides for later character overlays. Use original image1 style and palette consistently, avoiding photorealistic shiny texture or dramatic lighting. No characters, UI, watermarks or annotations.
+
+Assets generados con Imagegen integrado. Los sprites son hojas transparentes de 1024 × 1536, con cuatro celdas de 512 × 768: columnas boca cerrada/abierta; filas gesto explicativo/pensativo. El juego usa la columna de boca abierta para quien habla y la de boca cerrada para quien escucha, oscureciendo a este último. Las poses son fijas.
 
 ## criptobal-gestos.png
 

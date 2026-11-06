@@ -156,11 +156,11 @@ dialog.letter-screen[open]{display:flex;flex-direction:column;overflow:hidden}
 .vale-sprite{background-image:url('assets/criptobal-gestos.png')}
 .partner-sprite{background-image:url('assets/lola-gestos.png')}
 .character-sprite[data-gesture="think"]{background-position-y:100%}
-.character-sprite.is-speaking{background-position-x:100%;animation:talk-mouth 1.3s steps(1,end) infinite}
+.character-sprite.is-speaking{background-position-x:100%;animation:none}
 .character-sprite[data-character="ada"]{background-image:url('assets/ada-v2.png');background-size:contain;background-position:center bottom;animation:none}
 .game-shell .vale-sprite,.game-shell .partner-sprite{filter:brightness(.58) saturate(.76) drop-shadow(5px 7px 2px #241a1840)}
 .game-shell .character-sprite.is-speaking{filter:brightness(1) drop-shadow(5px 7px 2px #241a1840)}
-@keyframes talk-mouth{0%,25%,55%,80%{background-position-x:100%}15%,42%,70%,95%{background-position-x:0}}
+
 @media(prefers-reduced-motion:reduce){.character-sprite.is-speaking{animation:none;background-position-x:100%}}
 .at-clockshop .scene-art{object-position:50% 50%}
 .at-clockshop .vale-sprite{left:-3%;height:90%;bottom:-14%}
