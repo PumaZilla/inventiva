@@ -18,7 +18,7 @@ Visita http://localhost:4173. No requiere instalación ni compilación. Google F
 - Escenario con puntos de exploración, diálogos, inventario, mapa, cuaderno, dos pistas por enigma y desenlace.
 - Guardado local, reinicio con confirmación y ambiente sonoro generado con Web Audio.
 - Controles de teclado, diálogo nativo, reducción de movimiento y diseño adaptable.
-- Tres personajes originales: Elías Vale, Iris Finch y Ada Wren.
+- Tres personajes originales: Criptóbal Despistes, Lola Bitácora y Clotilde Tic-Tac.
 
 ## Archivos
 
@@ -39,13 +39,13 @@ Las ilustraciones son assets estáticos generados para este proyecto. La versió
 2. Telegrama B: dominio alterado, urgencia y solicitud de contraseña.
 3. 1101 → 13.
 4. Solo permiso de lectura.
-5. La cuenta Autómata 07 registra un traslado al invernadero a las 21:14. No se debe inferir la persona responsable de una cuenta sin más pruebas.
+5. La cuenta Tornillín 07 registra un traslado al invernadero a las 21:14. No se debe inferir la persona responsable de una cuenta sin más pruebas.
 
 ## Rediseño de pantalla completa
 
 La interfaz ocupa el viewport completo, sin scroll de página. La escena tiene personajes grandes superpuestos y un cuadro de diálogo inferior. La flecha del diálogo pasa a la exploración al terminar la conversación, retira los personajes y activa los objetos; en pantallas estrechas se puede desplazar la escena horizontalmente. Los enigmas ocupan una pantalla independiente. El botón de las cuatro esquinas activa la API Fullscreen cuando el navegador la admite. Los menús se abren desde la maleta. El progreso anterior se conserva con la misma clave de almacenamiento.
 
-Validado con una partida completa, respuestas incorrectas, pistas, final, persistencia, reinicio, diálogos de Ada, galería, fullscreen y vistas de escritorio y móvil.
+Validado con una partida completa, respuestas incorrectas, pistas, final, persistencia, reinicio, diálogos de Clotilde, galería, fullscreen y vistas de escritorio y móvil.
 
 Ilustraciones de la segunda versión generadas con Imagegen integrado usando las dos imágenes de Layton aportadas por el usuario como referencias de estilo. Las descripciones de generación están en `ASSET-PROMPTS.md`.
 
