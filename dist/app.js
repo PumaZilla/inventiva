@@ -8,8 +8,8 @@ const clockshopLines=[
   {speaker:'Profesor Criptóbal',text:'Qué recibimiento tan peculiar. Encima de la ranura pone «HASH MD5». Y debajo hay una placa con una sola palabra: «ABRIR».'},
   {speaker:'Lola Bitácora',text:'¿Probamos con ABRIR? Aunque, si fuera tan fácil, la señora Tic-Tac podría haber dejado una llave debajo del felpudo.'},
   {speaker:'Profesor Criptóbal',text:'Creo que nos pide la huella de esa palabra. MD5 transforma un texto en una cadena de treinta y dos caracteres. No es como los discos de César: aquí no se descifra un mensaje.'},
-  {speaker:'Lola Bitácora',text:'Tengo un calculador en mi cuaderno. Escribiré ABRIR, tal como aparece en la placa: en mayúsculas y sin espacios. ¡A ver qué huella sale!'},
-  {speaker:'Profesor Criptóbal',text:'Adelante, Lola. Calculemos la huella y pongámosla en la ranura. Si Clotilde quería comprobar nuestra curiosidad, está a punto de llevarse una sorpresa.'}
+  {speaker:'Lola Bitácora',text:'Entonces la palabra de la placa es la pista… ABRIR, en mayúsculas. ¡Esta relojera se toma muy en serio las visitas!'},
+  {speaker:'Profesor Criptóbal',text:'Examinemos el timbre de cerca. Introduzcamos la contraseña en la ranura y pulsemos el botón. A ver si la señora Tic-Tac nos recibe.'}
 ];
 
 const ARRIVAL='Por fin, Vigo. Apenas hemos bajado del barco y ya tengo las botas mojadas. Espero que la carta de ese tal César justifique el viaje, Lola.';
@@ -167,15 +167,14 @@ function restoreCheckpointHistory(){
   }
 }
 function showDoorPuzzle(){
-
-  openModal('ENIGMA 002 · HASH MD5',`<div class="puzzle-meta">${icon('lock')} EL TIMBRE DE CLOTILDE</div><h2 class="modal-title">La huella de una palabra</h2><p class="modal-intro">«La placa dice ABRIR, profesor. Calcularé su huella; usted pruebe la ranura».<br><small>— Lola Bitácora</small></p><div class="door-workbench"><section class="hash-notebook" aria-label="Calculador del cuaderno de Lola"><h3>El cuaderno de Lola</h3><form id="hash-calculator"><label for="hash-word">Palabra que quieres comprobar</label><div class="hash-row"><input id="hash-word" type="text" autocomplete="off" spellcheck="false" placeholder="Copia la palabra de la placa" maxlength="100" required><button class="secondary-button" type="submit">Calcular MD5</button></div><output id="hash-result" aria-live="polite">La huella aparecerá aquí.</output><button type="button" id="use-hash" class="secondary-button" disabled>Pasar a la ranura ${icon('arrow')}</button></form><p>Las mayúsculas, las minúsculas y los espacios producen huellas distintas.</p><details class="hash-learning"><summary>Una nota del profesor</summary><p>MD5 es una función hash, no un cifrado que se pueda descifrar. Aquí nos sirve para aprender; no debe usarse para proteger contraseñas reales.</p><a href="https://www.rfc-editor.org/rfc/rfc6151" target="_blank" rel="noopener noreferrer">Nota técnica de la IETF</a></details></section><form id="door-form" class="door-lock"><strong>HASH MD5</strong><label for="door-answer">Ranura de la contraseña</label><input id="door-answer" type="text" inputmode="text" autocomplete="off" spellcheck="false" maxlength="32" placeholder="Introduce los 32 caracteres" aria-describedby="door-feedback" required><span class="door-plaque">ABRIR</span><button type="submit" class="primary-button">Probar la cerradura ${icon('key')}</button><div id="door-feedback" role="status" aria-live="polite"></div></form></div>`);
-  let calculated='';
-  $('#hash-calculator').addEventListener('submit',event=>{event.preventDefault();calculated=md5($('#hash-word').value);$('#hash-result').textContent=calculated;$('#use-hash').disabled=false;});
-  $('#hash-word').addEventListener('input',()=>{calculated='';$('#hash-result').textContent='La huella aparecerá aquí.';$('#use-hash').disabled=true;});
-  $('#use-hash').addEventListener('click',()=>{$('#door-answer').value=calculated;$('#door-answer').focus();});
+  openModal('ENIGMA 002 · HASH MD5',`<form id="door-form" class="bell-closeup" aria-label="El timbre de Clotilde: HASH MD5, placa ABRIR"><img class="bell-art" src="assets/timbre-primer-plano.png" alt="Timbre de latón sobre la pared de granito: inscripción HASH MD5, una ranura, un pulsador redondo y una placa que dice ABRIR" draggable="false"><input id="door-answer" type="text" aria-label="Contraseña del timbre" aria-describedby="door-feedback" autocomplete="off" autocapitalize="off" spellcheck="false" maxlength="32" placeholder="Contraseña…" required><button type="submit" class="bell-push" aria-label="Pulsar el timbre" title="Pulsar el timbre"></button><div id="door-feedback" role="status" aria-live="polite"></div></form>`);
+  $('#door-answer').addEventListener('input',()=>{$('#door-answer').removeAttribute('aria-invalid');$('#door-feedback').textContent='';});
   $('#door-form').addEventListener('submit',event=>{
     event.preventDefault();const answer=$('#door-answer').value.trim().toLowerCase();
-    if(answer!=='79a81a55520ad1640f63430608c5198d'){$('#door-feedback').textContent='El cerrojo no se mueve. Calcula la huella de ABRIR, en mayúsculas y sin espacios.';return;}
+    if(answer!=='79a81a55520ad1640f63430608c5198d'){
+      $('#door-feedback').textContent='El timbre no responde. La contraseña no encaja.';
+      $('#door-answer').setAttribute('aria-invalid','true');$('#door-answer').focus();return;
+    }
     rememberView();state.doorUnlocked=true;enterStory('door-solved',0);
   });
 }

@@ -50,6 +50,14 @@ Create a production-ready transparent PNG game prop: an antique brass two-ring a
 
 # Gestos y fachada de la relojería
 
+## Primer plano del timbre · reto 2
+
+Asset: `dist/assets/timbre-primer-plano.png`. Generado con Imagegen integrado; referencia visual: `relojeria-cerrada-v2.png`. La ranura recibe un input HTML transparente y el pulsador es el botón de envío. No hay calculadora ni paneles externos.
+
+Prompt final:
+
+Use case: stylized-concept. Asset type: close-up interactive puzzle screen for this exact hand-painted 2D Victorian detective game. Reference image shows the established clock shop facade; recreate a magnified STRAIGHT-ON close-up of its brass doorbell on the granite pier, matching the same restrained brown ink contours, warm muted cel shading, hand-painted stone, soft afternoon light. Portrait canvas 2:3, no people, no UI. One large rectangular antique BRASS doorbell panel centered, from x12% to88%, y8% to72%, gently rounded corners, four screws near corners, restrained bevel and simple rim. Upper part of panel engraved exact text 'HASH MD5', horizontally centered at y22%, clear dark serif capitals, quite large. Below text one long dark recessed HORIZONTAL rectangular slot at y35%, opening from x20% to80% and y31% to39%, large enough for later live input text. Slot is entirely empty dark brown with brass raised bevel. Below slot a large protruding ROUND brass bell button centered x50%, y55%, diameter20% of canvas width, simple concentric rims with highlight and inset shadow, NO symbol and no text on button. Below main bell panel, separate small rectangular pale brass plaque centered x50%, y82%, width55% height10%, corner screws, engraved exact word 'ABRIR' in large dark serif capitals. All brass metal drawn and shaded, never photorealistic chrome. Surrounding background is the same warm beige gray granite blocks from reference, flat wall facing camera, thin strip of closed burgundy door at far LEFT margin, never open door. This is a tactile prop that player touches, no headings, notebook, calculator, HUD, form, extra buttons, captions or watermarks. Main panel completely visible with comfortable margins. Preserve accurate requested words 'HASH MD5' and 'ABRIR'; absolutely no other lettering or numbers.
+
 Revisión actual: las poses al hablar son fijas, con boca abierta; no se alternan los fotogramas. La fachada usada por el juego es `dist/assets/relojeria-cerrada-v2.png`, generada con Imagegen integrado tomando `vigo-casco-vello.png` como referencia principal de estilo. El timbre y su placa no contienen texto.
 
 ## Prompt de la fachada revisada

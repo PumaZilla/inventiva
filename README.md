@@ -16,7 +16,7 @@ Abrir http://localhost:4173. No requiere instalación ni compilación.
 2. Carta y dispositivo: WDOOHU conduce a TALLER.
 3. Regreso directo a los diálogos de Criptóbal y Lola.
 4. Llegada a la relojería cerrada y conversación sobre el timbre.
-5. Reto MD5: calcular la huella de ABRIR e introducirla en la ranura.
+5. Reto MD5: introducir la huella de ABRIR directamente en la ranura y pulsar el timbre ilustrado. Sin calculadora integrada.
 6. Regreso al diálogo cuando se libera el cerrojo. Este tramo termina ante la puerta; no hay retos posteriores ni desenlace del caso.
 
 Los retos antiguos de phishing, binario, permisos y deducción fueron retirados. Las partidas antiguas conservan la solución de la carta y vuelven al diálogo posterior a ella.
@@ -30,11 +30,12 @@ Criptóbal y Lola tienen dos gestos, cada uno con boca cerrada o abierta. Quien 
 ## Archivos
 
 - `dist/app.js`: historia, retos y navegación.
-- `dist/md5.js`: cálculo local de la huella, sin red.
+- `dist/md5.js`: referencia educativa conservada para las pruebas; no se carga en el juego.
 - `dist/style.css`: composición adaptable y estados de los personajes.
 - `dist/assets/criptobal-gestos.png`, `dist/assets/lola-gestos.png`: hojas transparentes 2×2. Columnas boca cerrada/abierta; filas gesto explicativo/pensativo.
 - `dist/assets/vigo-casco-vello.png`: primer escenario.
 - `dist/assets/relojeria-cerrada-v2.png`: segundo escenario, ajustado al estilo del primero, timbre sin texto.
+- `dist/assets/timbre-primer-plano.png`: primer plano del timbre; la ranura y el pulsador son interactivos.
 - `ASSET-PROMPTS.md`: prompts y procedencia de las ilustraciones. Las versiones previas se conservan como alternativas sin usarse en el juego.
 
 ## Validación
