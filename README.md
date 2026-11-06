@@ -43,8 +43,10 @@ Las ilustraciones son assets estáticos generados para este proyecto. La versió
 
 ## Rediseño de pantalla completa
 
-La interfaz ocupa el viewport completo, sin scroll de página. La escena tiene personajes grandes superpuestos y un cuadro de diálogo inferior. «Explorar la calle» retira los personajes y activa los objetos; en pantallas estrechas se puede desplazar la escena horizontalmente. Los enigmas ocupan una pantalla independiente. El botón de las cuatro esquinas activa la API Fullscreen cuando el navegador la admite. Los menús se abren desde la maleta. El progreso anterior se conserva con la misma clave de almacenamiento.
+La interfaz ocupa el viewport completo, sin scroll de página. La escena tiene personajes grandes superpuestos y un cuadro de diálogo inferior. La flecha del diálogo pasa a la exploración al terminar la conversación, retira los personajes y activa los objetos; en pantallas estrechas se puede desplazar la escena horizontalmente. Los enigmas ocupan una pantalla independiente. El botón de las cuatro esquinas activa la API Fullscreen cuando el navegador la admite. Los menús se abren desde la maleta. El progreso anterior se conserva con la misma clave de almacenamiento.
 
 Validado con una partida completa, respuestas incorrectas, pistas, final, persistencia, reinicio, diálogos de Ada, galería, fullscreen y vistas de escritorio y móvil.
 
 Ilustraciones de la segunda versión generadas con Imagegen integrado usando las dos imágenes de Layton aportadas por el usuario como referencias de estilo. Las descripciones de generación están en `ASSET-PROMPTS.md`.
+
+La escena principal prescinde de cabecera, título del expediente, contador de enigmas, barra de acciones del diálogo y botón de pistas del escenario. Se conservan los controles flotantes de sonido, pantalla completa y menú, además del mapa. El progreso sigue disponible en el menú.
