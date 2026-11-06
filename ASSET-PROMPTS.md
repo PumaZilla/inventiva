@@ -29,3 +29,7 @@ Edición precisa del fondo meridian-v2.png con Imagegen integrado. Corregir úni
 ## Nombres actuales del elenco
 
 Las descripciones anteriores conservan los nombres usados al generar los assets. En el juego, Elías Vale pasa a llamarse Criptóbal Despistes; Iris Finch, Lola Bitácora; Ada Wren, Clotilde Tic-Tac. El librero Bell se llama don Tomás Tostón y el Autómata 07, Tornillín 07. Los nombres internos de los archivos no cambian.
+
+## vigo-casco-vello.png
+
+Generado con Imagegen integrado. Referencia de estilo: meridian-v3.png, conservando el dibujo 2D de contornos limpios y sombras suaves. Nuevo lugar: Vigo, Galicia, 1893. Calle del Casco Vello en pendiente hacia la ría y el puerto pesquero, fachadas de granito gris, galerías blancas de madera acristalada, balcones de hierro, tejados de teja, losas húmedas después de lluvia atlántica. Librería verde y soportales a la izquierda; relojero con puerta burdeos y reloj de latón a la derecha. Una maleta de cuero sobre banco de granito en primer plano lleva un sobre y una pequeña pieza circular. Mar azul verdoso, barcos de vela de época, montes al otro lado de la ría y gaviotas. Perspectiva coherente; no torre británica, puente sobre la calle, buzón rojo, vehículos modernos, personas, rótulos ni interfaz. Recreación ficticia inspirada en Vigo, no collage de monumentos.
