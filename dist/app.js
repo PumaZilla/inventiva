@@ -14,7 +14,7 @@ const KEY='niebla-cifra-vigo-v1';
 let state={completed:[],hintUses:0,seen:[],dialogue:0};
 try{const saved=JSON.parse(localStorage.getItem(KEY));if(saved&&Array.isArray(saved.completed)){let count=0;while(count<5&&saved.completed.includes(count))count++;state={...state,completed:Array.from({length:count},(_,i)=>i),hintUses:Number.isFinite(saved.hintUses)?Math.max(0,saved.hintUses):0,seen:Array.isArray(saved.seen)?saved.seen.filter(x=>['book','clock','door'].includes(x)):[]};}}catch{}
 const navigationHistory=[];
-let activePuzzle=0,bits=[0,0,0,0],hintIndex=0,toastTimer,ambient=null,lastFocus=null,storyReadyForPuzzle=false;
+let activePuzzle=0,bits=[0,0,0,0],hintIndex=0,toastTimer,ambient=null,lastFocus=null,storyReadyForPuzzle=false,storyPuzzleIndex=null,restoringNavigation=false;
 function save(){try{localStorage.setItem(KEY,JSON.stringify(state));}catch{toast('Guardado no disponible: mantén esta pestaña abierta');}}
 function toast(msg){$('#toast').textContent=msg;$('#toast').classList.add('visible');clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('#toast').classList.remove('visible'),3500);}
 function openModal(kicker,html){
@@ -43,6 +43,7 @@ const progressDialogue=[
 function render(){
   const count=state.completed.length;
   storyReadyForPuzzle=count>0;
+  storyPuzzleIndex=count;
   if(count){const line=progressDialogue[count-1];setDialogue(line.text,line.speaker);}
 }
 function openPuzzle(i){if(i>state.completed.length){toast('Resuelve el enigma anterior para descubrir esta pista.');return;}if(i===0){showLetter();return;}activePuzzle=i;bits=[0,0,0,0];hintIndex=0;const p=puzzles[i];openModal(`ENIGMA ${String(i+1).padStart(3,'0')} · ${p.topic.toUpperCase()}`,`<div class="puzzle-meta">${icon(p.icon)} ${p.place.toUpperCase()} <span>·</span> ${state.completed.includes(i)?'YA RESUELTO':'SIN LÍMITE DE TIEMPO'}</div><h2 class="modal-title">${p.title}</h2><p class="modal-intro">${p.intro}</p><form id="puzzle-form">${p.body}<div class="puzzle-actions"><button type="button" class="secondary-button" id="hint-button">${icon('spark')} Una pista</button><button class="primary-button" type="submit">Comprobar ${icon('arrow')}</button></div><div id="hint-output" aria-live="polite"></div><div class="feedback" id="feedback" role="status" aria-live="polite"></div></form>`);$('#puzzle-form').addEventListener('submit',checkAnswer);$('#hint-button').addEventListener('click',showHint);document.querySelectorAll('.bit-button').forEach(btn=>btn.addEventListener('click',()=>{const n=Number(btn.dataset.bit);bits[n]=1-bits[n];btn.textContent=bits[n];btn.classList.toggle('on',Boolean(bits[n]));btn.setAttribute('aria-pressed',String(Boolean(bits[n])));$('#binary-total').textContent=bits.reduce((sum,bit,index)=>sum+bit*[8,4,2,1][index],0);}));}
@@ -64,7 +65,7 @@ $('#modal').addEventListener('cancel',event=>{event.preventDefault();goBack();})
 $('#modal').addEventListener('click',e=>{if(e.target===$('#modal')){const r=$('#modal').getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)closeModal();}});
 const dialogueLines=[{"speaker": "Lola Bitácora", "text": "¡Mire la ría, profesor! Vigo es todavía más bonita que en los mapas. Aunque venir hasta Galicia por una carta misteriosa… eso sí que no estaba en nuestros planes."}, {"speaker": "Profesor Criptóbal", "text": "La escribió y firmó un tal César. Nos pide ayuda: ha desaparecido la baliza del puerto y alguien envía órdenes usando su nombre."}, {"speaker": "Lola Bitácora", "text": "Y dentro del sobre venía esto. Pesa lo suyo… tiene dos discos, letras por todas partes y una pequeña muesca. No parece una moneda de recuerdo."}, {"speaker": "Profesor Criptóbal", "text": "Todavía no sabemos para qué sirve. César escribió: «Al llegar al Casco Vello, enfrente la A a la D». Después dejó seis letras: WDOOHU."}, {"speaker": "Lola Bitácora", "text": "Voy a apoyar la maleta en ese banco. Saquemos la carta y la pieza. Quizá las letras no estén ahí de adorno."}, {"speaker": "Profesor Criptóbal", "text": "Buena idea. Acabamos de llegar a Vigo y ya tenemos un lugar que encontrar. Empecemos por leer con cuidado lo que nos ha escrito César."}];
 $('#dialogue-next').addEventListener('click',()=>{
-  if(storyReadyForPuzzle){state.completed.length===5?showEnding():openPuzzle(state.completed.length);return;}
+  if(storyReadyForPuzzle){const next=storyPuzzleIndex??state.completed.length;next===5?showEnding():openPuzzle(next);return;}
   if(state.dialogue>=dialogueLines.length){showLetter();return;}
   rememberView();
   const line=dialogueLines[state.dialogue];
@@ -120,15 +121,18 @@ function captureView(){
   return {
     type:'story',text:$('#dialogue-text').textContent,speaker:$('#speaker-name').textContent,
     partner:$('#partner-sprite').getAttribute('src').includes('ada-v2')?'ada':'iris',
-    dialogue:state.dialogue,ready:storyReadyForPuzzle,scroll:$('#dialogue-text').scrollTop,
+    dialogue:state.dialogue,ready:storyReadyForPuzzle,nextPuzzle:storyPuzzleIndex,scroll:$('#dialogue-text').scrollTop,
     focus:document.activeElement
   };
 }
-function rememberView(){navigationHistory.push(captureView());$('#story-back').disabled=false;}
+function rememberView(){if(restoringNavigation)return;navigationHistory.push(captureView());$('#story-back').disabled=false;}
 function goBack(){
   const previous=navigationHistory.pop(),modal=$('#modal');
   if(!previous){if(modal.open)modal.close();$('#story-back').disabled=true;return;}
-  if(previous.type==='screen'){
+  if(previous.type==='puzzle'){
+    restoringNavigation=true;
+    try{openPuzzle(previous.puzzle);}finally{restoringNavigation=false;}
+  }else if(previous.type==='screen'){
     modal.className=previous.classes;
     $('#modal-kicker').textContent=previous.kicker;
     $('#modal-content').replaceChildren(...previous.nodes);
@@ -139,7 +143,7 @@ function goBack(){
     fitLetterScreen();
   }else{
     if(modal.open)modal.close();
-    state.dialogue=previous.dialogue;storyReadyForPuzzle=previous.ready;
+    state.dialogue=previous.dialogue;storyReadyForPuzzle=previous.ready;storyPuzzleIndex=previous.nextPuzzle??null;
     setDialogue(previous.text,previous.speaker,previous.partner);
     $('#dialogue-text').scrollTop=previous.scroll;
   }
@@ -147,3 +151,23 @@ function goBack(){
   if(previous.focus?.isConnected)previous.focus.focus({preventScroll:true});
 }
 $('#story-back').addEventListener('click',goBack);
+
+// A saved checkpoint resumes after the last solved puzzle. Rebuild its predecessors
+// so Back remains available after reloading, without undoing any solved evidence.
+function restoreCheckpointHistory(){
+  const completed=state.completed.length;
+  if(!completed)return;
+  const introduction=[{speaker:'Profesor Criptóbal',text:ARRIVAL},...dialogueLines];
+  introduction.forEach((line,index)=>navigationHistory.push({
+    type:'story',...line,partner:'iris',dialogue:index,ready:false,nextPuzzle:null,scroll:0
+  }));
+  for(let index=0;index<completed;index++){
+    if(index>0)navigationHistory.push({
+      type:'story',...progressDialogue[index-1],partner:'iris',dialogue:dialogueLines.length,
+      ready:true,nextPuzzle:index,scroll:0
+    });
+    navigationHistory.push({type:'puzzle',puzzle:index});
+  }
+  $('#story-back').disabled=false;
+}
+restoreCheckpointHistory();
