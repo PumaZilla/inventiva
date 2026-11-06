@@ -50,6 +50,33 @@ Create a production-ready transparent PNG game prop: an antique brass two-ring a
 
 # Gestos y fachada de la relojería
 
+# Interior de Tic-Tac y reloj de las tres bases
+
+## relojeria-interior.png
+
+Asset guardado en dist/assets/relojeria-interior.png. Generado con Imagegen integrado.
+
+Use case: stylized-concept. A new 16:9 landscape BACKGROUND for the exact same 2D illustrated Victorian detective adventure as reference. Interior of Señora Clotilde Tic-Tac's modest clockmaker shop in Vigo Galicia 1893, viewed from entrance toward back wall. STRICTLY match reference clean brown ink contours, soft hand painted cel-shading, restrained stone texture, muted warm ochre amber burgundy and olive colors; no photorealism. Cozy granite walls, heavy oak ceiling beams, wooden floorboards, many charming pendulum and wall clocks, shelves of clockwork, delicate tools in orderly drawers. Window on left with ivory wooden framing admitting the same soft afternoon daylight, glimpses of pale Galician gallery across street. A workbench and ONE prominent tall antique wooden clock with a round ivory dial and an open mechanism cabinet at center rear. Some small gears and glass domes on workshop shelves. Keep foreground floor clear for large dialogue sprites overlaying lower left and right; detailed environment but clear silhouettes, gentle perspective. No people, no readable signs or labels, no UI, no watermark. Same artist and setting as reference facade.
+
+## clotilde-gestos.png
+
+Asset guardado en dist/assets/clotilde-gestos.png. Generado con Imagegen integrado.
+
+Use case: identity-preserve. Production transparent character SPRITE SHEET for the same 2D hand-painted Victorian detective game. Use supplied Clotilde character as EXACT identity reference: grown woman watchmaker, dark brown hair in large neat bun, small round spectacles, long simple face with dot/oval eyes, burgundy shoulder cape, navy Victorian dress with gold buttons, ivory ruffled collar, holds brass pocketwatch. Retain face hairstyle colors proportions crisp dark brown outlines and simple cel shading. Canvas landscape 4:3, precisely TWO equal side-by-side cells, each portrait 2:3. Left cell centered at x25%: full waist-up character extending to below hips, facing slightly LEFT, welcoming thoughtful expression, mouth CLOSED, one hand holds pocketwatch at chest and other hand on hip. Right cell centered x75%: IDENTICAL character scale, face position, hands and pose, but small clearly OPEN mouth as speaking. Keep pose registration identical across cells; no motion lines. Both characters entirely inside own half with generous 5% margin, no cropping hair/hands, same bottom baseline. True fully transparent background everywhere outside characters including between them, no vignette, no glow, no shadow backdrop, no text, no dividing lines. Only two sprites. This is a static sheet; no animation.
+
+## reloj-reparacion.png
+
+Asset guardado en dist/assets/reloj-reparacion.png. Generado con Imagegen integrado.
+
+Use case: stylized-concept. Transparent isolated game prop for this same illustrated Victorian clock shop style. One upright antique dark walnut tabletop pendulum clock, front orthographic view, portrait 2:3 canvas. Clean brown ink outline, warm restrained hand-painted cel shading, brass trims, no photorealistic texture. Complete clock silhouette fits 90% width and 95% height. Upper third: large ivory round clock face, roman numerals, simple dark hands at ten past ten. Lower body: rectangular open mechanism compartment occupying x20% to80%, y45% to85% of total canvas, warm dark wooden back panel. On that back panel exactly THREE EMPTY circular brass gear bearing outlines with small axle pins, arranged triangle: center1 at (38%,56%), center2 at (62%,56%), center3 at (50%,74%) of canvas. Each circle diameter22% canvas width. They are empty seats awaiting removable gears, NO gear teeth or installed wheels inside circles. Sparse fine etched mechanical linework outside circles, no extra wheels. Small pendulum tip at bottom of case. Elegant compact curved crest, sturdy short feet. No words, no labels, no extra props, no backdrop. TRUE transparent background outside clock. Geometry is important because live gear PNG overlays will be added at those three positions.
+
+## engranaje-reloj.png
+
+Asset guardado en dist/assets/engranaje-reloj.png. Generado con Imagegen integrado.
+
+Use case: stylized-concept. One isolated antique BRASS CLOCK GEAR game sprite. Square canvas, perfectly round orthographic straight-on front view, centered and fills90% width. 16 broad crisp gear teeth, six clear elegant spokes, small round central axle hole. Warm muted golden brass, dark brown ink outlines, soft hand-painted cel shading, restrained wear and subtle upper-left highlight, same drawn 2D adventure-game style as supplied clock shop reference, not photorealistic. Simple readable at70pixels. True fully transparent background outside gear AND inside spaces between spokes and center hole. No other objects, no letters, no labels, no drop shadow or background glow.
+
+
 ## Primer plano del timbre · reto 2
 
 Asset: `dist/assets/timbre-primer-plano.png`. Generado con Imagegen integrado; referencia visual: `relojeria-cerrada-v2.png`. La ranura recibe un input HTML transparente y el pulsador es el botón de envío. No hay calculadora ni paneles externos.

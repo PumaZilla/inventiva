@@ -21,6 +21,21 @@ const story={
     {speaker:'Lola Bitácora',text:'Espero que la señora Tic-Tac tenga respuestas. Aunque, con ese apellido, seguramente solo tendrá tiempo.'}
   ],
   clockshop:clockshopLines,
+  workshop:[
+    {speaker:'Señora Tic-Tac',text:'Así que ustedes son los amigos de César… Pasen, pero no crean que voy a ayudar a cualquiera que sepa pulsar un timbre.'},
+    {speaker:'Profesor Criptóbal',text:'Entiendo su cautela, señora Tic-Tac. ¿Cómo podemos ganarnos su confianza?'},
+    {speaker:'Señora Tic-Tac',text:'Demostrando su inteligencia. Uno de mis relojes se ha parado. Si consiguen arreglarlo, les ayudaré a encontrar a César.'},
+    {speaker:'Lola Bitácora',text:'¡Trato hecho! Aunque espero que no tengamos que esperar sentados a que vuelva a dar la hora…'},
+    {speaker:'Señora Tic-Tac',text:'Le faltan tres engranajes. Cada uno está protegido por una palabra: la primera en binario, la segunda en octal y la tercera en hexadecimal.'},
+    {speaker:'Profesor Criptóbal',text:'Distintas bases para escribir números. Y esos números representan letras, ¿verdad?'},
+    {speaker:'Señora Tic-Tac',text:'Exacto. Cada grupo corresponde a una letra del código ASCII. Les dejo mi tabla de letras. Una palabra correcta, un engranaje en su sitio.'},
+    {speaker:'Lola Bitácora',text:'Tres palabras, tres piezas. Profesor, empecemos con los ceros y unos. ¡Vamos a devolverle el tic-tac!'}
+  ],
+  'clock-solved':[
+    {speaker:'Lola Bitácora',text:'¡Tic… tac… tic… tac! ¡Ha vuelto a funcionar! Los tres engranajes están en su sitio, señora Tic-Tac.'},
+    {speaker:'Señora Tic-Tac',text:'Buen oído y buena cabeza. Han cumplido su parte, y yo cumpliré la mía: les ayudaré. César estuvo aquí antes de enviar aquella carta.'},
+    {speaker:'Profesor Criptóbal',text:'Entonces escuchamos con atención. Cuéntenos qué ocurrió, señora Tic-Tac.'}
+  ],
   'door-solved':[
     {speaker:'Lola Bitácora',text:'¡Clic! ¿Lo ha oído, profesor? El cerrojo se ha soltado. ¡La huella era la contraseña!'},
     {speaker:'Profesor Criptóbal',text:'Bien pensado, Lola. Guarda la carta y la pieza de latón. Algo me dice que César todavía tiene mucho que contarnos.'},
@@ -28,15 +43,16 @@ const story={
   ]
 };
 const KEY='niebla-cifra-vigo-v1';
-let state={chapterVersion:2,completed:[],doorUnlocked:false,phase:'arrival',line:0};
+let state={chapterVersion:2,completed:[],doorUnlocked:false,gears:0,clockScreen:null,phase:'arrival',line:0};
 try{
   const saved=JSON.parse(localStorage.getItem(KEY));
   if(saved&&Array.isArray(saved.completed)){
     const letterSolved=saved.completed.includes(0);
     if(saved.chapterVersion===2){
-      state={...state,completed:letterSolved?[0]:[],doorUnlocked:saved.doorUnlocked===true};
+      state={...state,completed:letterSolved?[0]:[],doorUnlocked:saved.doorUnlocked===true,gears:Number.isInteger(saved.gears)?Math.max(0,Math.min(3,saved.gears)):0};
       if(Object.hasOwn(story,saved.phase))state.phase=saved.phase;
       state.line=Number.isInteger(saved.line)?Math.max(0,Math.min(saved.line,story[state.phase].length-1)):0;
+      if(state.phase==='workshop'&&Number.isInteger(saved.clockScreen))state.clockScreen=Math.max(0,Math.min(2,state.gears,saved.clockScreen));
     }else{
       // Retain the letter clue; obsolete challenges no longer determine the story.
       state.completed=letterSolved?[0]:[];
@@ -49,37 +65,44 @@ const navigationHistory=[];
 function save(){try{localStorage.setItem(KEY,JSON.stringify(state));}catch{toast('Guardado no disponible: mantén esta pestaña abierta');}}
 function toast(msg){$('#toast').textContent=msg;$('#toast').classList.add('visible');clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('#toast').classList.remove('visible'),3500);}
 function setScene(shop){
-  $('#game').classList.toggle('at-clockshop',shop);
-  $('.scene-art').src=shop?'assets/relojeria-cerrada-v2.png':'assets/vigo-casco-vello.png';
-  $('.scene-art').alt=shop?'Fachada de la relojería, con la puerta cerrada y una placa de timbre sin texto':'Calle del Casco Vello de Vigo con vistas a la ría';
-  $('#scene').setAttribute('aria-label',shop?'Relojería Tic-Tac · Vigo':'Casco Vello de Vigo');
+  const inside=state.phase==='workshop'||state.phase==='clock-solved';
+  $('#game').classList.toggle('at-clockshop',shop||inside);
+  $('#game').classList.toggle('inside-workshop',inside);
+  $('.scene-art').src=inside?'assets/relojeria-interior.png':shop?'assets/relojeria-cerrada-v2.png':'assets/vigo-casco-vello.png';
+  $('.scene-art').alt=inside?'Interior de la relojería de la señora Tic-Tac, con relojes y herramientas':shop?'Fachada de la relojería, con la puerta cerrada y una placa de timbre sin texto':'Calle del Casco Vello de Vigo con vistas a la ría';
+  $('#scene').setAttribute('aria-label',inside?'Interior de la relojería Tic-Tac':shop?'Relojería Tic-Tac · Vigo':'Casco Vello de Vigo');
 }
 function setDialogue(text,speaker){
   $('#speaker-name').textContent=speaker;$('#dialogue-text').textContent=text;$('#dialogue-text').scrollTop=0;
-  const lola=speaker==='Lola Bitácora',thoughtful=/[¿?]|hash|ranura|contraseña|letras/i.test(text);
-  $('#game').classList.toggle('partner-speaking',lola);
-  $('#vale-sprite').dataset.gesture=!lola&&thoughtful?'think':'explain';
-  $('#partner-sprite').dataset.gesture=lola&&thoughtful?'think':'explain';
-  $('#vale-sprite').classList.toggle('is-speaking',!lola);
-  $('#partner-sprite').classList.toggle('is-speaking',lola);
+  const inside=$('#game').classList.contains('inside-workshop'),lola=speaker==='Lola Bitácora',clotilde=speaker==='Señora Tic-Tac';
+  const left=$('#vale-sprite'),right=$('#partner-sprite');
+  left.dataset.character=inside&&speaker!=='Profesor Criptóbal'?'iris':'vale';
+  right.dataset.character=inside?'clotilde':'iris';
+  left.setAttribute('aria-label',left.dataset.character==='iris'?'Lola Bitácora':'Profesor Criptóbal');
+  right.setAttribute('aria-label',inside?'Señora Tic-Tac':'Lola Bitácora');
+  const rightSpeaking=inside?clotilde:lola,thoughtful=/[¿?]|hash|ranura|contraseña|letras|bases/i.test(text);
+  $('#game').classList.toggle('partner-speaking',rightSpeaking);
+  left.dataset.gesture=!rightSpeaking&&thoughtful?'think':'explain';
+  right.dataset.gesture=rightSpeaking&&thoughtful?'think':'explain';
+  left.classList.toggle('is-speaking',!rightSpeaking);right.classList.toggle('is-speaking',rightSpeaking);
 }
 function render(){
   setScene(state.phase==='clockshop'||state.phase==='door-solved');
   const lines=story[state.phase],line=lines[state.line];
   setDialogue(line.text,line.speaker);
-  const end=state.phase==='door-solved'&&state.line===lines.length-1;
+  const end=state.phase==='clock-solved'&&state.line===lines.length-1;
   $('#dialogue-next').disabled=end;
   $('#dialogue-next').style.visibility=end?'hidden':'';
   $('#story-back').disabled=navigationHistory.length===0;
 }
 function enterStory(phase,line){
   if($('#modal').open)$('#modal').close();
-  state.phase=phase;state.line=line;save();render();
+  state.phase=phase;state.line=line;state.clockScreen=null;save();render();
 }
 function openModal(kicker,html){
   rememberView();
   const modal=$('#modal');
-  modal.className=kicker==='LA CARTA DE CÉSAR'?'letter-screen':'puzzle-screen door-screen';
+  modal.className=kicker==='LA CARTA DE CÉSAR'?'letter-screen':kicker==='EL RELOJ DE TIC-TAC'?'puzzle-screen clock-screen':'puzzle-screen door-screen';
   $('#modal-kicker').textContent=kicker;$('#modal-content').innerHTML=html;
   if(!modal.open)modal.showModal();modal.scrollTop=0;
 }
@@ -98,6 +121,8 @@ $('#dialogue-next').addEventListener('click',()=>{
   if(state.phase==='arrival')showLetter();
   else if(state.phase==='letter-solved'){rememberView();enterStory('clockshop',0);}
   else if(state.phase==='clockshop')showDoorPuzzle();
+  else if(state.phase==='door-solved'){rememberView();enterStory('workshop',0);}
+  else if(state.phase==='workshop')showClockPuzzle(Math.min(state.gears,2));
 });
 $('#close-modal').addEventListener('click',closeModal);
 $('#modal').addEventListener('cancel',event=>{event.preventDefault();goBack();});
@@ -136,7 +161,7 @@ if(document.fonts)document.fonts.ready.then(fitLetterScreen);
 // Keep actual modal nodes: inputs, disk alignment and listeners survive Back.
 function captureView(){
   const modal=$('#modal');
-  if(modal.open)return {type:'screen',nodes:[...$('#modal-content').childNodes],classes:modal.className,kicker:$('#modal-kicker').textContent,scroll:modal.scrollTop,phase:state.phase,line:state.line};
+  if(modal.open)return {type:'screen',nodes:[...$('#modal-content').childNodes],classes:modal.className,kicker:$('#modal-kicker').textContent,scroll:modal.scrollTop,phase:state.phase,line:state.line,clockIndex:modal.classList.contains('clock-screen')?Number($('#modal-content').dataset.clockIndex):null};
   return {type:'story',phase:state.phase,line:state.line};
 }
 function rememberView(){if(restoringNavigation)return;navigationHistory.push(captureView());$('#story-back').disabled=false;}
@@ -148,22 +173,27 @@ function goBack(){
     $('#modal-kicker').textContent=previous.kicker;
     $('#modal-content').replaceChildren(...previous.nodes);
     modal.showModal();modal.scrollTop=previous.scroll;fitLetterScreen();
-  }else if(previous.type==='letter'||previous.type==='door'){
+    if(previous.clockIndex!==null){$('#modal-content').dataset.clockIndex=previous.clockIndex;state.clockScreen=previous.clockIndex;syncClockView();save();}
+  }else if(previous.type==='letter'||previous.type==='door'||previous.type==='clock'){
     restoringNavigation=true;
-    try{previous.type==='letter'?showLetter():showDoorPuzzle();}finally{restoringNavigation=false;}
+    try{previous.type==='letter'?showLetter():previous.type==='clock'?showClockPuzzle(previous.index):showDoorPuzzle();}finally{restoringNavigation=false;}
   }
   $('#story-back').disabled=navigationHistory.length===0;
 }
 $('#story-back').addEventListener('click',goBack);
 function restoreCheckpointHistory(){
   // Rebuild only the current narrative path, never obsolete challenges.
-  const phases=['arrival','letter-solved','clockshop','door-solved'];
+  const phases=['arrival','letter-solved','clockshop','door-solved','workshop','clock-solved'];
   for(const phase of phases){
     const count=phase===state.phase?state.line:story[phase].length;
     for(let line=0;line<count;line++)navigationHistory.push({type:'story',phase,line});
-    if(phase===state.phase)break;
+    if(phase===state.phase){
+      if(state.clockScreen!==null){navigationHistory.push({type:'story',phase,line:state.line});for(let index=0;index<state.clockScreen;index++)navigationHistory.push({type:'clock',phase,line:state.line,index});}
+      break;
+    }
     if(phase==='arrival')navigationHistory.push({type:'letter',phase,line:story[phase].length-1});
     if(phase==='clockshop')navigationHistory.push({type:'door',phase,line:story[phase].length-1});
+    if(phase==='workshop')for(let index=0;index<3;index++)navigationHistory.push({type:'clock',phase,line:story[phase].length-1,index});
   }
 }
 function showDoorPuzzle(){
@@ -179,6 +209,37 @@ function showDoorPuzzle(){
   });
 }
 
+const clockWords=[
+  {base:2,name:'Binario',word:'LUZ',width:8},
+  {base:8,name:'Octal',word:'HORA',width:3},
+  {base:16,name:'Hexadecimal',word:'TIEMPO',width:2}
+];
+function syncClockView(){
+  const index=Number($('#modal-content').dataset.clockIndex),solved=state.gears>index;
+  document.querySelectorAll('.repair-gear').forEach((gear,i)=>gear.hidden=i>=state.gears);
+  $('.repair-clock').classList.toggle('is-running',state.gears===3);
+  $('.repair-clock').setAttribute('aria-label',`Reloj con ${state.gears} de 3 engranajes instalados${state.gears===3?', funcionando':''}`);
+  $('#gear-count').textContent=`${state.gears} / 3`;
+  $('#clock-answer').readOnly=solved;
+  $('#clock-check').hidden=solved;$('#clock-continue').hidden=!solved;
+  if(solved){$('#clock-answer').value=clockWords[index].word;$('#clock-feedback').textContent=state.gears===3?'¡Tic-tac! El reloj vuelve a funcionar.':'¡Encaja! Un engranaje más en su sitio.';}
+}
+function showClockPuzzle(index){
+  index=Math.max(0,Math.min(index,state.gears,2));
+  const puzzle=clockWords[index],code=[...puzzle.word].map(letter=>letter.charCodeAt(0).toString(puzzle.base).toUpperCase().padStart(puzzle.width,'0'));
+  openModal('EL RELOJ DE TIC-TAC',`<div class="clock-workbench"><div class="repair-clock" role="img" aria-label="Reloj con huecos para tres engranajes"><img class="repair-clock-art" src="assets/reloj-reparacion.png" alt="" draggable="false">${[0,1,2].map(i=>`<img class="repair-gear gear-${i}" src="assets/engranaje-reloj.png" alt="" hidden>`).join('')}<span class="clock-ticking" aria-hidden="true">Tic · Tac</span></div><section class="clock-note" aria-labelledby="clock-heading"><div class="clock-note-top"><span>EL RELOJ DE TIC-TAC</span><span id="gear-count" aria-label="Engranajes instalados">${state.gears} / 3</span></div><h2 id="clock-heading">${puzzle.name}</h2><p class="base-label">BASE ${puzzle.base} · PIEZA ${index+1} DE 3</p><div class="encoded-word" aria-label="Palabra codificada">${code.map(group=>`<span>${group}</span>`).join('')}</div><p class="clock-instruction">Cada grupo representa una letra en ASCII.</p><form id="clock-form"><label class="numbered-answer" for="clock-answer"><span class="answer-number" aria-hidden="true">${index+1}</span><input id="clock-answer" type="text" aria-label="Palabra de la prueba ${index+1}" aria-describedby="clock-feedback" placeholder="La palabra es…" autocomplete="off" spellcheck="false" maxlength="24" required></label><button class="primary-button" id="clock-check" type="submit">Colocar engranaje ${icon('arrow')}</button><div id="clock-feedback" role="status" aria-live="polite"></div><button class="primary-button" id="clock-continue" type="button" hidden>${index===2?'Volver con Tic-Tac':'Siguiente pieza'} ${icon('arrow')}</button></form><details class="ascii-reference"><summary>Consultar la tabla de letras</summary><p>Convierte cada grupo de base ${puzzle.base} a decimal. Por ejemplo, ${puzzle.base===2?'01000001₂':puzzle.base===8?'101₈':'41₁₆'} = 65 = A.</p><div class="ascii-table">${[...'ABCDEFGHIJKLMNOPQRSTUVWXYZ'].map((letter,i)=>`<span><b>${letter}</b> ${65+i}</span>`).join('')}</div></details></section></div>`);
+  $('#modal-content').dataset.clockIndex=index;state.clockScreen=index;save();syncClockView();
+  $('#clock-answer').addEventListener('input',()=>{$('#clock-answer').removeAttribute('aria-invalid');$('#clock-feedback').textContent='';});
+  $('#clock-form').addEventListener('submit',event=>{
+    event.preventDefault();
+    const answer=$('#clock-answer').value.trim().normalize('NFD').replace(/[\u0300-\u036f]/g,'').toUpperCase();
+    if(answer!==puzzle.word){$('#clock-feedback').textContent='Esa palabra no encaja. Revisa cada grupo y su base.';$('#clock-answer').setAttribute('aria-invalid','true');$('#clock-answer').focus();return;}
+    if(state.gears===index)state.gears++;save();syncClockView();
+  });
+  $('#clock-continue').addEventListener('click',()=>{if(index<2)showClockPuzzle(index+1);else{rememberView();enterStory('clock-solved',0);}});
+}
+
 restoreCheckpointHistory();
 render();
+if(state.clockScreen!==null){restoringNavigation=true;try{showClockPuzzle(state.clockScreen);}finally{restoringNavigation=false;}}
 save();
