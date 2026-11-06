@@ -2,3 +2,7 @@
 preview-*.png
 *.tar.gz
 *.zip
+
+# Buildless HTML application: dist contains the editable source.
+!dist/
+!dist/**

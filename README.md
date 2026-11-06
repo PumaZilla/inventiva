@@ -25,11 +25,13 @@ Visita http://localhost:4173. No requiere instalación ni compilación. Google F
 - `dist/index.html`: interfaz y escenario.
 - `dist/style.css`: diseño y vistas adaptables.
 - `dist/app.js`: contenido, historia, validación de respuestas y estado.
-- `dist/assets/personajes.png`: lámina original de los tres personajes, descargable desde la galería.
+- `dist/assets/vale-v2.png`, `iris-v2.png`, `ada-v2.png`: personajes actuales con transparencia, descargables desde la galería.
+- `dist/assets/meridian-v2.png`: escenario actual.
+- `dist/assets/personajes.png`: lámina original alternativa.
 - `dist/assets/meridian-street.png`: escenario original.
 - `dist/assets/emblem.svg`: emblema vectorial.
 
-Las ilustraciones son assets estáticos generados para este proyecto. Los tres personajes se muestran individualmente con recortes CSS de la lámina, no son sprites animados. La ambientación mezcla época victoriana y conceptos informáticos de forma deliberadamente ficticia. Los dominios .test son ejemplos reservados, no servicios reales. El cifrado César se presenta como ejercicio histórico, no como protección moderna.
+Las ilustraciones son assets estáticos generados para este proyecto. La versión actual usa tres PNG transparentes independientes con estética de animación 2D. Son sprites estáticos, no animaciones. Las ilustraciones iniciales se conservan como assets alternativos. La ambientación mezcla época victoriana y conceptos informáticos de forma deliberadamente ficticia. Los dominios .test son ejemplos reservados, no servicios reales. El cifrado César se presenta como ejercicio histórico, no como protección moderna.
 
 ## Soluciones para docentes
 
@@ -38,3 +40,11 @@ Las ilustraciones son assets estáticos generados para este proyecto. Los tres p
 3. 1101 → 13.
 4. Solo permiso de lectura.
 5. La cuenta Autómata 07 registra un traslado al invernadero a las 21:14. No se debe inferir la persona responsable de una cuenta sin más pruebas.
+
+## Rediseño de pantalla completa
+
+La interfaz ocupa el viewport completo, sin scroll de página. La escena tiene personajes grandes superpuestos y un cuadro de diálogo inferior. «Explorar la calle» retira los personajes y activa los objetos; en pantallas estrechas se puede desplazar la escena horizontalmente. Los enigmas ocupan una pantalla independiente. El botón de las cuatro esquinas activa la API Fullscreen cuando el navegador la admite. Los menús se abren desde la maleta. El progreso anterior se conserva con la misma clave de almacenamiento.
+
+Validado con una partida completa, respuestas incorrectas, pistas, final, persistencia, reinicio, diálogos de Ada, galería, fullscreen y vistas de escritorio y móvil.
+
+Ilustraciones de la segunda versión generadas con Imagegen integrado usando las dos imágenes de Layton aportadas por el usuario como referencias de estilo. Las descripciones de generación están en `ASSET-PROMPTS.md`.
