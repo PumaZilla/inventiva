@@ -21,9 +21,47 @@ dialog{border:4px solid #6e4c2f;border-radius:7px;width:min(960px,94vw);max-heig
 .letter-and-object{display:grid;grid-template-columns:1.2fr .8fr;gap:28px;align-items:center;margin-bottom:25px}.cesar-letter{padding:26px 28px;background:linear-gradient(115deg,#fff6dc,#efdab0);border:1px solid #b89c67;box-shadow:2px 4px 0 #7c54271a;color:#674a2f;font:15px/1.7 Georgia,serif}.cesar-letter p{margin:0 0 13px}.cesar-letter .letter-date{font:11px var(--sans);color:#9b7a49;text-align:right;margin-bottom:22px}.cesar-letter .letter-signature{font:italic 31px Georgia,serif;text-align:right;margin:19px 5px 0;color:#69482c}.cesar-letter .cipher{font-size:26px;letter-spacing:6px;margin:10px 0;padding:0}.object-panel>p{font:13px/1.7 Georgia,serif;color:#92713f;text-align:center;margin:22px 0}.brass-device{display:flex;flex-direction:column;align-items:center;gap:10px;margin:10px auto 20px}.brass-wheel{width:min(260px,100%);height:auto;aspect-ratio:1;flex-shrink:1;filter:drop-shadow(2px 5px 3px #68482022)}.brass-wheel text{fill:#55391e;stroke:none;font-family:Georgia,serif;font-weight:600}.wheel-controls{display:flex;align-items:center;gap:20px}.wheel-controls button{font-size:25px;width:42px;height:38px;min-height:0;padding:0;line-height:1}.wheel-controls output{font:20px Georgia,serif;min-width:75px;text-align:center;color:#825c2b}.brass-device>small{font-size:10px;color:#977746;text-align:center}.letter-fold{margin:0 0 15px}.letter-fold summary{cursor:pointer;color:#8b6134;font-size:12px;padding:11px 13px;border:1px solid #c1a06b;background:#f4e2bc}.letter-fold .cesar-letter{margin-top:10px;font-size:13px}.compact-cipher{padding:12px 20px!important;margin:12px 0!important;text-align:center}.compact-cipher .cipher{padding:0;margin:5px 0;font-size:29px;letter-spacing:7px}.compact-cipher p{font:12px/1.5 var(--sans);margin-top:8px}.letter-menu-link{display:flex;justify-content:center;align-items:center;gap:10px;width:100%;padding:14px;margin:18px 0;background:#efdab0;border:1px solid #b78e54;font:13px var(--sans);color:#795430}#letter-puzzle{display:flex;margin:20px auto 0}.puzzle-screen:has(#brass-object) #modal-content{padding-top:35px;padding-bottom:30px}.puzzle-screen #brass-object .brass-wheel{width:215px}.puzzle-screen #brass-object .brass-device{margin:8px auto 12px;gap:7px}
 @media(max-width:650px){.letter-and-object{display:block}.cesar-letter{padding:21px 19px;font-size:14px}.object-panel{margin-top:25px}.brass-wheel{width:235px}.puzzle-screen #brass-object .brass-wheel{width:210px}.letter-menu-link{font-size:11px;padding:12px}.puzzle-screen:has(#brass-object) #modal-content{padding-top:27px}.object-panel>p{font-size:12px}.letter-fold summary{font-size:11px}}
 /* Dialogue geometry stays constant across short and long lines. */
+/* Illustrated evidence desk. Lettering stays live and accessible over the prop art. */
+dialog.letter-screen{width:100vw;max-width:100vw;height:100dvh;max-height:100dvh;margin:0;border:0;border-radius:0;background:radial-gradient(ellipse at 33% 30%,#3d5549 0%,#233e35 48%,#142a25 100%);color:#f2dfb7;box-shadow:none;scrollbar-color:#ad8c54 #203b32}
+.letter-screen .modal-bar{background:#142a25eb;border-bottom:1px solid #b897554a;color:#d3ba89;min-height:60px;padding:12px 30px;letter-spacing:3px}
+.letter-screen #modal-content{max-width:1200px;margin:auto;padding:32px 45px 40px}
+.letter-screen .letter-and-object{grid-template-columns:minmax(0,1.12fr) minmax(0,1fr);gap:65px;align-items:center;margin:0;min-height:calc(100dvh - 132px)}
+.letter-evidence{filter:drop-shadow(7px 17px 13px #08191480);transform:rotate(-1deg)}
+.cesar-letter{position:relative;border:0;box-shadow:none;background:url('assets/carta-cesar.png') center/100% 100% no-repeat;padding:44px 42px 69px;color:#513a28;font:italic 16px/1.65 Georgia,serif}
+.cesar-letter p{margin-bottom:14px}
+.cesar-letter .letter-date{font:11px/1.5 var(--sans);letter-spacing:.4px;color:#806244;margin-bottom:25px}
+.cesar-letter .letter-signature{font:italic 37px Georgia,serif;margin-top:17px;margin-right:12px;color:#503523}
+.cesar-letter .cipher{display:block;text-align:center;font:24px/1.4 Georgia,serif;letter-spacing:7px;margin:17px 0 20px;color:#7e352d}
+.object-panel{text-align:center;min-width:0}
+.object-eyebrow{font:10px var(--sans);letter-spacing:3px;color:#c7ae7c}
+.object-panel h2{font:48px/1.05 var(--serif);font-weight:400;color:#f2dfb7;margin:14px 0}
+.letter-screen .object-description{font:14px/1.7 Georgia,serif;color:#cabd9f;margin:15px 0 7px}
+.brass-wheel{width:min(330px,100%);filter:drop-shadow(0 10px 9px #21180a44)}
+.brass-wheel text{fill:#472b17;font-weight:600;paint-order:stroke;stroke:#f7d98b66;stroke-width:.5px}
+.letter-screen .brass-wheel{width:min(365px,100%);filter:drop-shadow(4px 14px 12px #07171099)}
+.letter-screen .brass-device{margin:10px auto 0;gap:13px}
+.wheel-controls{gap:25px}
+.wheel-controls button{width:46px;height:44px;border-radius:50%;font-size:27px;display:grid;place-items:center;box-shadow:0 3px 0 #2b231c33}
+.wheel-readout{display:flex;flex-direction:column;align-items:center;gap:4px;min-width:94px}
+.wheel-readout>span{font:8px var(--sans);letter-spacing:2px;color:#92713f}
+.wheel-controls output{font:24px Georgia,serif;color:#684923}
+.letter-screen .wheel-controls button{background:linear-gradient(#d3b16f,#a77b3e);color:#30271a;border:1px solid #ecd094;box-shadow:0 3px 0 #0e2019}
+.letter-screen .wheel-controls output{color:#f1deb5}
+.letter-screen .wheel-readout>span,.letter-screen .brass-device>small{color:#b9b69b}
+.brass-device>small{font-size:11px;line-height:1.5}
+.letter-screen .object-clue{color:#e2c48b;font:italic 17px Georgia,serif;margin:23px 0 0}
+.letter-screen #letter-puzzle{margin:24px auto 0;font-size:13px;padding:15px 27px;min-height:48px;background:linear-gradient(#c39b58,#8c612f);color:#fff0ce;border-color:#ddbb7e;box-shadow:0 3px 0 #0a1c17,inset 0 0 0 2px #6f492e}
+.letter-fold .cesar-letter{padding:30px 28px 55px}
+.puzzle-screen #brass-object .brass-wheel{width:260px}
+@media(min-width:1001px) and (min-height:850px){.letter-screen .cesar-letter{font-size:18px;padding:48px 44px 80px}.letter-screen .letter-and-object{gap:80px}.letter-screen .brass-wheel{width:350px}}
+@media(max-width:1000px){.letter-screen #modal-content{padding:25px 25px 32px}.letter-screen .letter-and-object{gap:25px}.letter-screen .cesar-letter{padding:35px 29px 65px;font-size:15px}.object-panel h2{font-size:39px}.letter-screen .object-description{font-size:13px}}
+@media(max-width:700px){.letter-screen .modal-bar{padding:10px 18px;letter-spacing:1.7px}.letter-screen #modal-content{padding:23px 14px 35px}.letter-screen .letter-and-object{display:flex;flex-direction:column;gap:30px;min-height:0}.letter-evidence{width:100%;max-width:490px;transform:none}.letter-screen .cesar-letter{padding:36px 31px 69px;font-size:16px;line-height:1.65}.letter-screen .object-panel{width:100%;max-width:420px;margin:0}.object-panel h2{font-size:42px}.letter-screen .brass-wheel{width:min(350px,100%)}.letter-screen .object-description{font-size:14px}.letter-fold .cesar-letter{padding:27px 22px 52px}.puzzle-screen #brass-object .brass-wheel{width:250px}}
+@media(max-width:370px){.letter-screen .cesar-letter{padding:30px 26px 62px;font-size:15px}.letter-screen .cesar-letter .letter-date{font-size:10px}}
 .game-shell{--dialogue-height:180px}
 .dialogue{height:var(--dialogue-height);min-height:var(--dialogue-height);max-height:var(--dialogue-height);flex:0 0 var(--dialogue-height)}
 .dialogue-main{height:100%;min-height:0}
 .dialogue-main p{min-width:0;max-height:100%;overflow-y:auto;overflow-wrap:anywhere;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:#af8a50 transparent;padding-right:5px}
 @media(max-width:650px){.game-shell{--dialogue-height:220px}}
 @media(max-height:600px) and (min-width:651px){.game-shell{--dialogue-height:140px}}
+
+@media(min-width:701px) and (max-height:800px){.letter-screen #modal-content{padding-top:22px;padding-bottom:22px}.letter-screen .letter-and-object{min-height:calc(100dvh - 104px)}.letter-screen .brass-wheel{width:280px}.letter-screen .object-panel h2{font-size:36px;margin:10px 0}.letter-screen .object-description{margin:10px 0 5px}.letter-screen .object-clue{margin-top:16px}.letter-screen #letter-puzzle{margin-top:18px}}
