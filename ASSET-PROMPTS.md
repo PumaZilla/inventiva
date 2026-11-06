@@ -48,3 +48,18 @@ Create a production-ready transparent PNG game prop asset, a single open Victori
 
 Create a production-ready transparent PNG game prop: an antique brass two-ring alphabet cipher disk, but absolutely NO letters, NO numbers, NO text (these will be added as interactive game UI). Square canvas, strictly orthographic FRONT view, perfectly circular, precisely centered at 50% 50%, outer circle occupies 94% of canvas diameter. Two spacious concentric blank brass bands: outer writing band at radius 40% of canvas (between 35% and 45%), inner writing band at radius 29.4% (between 25% and 34%). Thin engraved circles separate the bands. Warm gold outer ring, slightly lighter pale golden inner ring, center medallion occupies only central radius 21%, engraved beautiful simple maritime compass rose and center slotted screw. Small burgundy triangle at very top pointing downward, tiny rivets only along outer edge. Fine restrained wear and subtle verdigris along edges, dark brown contour outlines, gorgeous warm hand-painted 2D cel shading in a Professor Layton inspired Victorian adventure-game style matching reference's craftsmanship (reference STYLE ONLY). No photorealism, no perspective, no elliptical shape, no extra surrounding items, no hands, no tabletop, true transparent background. Empty clean lettering bands are vital; do not place decorative markings or alphabet there. Rich illustrated metal with elegant engraved edge details.
 
+# Botones ilustrados del dispositivo
+
+Generados con la herramienta integrada `image_gen`, sobre fondo transparente, usando `dist/assets/dispositivo-laton.png` como referencia de estilo.
+
+- `dist/assets/boton-giro.png`: botón ilustrado de giro a la izquierda. El control derecho reutiliza la imagen reflejada en CSS.
+- `dist/assets/boton-resolver.png`: placa ilustrada con el texto accesible «Resolver» superpuesto en HTML.
+
+## Prompt de giro
+
+Use case: stylized-concept. Production UI asset for a Victorian illustrated detective adventure game. Create ONE circular brass button with a very clear large ivory COUNTERCLOCKWISE curved arrow in its center, the arrow ending in a broad triangular tip pointing left at the upper-left. Match the supplied antique brass disk in warm hand-painted 2D ink outlines, cel shading, engraved bronze rim, slight age and maritime craftsmanship. The arrow is carved ivory enamel with a dark brown outline, simple bold silhouette legible at 48 pixels. Front-on perfectly circular button, fills 92 percent of square canvas, center at 50% 50%. Thin double decorative rim and very subtle rim rivets, warm highlight upper-left, no words, no letters, no extra objects, no scene. Isolated on true transparent background, no rectangular tile or huge shadow. It is a clickable game control, not a realistic photograph.
+
+## Prompt de resolver
+
+Use case: stylized-concept. Production UI asset for an illustrated Victorian detective adventure game. One elegant horizontal rectangular button/plaque, aspect ratio 3:1, fills 94 percent width and 86 percent height, front-on orthographic. Warm dark amber enamel/aged brown leather inset, substantial rounded BRASS double rim, tiny understated rivets at left and right, crisp brown ink contours and hand-painted cel shading matching supplied brass disk reference. The center must be completely EMPTY, dark smooth warm brown for later ivory HTML text. No letters, no text, no symbol, no word Resolver baked into art. Large clean center writing area. Simple beautiful 19th century craftsmanship, highlights upper left, softly rounded corners. True transparent background outside the button. No tabletop, no other objects, no perspective. Avoid excessive tiny ornament. This is an illustrated game button not a photograph.
+
