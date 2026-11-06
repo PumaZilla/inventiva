@@ -50,6 +50,23 @@ function layoutScene(){const scene=$('#scene'),canvas=$('.scene-canvas'),art=$('
 new ResizeObserver(layoutScene).observe($('#scene'));$('.scene-art').addEventListener('load',layoutScene);layoutScene();
 
 
-function showLetter(){openModal('LA CARTA DE CÉSAR',`<div class="letter-and-object"><section class="letter-evidence" aria-label="Carta recibida antes del viaje">${LETTER_HTML}</section><section class="object-panel" aria-labelledby="object-title"><span class="object-eyebrow">EL OBJETO DEL SOBRE</span><h2 id="object-title">Dos círculos,<br>un secreto.</h2><p class="object-description">Una pieza de latón, dos alfabetos…<br>¿Qué quería mostraros César?</p><div id="brass-object"></div><p class="object-clue">«Enfrente la <strong>A</strong> a la <strong>D</strong>»</p><button id="letter-puzzle" class="primary-button">Resolver la pista ${icon('arrow')}</button></section></div>`);mountBrassObject();$('#letter-puzzle').addEventListener('click',()=>openPuzzle(0));}
+function showLetter(){openModal('LA CARTA DE CÉSAR',`<div class="letter-and-object"><section class="letter-evidence" aria-label="Carta recibida antes del viaje">${LETTER_HTML}</section><section class="object-panel" aria-labelledby="object-title"><span class="object-eyebrow">EL OBJETO DEL SOBRE</span><h2 id="object-title">Dos círculos,<br>un secreto.</h2><p class="object-description">Una pieza de latón, dos alfabetos…<br>¿Qué quería mostraros César?</p><div id="brass-object"></div><p class="object-clue">«Enfrente la <strong>A</strong> a la <strong>D</strong>»</p><button id="letter-puzzle" class="primary-button">Resolver la pista ${icon('arrow')}</button></section></div>`);mountBrassObject();fitLetterScreen();$('#letter-puzzle').addEventListener('click',()=>openPuzzle(0));}
 
 function mountBrassObject(){const host=$('#brass-object');if(!host)return;let shift=0;const alphabet='ABCDEFGHIJKLMNOPQRSTUVWXYZ';host.innerHTML=`<div class="brass-device"><svg class="brass-wheel" viewBox="0 0 320 320" role="img" aria-label="Pieza de latón con dos discos de letras"><image href="assets/dispositivo-laton.png" x="0" y="0" width="320" height="320"/><g id="outer-letters"></g><g id="inner-letters"></g></svg><div class="wheel-controls"><button type="button" class="secondary-button" data-turn="-1" aria-label="Girar el disco a la izquierda">↶</button><div class="wheel-readout"><span>ALINEACIÓN</span><output id="wheel-alignment" aria-live="polite">A ↔ A</output></div><button type="button" class="secondary-button" data-turn="1" aria-label="Girar el disco a la derecha">↷</button></div><small>Usa las flechas para girar el disco interior.</small></div>`;const letters=(radius,offset,size)=>[...alphabet].map((_,i)=>{const angle=i*2*Math.PI/26;return `<text x="${160+Math.sin(angle)*radius}" y="${160-Math.cos(angle)*radius+(radius===122&&i===0?7:0)}" text-anchor="middle" dominant-baseline="central" font-size="${size}">${alphabet[(i+offset+26)%26]}</text>`;}).join('');$('#outer-letters').innerHTML=letters(122,0,14);const update=()=>{$('#inner-letters').innerHTML=letters(88,shift,13);$('#wheel-alignment').textContent=`A ↔ ${alphabet[shift]}`;};host.querySelectorAll('[data-turn]').forEach(btn=>btn.addEventListener('click',()=>{shift=(shift+Number(btn.dataset.turn)+26)%26;update();}));update();}
+
+// Measure the full composition, then fit it in both dimensions without cropping.
+function fitLetterScreen(){
+  const modal=$('#modal'), viewport=$('#modal-content');
+  if(!modal.open||!modal.classList.contains('letter-screen'))return;
+  const desk=viewport.querySelector('.letter-and-object');
+  if(!desk||!viewport.clientWidth||!viewport.clientHeight)return;
+  const width=Math.max(1,viewport.clientWidth-24),height=Math.max(1,viewport.clientHeight-24);
+  const portrait=width<560;
+  desk.classList.toggle('is-portrait',portrait);
+  desk.style.width=`${portrait?Math.max(390,Math.min(470,width)):Math.max(820,Math.min(1100,width))}px`;
+  const scale=Math.min(1,width/desk.offsetWidth,height/desk.offsetHeight);
+  desk.style.setProperty('--evidence-scale',String(scale));
+}
+const evidenceViewportObserver=new ResizeObserver(fitLetterScreen);
+evidenceViewportObserver.observe($('#modal-content'));
+if(document.fonts)document.fonts.ready.then(fitLetterScreen);
