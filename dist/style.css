@@ -101,8 +101,8 @@ dialog.letter-screen[open]{display:flex;flex-direction:column;overflow:hidden}
 /* The letter itself explains the puzzle; only its tools remain on the desk. */
 .letter-screen .modal-bar{display:none}
 .letter-screen .letter-and-object{top:calc(50% + 32px)}
-#letter-back{position:absolute;z-index:2;top:16px;left:20px;display:flex;align-items:center;gap:10px;min-height:44px;padding:10px 15px;border:1px solid #b99a5d66;border-radius:4px;background:#142b23cc;color:#e6c98d;font:13px var(--sans);box-shadow:0 3px 10px #0d211b33}
-#letter-back svg{transform:rotate(180deg);width:20px;height:20px}
+#letter-back,#story-back{position:absolute;z-index:2;top:16px;left:20px;display:flex;align-items:center;gap:10px;min-height:44px;padding:10px 15px;border:1px solid #b99a5d66;border-radius:4px;background:#142b23cc;color:#e6c98d;font:13px var(--sans);box-shadow:0 3px 10px #0d211b33}
+#letter-back svg,#story-back svg{transform:rotate(180deg);width:20px;height:20px}
 .letter-screen .brass-wheel{width:420px}
 .letter-screen .brass-device{gap:16px;margin:0 auto 23px}
 .letter-screen .wheel-controls{gap:36px}
@@ -125,3 +125,5 @@ dialog.letter-screen[open]{display:flex;flex-direction:column;overflow:hidden}
 .letter-screen .is-portrait .letter-answer-row input[type=text]{flex:none;width:100%;font-size:16px;padding:10px 12px}
 .letter-screen .is-portrait .letter-answer-row .primary-button{justify-content:center;min-height:40px;padding:9px 12px;font-size:12px}
 .letter-screen .is-portrait .feedback{font-size:11px;min-height:42px;padding-top:8px}
+
+#story-back{z-index:9;top:max(16px,env(safe-area-inset-top));left:max(20px,env(safe-area-inset-left))}#story-back:disabled{opacity:.45;box-shadow:none;cursor:default}
