@@ -26,7 +26,7 @@ Los retos antiguos de phishing, cerrojo numérico binario, permisos y deducción
 
 ## Interfaz
 
-Pantalla completa, diálogo de altura fija con margen inferior y controles de anterior, volumen y pantalla completa. Sin cabecera, menú, mapa ni footer. Anterior recupera el diálogo o pantalla previa, conserva las respuestas de los retos y también funciona tras recargar. El guardado utiliza localStorage bajo la clave niebla-cifra-vigo-v1.
+Pantalla completa, diálogo de altura fija con margen inferior y controles de anterior y pantalla completa. El juego no reproduce sonido. Sin cabecera, menú, mapa ni footer. Anterior recupera el diálogo o pantalla previa, conserva las respuestas de los retos y también funciona tras recargar. El guardado utiliza localStorage bajo la clave niebla-cifra-vigo-v1.
 
 Criptóbal y Lola tienen dos gestos, cada uno con boca cerrada o abierta. Quien habla muestra la boca abierta en una pose fija; quien escucha aparece más oscuro. No hay animación de boca. La fachada conserva la puerta cerrada y las placas en blanco: las inscripciones aparecen en la interfaz del reto.
 
