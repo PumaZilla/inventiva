@@ -55,7 +55,7 @@ La solución del timbre es `ce13c02063cd17f3a7346cda69a74ce8`. MD5 solo se usa p
 
 ## Reparación del reloj
 
-Los números 1, 2 y 3 son prefijos fijos del campo de respuesta. Cada grupo de dígitos representa un código ASCII. La interfaz muestra únicamente el reloj de bolsillo, la nota codificada y el input numerado con controles de icono. No hay títulos, explicaciones, contador ni tabla de letras. Las bases se presentan en el diálogo.
+Los prefijos fijos del campo de respuesta indican la base: 2, 8 y 16. Cada grupo de dígitos representa un código ASCII. La interfaz muestra únicamente el reloj de bolsillo, la nota codificada y el input numerado con controles de icono. No hay títulos, explicaciones, contador ni tabla de letras. Las bases se presentan en el diálogo.
 
 - Binario: `01001100 01010101 01011010` → LUZ.
 - Octal: `110 117 122 101` → HORA.
