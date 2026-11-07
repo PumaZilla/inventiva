@@ -84,3 +84,5 @@ Desdoblar revela exactamente: «Levantate y dibuja en la pizarra un animal cuya 
 Validado en escritorio, móvil vertical y horizontal; sin desbordamiento. Comprobados el mensaje, plegado automático, cifras persistentes, recarga y navegación.
 
 La nota interior conserva el texto indicado, las coordenadas `42.237819, -8.724906` y la palabra `PESCADO`. Esta palabra es texto seleccionable negro sobre fondo negro; `::selection` le da contraste al seleccionarla. La nota interior permanece abierta, se guarda entre recargas y Anterior regresa al último diálogo. La nota plegada exterior mantiene su temporizador de cinco segundos.
+
+Al retroceder a una base del reloj, esa palabra queda pendiente de nuevo y se retiran sus engranajes posteriores. Volver a los diálogos anteriores al reloj reinicia sus tres etapas. La nota dirige ahora a «profe Kike». Los botones Desbloquear y Desdoblar comparten una fila, también en móvil.

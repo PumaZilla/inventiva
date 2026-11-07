@@ -292,3 +292,20 @@ dialog.clock-screen{background:#33271b;border:0;border-radius:0;box-shadow:none;
 }
 @media(min-width:651px) and (max-height:600px){.box-workbench{gap:20px}.box-note-panel{max-width:440px;justify-self:center}.unfolded-note p{font-size:clamp(16px,2vw,21px)}.box-note-panel .illustrated-note-button{min-height:48px}.box-note{max-width:calc((100dvh - 140px)*1.5)}}
 @media(min-width:651px) and (max-height:600px){.secret-note-paper{padding:20px 50px;gap:16px}.secret-note-paper p{font-size:19px}.secret-note-paper .statue-coordinates{font-size:18px}.secret-word{font-size:20px}.box-prop-panel .illustrated-note-button{min-height:46px;margin-top:-4%}#box-feedback{font-size:13px}}
+
+/* Both evidence actions share the same row, independent of prop height. */
+.box-workbench{align-items:stretch}
+.box-prop-panel,.box-note-panel{grid-template-rows:1fr 58px;gap:12px;align-content:stretch}
+.box-prop-panel .antique-box,.box-note-panel .box-note{align-self:center}
+.box-prop-panel .illustrated-note-button,.box-note-panel .illustrated-note-button{margin:0;height:58px;min-height:58px;align-self:end}
+@media(min-width:651px) and (max-height:600px){.box-prop-panel,.box-note-panel{grid-template-rows:1fr 48px}.box-prop-panel .illustrated-note-button,.box-note-panel .illustrated-note-button{height:48px;min-height:48px}}
+@media(max-width:650px){
+  .box-workbench{grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:auto auto 50px auto;gap:8px 10px;align-content:center}
+  .box-prop-panel,.box-note-panel{display:contents}
+  .box-prop-panel .antique-box{grid-column:1/-1;grid-row:1;width:min(90vw,calc(100dvh - 420px),360px)}
+  .box-note-panel .box-note{grid-column:1/-1;grid-row:2;max-width:400px}
+  .box-prop-panel .illustrated-note-button,.box-note-panel .illustrated-note-button{grid-row:3;width:100%;max-width:180px;height:50px;min-height:50px;font-size:17px}
+  #unlock-box{grid-column:1}#unfold-note{grid-column:2}
+  #box-feedback{position:static;grid-column:1/-1;grid-row:4;margin:0;font-size:13px}
+  #box-feedback:empty{display:none}
+}

@@ -52,7 +52,7 @@ const BOX_CODE='98765';
 story['box-open']=[
   {speaker:'Lola Bitácora',text:'¡Clic! ¿Lo ha oído, profesor? La cerradura ha cedido. Espere… hay una nota dentro de la caja.'},
   {speaker:'Profesor Criptóbal',text:'Sácala con cuidado, Lola. Parece que César nos ha dejado el siguiente paso de nuestra investigación.'},
-  {speaker:'Lola Bitácora',text:'Habla de alguien llamado Kike y de una estatua. Y debajo hay unos números… Acerquemos la nota para leerla bien.'}
+  {speaker:'Lola Bitácora',text:'Habla de alguien llamado profe Kike y de una estatua. Y debajo hay unos números… Acerquemos la nota para leerla bien.'}
 ];
 let state={chapterVersion:2,completed:[],doorUnlocked:false,gears:0,clockScreen:null,boxScreen:false,secretNoteScreen:false,boxUnlocked:false,boxDigits:'00000',phase:'arrival',line:0};
 try{
@@ -183,8 +183,15 @@ function captureView(){
 function rememberView(){if(restoringNavigation)return;navigationHistory.push(captureView());$('#story-back').disabled=false;}
 function goBack(){
   const previous=navigationHistory.pop();if(!previous)return;
+  // Rewind the clock with the story: a revisited base must be solved again.
+  const clockIndex=previous.type==='clock'?previous.index:previous.type==='screen'?previous.clockIndex:null;
+  if(previous.phase==='workshop')state.gears=clockIndex??0;
+  else if(['arrival','letter-solved','clockshop','door-solved'].includes(previous.phase))state.gears=0;
   enterStory(previous.phase,previous.line);
-  if(previous.type==='screen'){
+  if(previous.type==='screen'&&clockIndex!==null){
+    restoringNavigation=true;
+    try{showClockPuzzle(clockIndex);}finally{restoringNavigation=false;}
+  }else if(previous.type==='screen'){
     const modal=$('#modal');modal.className=previous.classes;
     $('#modal-kicker').textContent=previous.kicker;
     $('#modal-content').replaceChildren(...previous.nodes);
@@ -287,7 +294,7 @@ function showBox(){
 }
 
 function showSecretNote(){
-  openModal('LA NOTA DEL COFRE',`<article class="secret-note-paper" aria-label="La nota encontrada dentro del cofre"><p>Dirigiros a Kike y decidle el nombre de esta estatua y la palabra en clave</p><p class="statue-coordinates">42.237819, -8.724906</p><p class="secret-word-line"><span class="secret-word">PESCADO</span></p></article>`);
+  openModal('LA NOTA DEL COFRE',`<article class="secret-note-paper" aria-label="La nota encontrada dentro del cofre"><p>Dirigiros a profe Kike y decidle el nombre de esta estatua y la palabra en clave</p><p class="statue-coordinates">42.237819, -8.724906</p><p class="secret-word-line"><span class="secret-word">PESCADO</span></p></article>`);
   state.secretNoteScreen=true;save();
 }
 
