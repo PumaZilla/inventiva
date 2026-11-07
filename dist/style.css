@@ -323,3 +323,17 @@ dialog.clock-screen{background:#33271b;border:0;border-radius:0;box-shadow:none;
   #box-feedback{position:static;grid-column:1/-1;grid-row:4;margin:0;font-size:13px}
   #box-feedback:empty{display:none}
 }
+
+/* The loading screen needs no image assets of its own. */
+#chapter-loader{position:fixed;inset:0;z-index:100;display:grid;place-items:center;padding:24px;background:radial-gradient(ellipse at center,#493524,#251d16 75%);color:#eed6a5}
+#chapter-loader[hidden],#loader-retry[hidden]{display:none}
+.loader-card{width:min(340px,100%);text-align:center}
+.loader-book{width:48px;height:48px;stroke-width:1.2;color:#c89c4b;margin-bottom:14px}
+.loader-card h1{margin:0;font:normal clamp(28px,6vw,36px)/1.15 Georgia,serif}
+#loader-status{font:14px/1.6 var(--sans);color:#d2bd98;margin:22px 0 18px;min-height:23px}
+#loader-progress{display:block;width:100%;height:5px;border:0;border-radius:3px;overflow:hidden;background:#f4e6c41c;color:#c89c4b;appearance:none}
+#loader-progress::-webkit-progress-bar{background:#f4e6c41c;border-radius:3px}
+#loader-progress::-webkit-progress-value{background:#c89c4b;border-radius:3px}
+#loader-progress::-moz-progress-bar{background:#c89c4b;border-radius:3px}
+#loader-percent{display:block;margin-top:12px;color:#d2bd98;font:12px var(--sans);font-variant-numeric:tabular-nums}
+#loader-retry{display:block;margin:24px auto 0;padding:10px 24px;border:1px solid #c89c4b;border-radius:4px;background:#61472d;color:#ffe6ae}

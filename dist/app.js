@@ -323,7 +323,63 @@ function resumeReading(){
   }finally{restoringNavigation=false;}
   save();
 }
-restoreCheckpointHistory();
-render();
-save();
-showBook('cover');
+// Load every illustration used by the chapter, including CSS backgrounds and
+// both book orientations, before enabling navigation. Keep decoded images alive.
+const chapterImages=[
+  'libro-portada-v2.png','libro-portada-vertical-v2.png',
+  'libro-capitulo-v2.png','libro-capitulo-vertical-v2.png',
+  'vigo-casco-vello.png','relojeria-cerrada-v2.png','relojeria-interior.png',
+  'criptobal-gestos.png','lola-gestos.png','clotilde-gestos-v3.png',
+  'carta-cesar.png','dispositivo-laton.png','boton-giro.png','boton-resolver.png',
+  'timbre-reloj.png','reloj-bolsillo.png','engranaje-reloj.png',
+  'nota-codificada.png','caja-cesar.png','nota-doblada.png'
+];
+const loadedImages=new Map();
+function preloadImage(filename){
+  return new Promise((resolve,reject)=>{
+    const image=new Image();
+    let settled=false;
+    const finish=error=>{
+      if(settled)return;
+      settled=true;clearTimeout(timeout);image.onload=null;image.onerror=null;
+      if(error)reject(error);
+      else{loadedImages.set(filename,image);resolve();}
+    };
+    const timeout=setTimeout(()=>finish(new Error('Tiempo de carga agotado')),45000);
+    image.onload=async()=>{
+      try{await image.decode();finish();}catch(error){finish(error);}
+    };
+    image.onerror=()=>finish(new Error('No se pudo cargar la imagen'));
+    image.src=`assets/${filename}`;
+  });
+}
+async function prepareChapter(){
+  const loader=$('#chapter-loader'),retry=$('#loader-retry');
+  loader.setAttribute('aria-busy','true');retry.hidden=true;
+  $('#loader-status').textContent='Preparando la aventura…';
+  const updateProgress=()=>{
+    const percent=Math.round(loadedImages.size/chapterImages.length*100);
+    $('#loader-progress').value=percent;
+    $('#loader-percent').textContent=`${percent} %`;
+  };
+  updateProgress();
+  const pending=chapterImages.filter(filename=>!loadedImages.has(filename));
+  // Limit simultaneous downloads on slower classroom connections.
+  await Promise.all(Array.from({length:4},async()=>{
+    while(pending.length){
+      const filename=pending.shift();
+      try{await preloadImage(filename);}catch{/* Offer a retry after this batch. */}
+      updateProgress();
+    }
+  }));
+  loader.setAttribute('aria-busy','false');
+  if(loadedImages.size!==chapterImages.length){
+    $('#loader-status').textContent='No se han podido cargar todas las imágenes. Comprueba tu conexión y vuelve a intentarlo.';
+    retry.hidden=false;retry.focus();return;
+  }
+  restoreCheckpointHistory();render();save();showBook('cover');
+  loader.hidden=true;
+  $('#book-next').focus({preventScroll:true});
+}
+$('#loader-retry').addEventListener('click',prepareChapter);
+prepareChapter();
