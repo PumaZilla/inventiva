@@ -50,6 +50,27 @@ Create a production-ready transparent PNG game prop: an antique brass two-ring a
 
 # Gestos y fachada de la relojería
 
+# Corrección de gafas y reto visual de bolsillo
+
+## clotilde-gestos-v2.png
+
+Ruta: dist/assets/clotilde-gestos-v2.png. Generado con Imagegen integrado.
+
+Use case: precise-object-edit. Fix the supplied transparent two-cell character sprite sheet with extreme care. Keep both full character poses, outfits, hands, hair, pocket watch, scale, transparent background, cell layout and mouth states exactly as they are. ONLY repair the eye/glasses anatomy in BOTH faces. Current defect: three dark oval eyes appear, including stray dots ABOVE the round spectacles. Remove ALL the stray oval dots above the spectacles, replacing them with smooth skin color. Each face must have exactly TWO simple small black oval eyes TOTAL, one visible THROUGH EACH of the two circular glasses lenses, aligned on the same gently angled eye line. No eyes above the spectacles, no third eye or duplicate pupil. Glasses are worn at EYE LEVEL, not on the nose beneath the eyes. Draw only one short thin curved eyebrow above each lens if needed, never a thick oval. Natural expression, pupils look to the LEFT, toward the conversation partner. Keep left cell mouth closed, right cell mouth open and keep every other pixel/composition as closely matched as possible. Same landscape4:3 sheet, equal left/right portraitcells. Genuine transparent background outside silhouettes, no new backdrop or halo.
+
+## reloj-bolsillo.png
+
+Ruta: dist/assets/reloj-bolsillo.png. Generado con Imagegen integrado.
+
+Use case: stylized-concept. Production game prop, one antique round golden POCKET WATCH with its front crystal removed revealing a broken clockwork movement. NOT a tabletop, wall or grandfather clock. Square canvas, true transparent background. Exactly same clean brown ink outlines and warm simple hand-painted cel-shaded brass style as reference. Round pocket-watch case centered at (50%,57%) of canvas, diameter78% canvas width, slim engraved double brass rim, small winding crown and hanging bow loop at12oclock from y4% to18%, small loose curved chain hanging to right but fully inside canvas. Inner circular movement compartment is warm dark brass with sparse delicate etched lines, NO installed gears. Exactly THREE empty round gear bearing seats with little central axle pins: centers (37%,49%), (63%,49%), (50%,72%) of TOTAL CANVAS, each diameter22% totalcanvas width. These locations will receive transparent live gear overlays after player solves each word. Three seats must be unmistakably empty, NO gear teeth in them. Small understated tick marks around outer rim, no words, no lettering, no extra labels, no roman numerals, no UI. Entire object isolated with comfortable margins, fully visible, no hands holding watch, no table, no separate objects, no backdrop or glow. Front orthographic camera so all three gears align. Pocket watch clearly small and portable, elegant brass craftsmanship.
+
+## nota-codificada.png
+
+Ruta: dist/assets/nota-codificada.png. Generado con Imagegen integrado.
+
+Use case: stylized-concept. A single small blank handwritten-note paper prop for an illustrated Victorian detective game, but NO handwriting or marks at all, center must be empty for HTML code digits later. Wide landscape canvas 3:2. One landscape rectangular piece of warm ivory paper, slightly irregular torn edges, subtle folded line, soft restrained age tint onlynear edges, clean light central80%, brown ink contours and delicate hand-painted cel shading in exact style of reference. Paper fills90% width and78% height, mostly straight horizontal with barely tilted organic corners. No envelope, no wax, no pen, no decorative lines, no labels, no lettering, no numbers, no symbols. True transparent background outside paper. Designed for large dark binary digits to be laid over it later. Keep middle evenly illuminated and uncluttered.
+
+
 # Interior de Tic-Tac y reloj de las tres bases
 
 ## relojeria-interior.png

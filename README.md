@@ -39,8 +39,9 @@ Criptóbal y Lola tienen dos gestos, cada uno con boca cerrada o abierta. Quien 
 - `dist/assets/vigo-casco-vello.png`: primer escenario.
 - `dist/assets/relojeria-cerrada-v2.png`: segundo escenario, ajustado al estilo del primero, timbre sin texto.
 - `dist/assets/relojeria-interior.png`: interior sin personajes.
-- `dist/assets/clotilde-gestos.png`: hoja transparente de dos poses, boca cerrada/abierta, sin animación.
-- `dist/assets/reloj-reparacion.png`: reloj con tres huecos.
+- `dist/assets/clotilde-gestos-v2.png`: hoja transparente de dos poses, boca cerrada/abierta, sin animación; gafas corregidas con un ojo por lente.
+- `dist/assets/reloj-bolsillo.png`: reloj de bolsillo con tres huecos.
+- `dist/assets/nota-codificada.png`: papel ilustrado para los códigos.
 - `dist/assets/engranaje-reloj.png`: pieza transparente que se instala con cada acierto.
 - `dist/assets/timbre-primer-plano.png`: primer plano del timbre; la ranura y el pulsador son interactivos.
 - `ASSET-PROMPTS.md`: prompts y procedencia de las ilustraciones. Las versiones previas se conservan como alternativas sin usarse en el juego.
@@ -54,10 +55,12 @@ La solución del timbre es `79a81a55520ad1640f63430608c5198d`. MD5 solo se usa p
 
 ## Reparación del reloj
 
-Los números 1, 2 y 3 son prefijos fijos del campo de respuesta. Cada grupo de dígitos representa un código ASCII. La tabla de letras de Tic-Tac muestra A–Z y su valor decimal; no contiene conversor automático.
+Los números 1, 2 y 3 son prefijos fijos del campo de respuesta. Cada grupo de dígitos representa un código ASCII. La interfaz muestra únicamente el reloj de bolsillo, la nota codificada y el input numerado con controles de icono. No hay títulos, explicaciones, contador ni tabla de letras. Las bases se presentan en el diálogo.
 
 - Binario: `01001100 01010101 01011010` → LUZ.
 - Octal: `110 117 122 101` → HORA.
 - Hexadecimal: `54 49 45 4D 50 4F` → TIEMPO.
 
 Se comprobó el recorrido completo, error sin recompensa, un engranaje por acierto, guardado entre pantallas, regreso tras recargar y vistas móvil/escritorio. Los personajes mantienen la boca fija y el oyente oscurecido; el mecanismo del reloj gira al completarlo y respeta reducción de movimiento.
+
+Lola se refleja horizontalmente cuando ocupa la izquierda para mirar a Tic-Tac. El profesor mira a la derecha y Tic-Tac a la izquierda. Se mantienen el oscurecimiento del oyente y las bocas estáticas.

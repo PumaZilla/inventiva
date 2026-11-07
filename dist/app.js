@@ -24,11 +24,11 @@ const story={
   workshop:[
     {speaker:'Señora Tic-Tac',text:'Así que ustedes son los amigos de César… Pasen, pero no crean que voy a ayudar a cualquiera que sepa pulsar un timbre.'},
     {speaker:'Profesor Criptóbal',text:'Entiendo su cautela, señora Tic-Tac. ¿Cómo podemos ganarnos su confianza?'},
-    {speaker:'Señora Tic-Tac',text:'Demostrando su inteligencia. Uno de mis relojes se ha parado. Si consiguen arreglarlo, les ayudaré a encontrar a César.'},
+    {speaker:'Señora Tic-Tac',text:'Demostrando su inteligencia. Mi reloj de bolsillo se ha parado. Si consiguen arreglarlo, les ayudaré a encontrar a César.'},
     {speaker:'Lola Bitácora',text:'¡Trato hecho! Aunque espero que no tengamos que esperar sentados a que vuelva a dar la hora…'},
     {speaker:'Señora Tic-Tac',text:'Le faltan tres engranajes. Cada uno está protegido por una palabra: la primera en binario, la segunda en octal y la tercera en hexadecimal.'},
     {speaker:'Profesor Criptóbal',text:'Distintas bases para escribir números. Y esos números representan letras, ¿verdad?'},
-    {speaker:'Señora Tic-Tac',text:'Exacto. Cada grupo corresponde a una letra del código ASCII. Les dejo mi tabla de letras. Una palabra correcta, un engranaje en su sitio.'},
+    {speaker:'Señora Tic-Tac',text:'Exacto. Cada grupo corresponde a una letra del código ASCII. Cada palabra correcta coloca un engranaje en su sitio.'},
     {speaker:'Lola Bitácora',text:'Tres palabras, tres piezas. Profesor, empecemos con los ceros y unos. ¡Vamos a devolverle el tic-tac!'}
   ],
   'clock-solved':[
@@ -217,16 +217,16 @@ function syncClockView(){
   const index=Number($('#modal-content').dataset.clockIndex),solved=state.gears>index;
   document.querySelectorAll('.repair-gear').forEach((gear,i)=>gear.hidden=i>=state.gears);
   $('.repair-clock').classList.toggle('is-running',state.gears===3);
-  $('.repair-clock').setAttribute('aria-label',`Reloj con ${state.gears} de 3 engranajes instalados${state.gears===3?', funcionando':''}`);
-  $('#gear-count').textContent=`${state.gears} / 3`;
+  $('.repair-clock').setAttribute('aria-label',`Reloj de bolsillo con ${state.gears} de 3 engranajes instalados${state.gears===3?', funcionando':''}`);
   $('#clock-answer').readOnly=solved;
   $('#clock-check').hidden=solved;$('#clock-continue').hidden=!solved;
+  $('#clock-form').classList.toggle('is-solved',solved);
   if(solved){$('#clock-answer').value=clockWords[index].word;$('#clock-feedback').textContent=state.gears===3?'¡Tic-tac! El reloj vuelve a funcionar.':'¡Encaja! Un engranaje más en su sitio.';}
 }
 function showClockPuzzle(index){
   index=Math.max(0,Math.min(index,state.gears,2));
   const puzzle=clockWords[index],code=[...puzzle.word].map(letter=>letter.charCodeAt(0).toString(puzzle.base).toUpperCase().padStart(puzzle.width,'0'));
-  openModal('EL RELOJ DE TIC-TAC',`<div class="clock-workbench"><div class="repair-clock" role="img" aria-label="Reloj con huecos para tres engranajes"><img class="repair-clock-art" src="assets/reloj-reparacion.png" alt="" draggable="false">${[0,1,2].map(i=>`<img class="repair-gear gear-${i}" src="assets/engranaje-reloj.png" alt="" hidden>`).join('')}<span class="clock-ticking" aria-hidden="true">Tic · Tac</span></div><section class="clock-note" aria-labelledby="clock-heading"><div class="clock-note-top"><span>EL RELOJ DE TIC-TAC</span><span id="gear-count" aria-label="Engranajes instalados">${state.gears} / 3</span></div><h2 id="clock-heading">${puzzle.name}</h2><p class="base-label">BASE ${puzzle.base} · PIEZA ${index+1} DE 3</p><div class="encoded-word" aria-label="Palabra codificada">${code.map(group=>`<span>${group}</span>`).join('')}</div><p class="clock-instruction">Cada grupo representa una letra en ASCII.</p><form id="clock-form"><label class="numbered-answer" for="clock-answer"><span class="answer-number" aria-hidden="true">${index+1}</span><input id="clock-answer" type="text" aria-label="Palabra de la prueba ${index+1}" aria-describedby="clock-feedback" placeholder="La palabra es…" autocomplete="off" spellcheck="false" maxlength="24" required></label><button class="primary-button" id="clock-check" type="submit">Colocar engranaje ${icon('arrow')}</button><div id="clock-feedback" role="status" aria-live="polite"></div><button class="primary-button" id="clock-continue" type="button" hidden>${index===2?'Volver con Tic-Tac':'Siguiente pieza'} ${icon('arrow')}</button></form><details class="ascii-reference"><summary>Consultar la tabla de letras</summary><p>Convierte cada grupo de base ${puzzle.base} a decimal. Por ejemplo, ${puzzle.base===2?'01000001₂':puzzle.base===8?'101₈':'41₁₆'} = 65 = A.</p><div class="ascii-table">${[...'ABCDEFGHIJKLMNOPQRSTUVWXYZ'].map((letter,i)=>`<span><b>${letter}</b> ${65+i}</span>`).join('')}</div></details></section></div>`);
+  openModal('EL RELOJ DE TIC-TAC',`<div class="clock-workbench"><div class="repair-clock" role="img" aria-label="Reloj de bolsillo con huecos para tres engranajes"><img class="repair-clock-art" src="assets/reloj-bolsillo.png" alt="" draggable="false">${[0,1,2].map(i=>`<img class="repair-gear gear-${i}" src="assets/engranaje-reloj.png" alt="" hidden>`).join('')}</div><div class="clock-clues"><div class="clock-note" role="group" aria-label="Nota en ${puzzle.name.toLowerCase()}, base ${puzzle.base}"><div class="encoded-word">${code.map(group=>`<span>${group}</span>`).join(' ')}</div></div><form id="clock-form"><label class="numbered-answer" for="clock-answer"><span class="answer-number" aria-hidden="true">${index+1}</span><input id="clock-answer" type="text" aria-label="Palabra de la prueba ${index+1}" aria-describedby="clock-feedback" placeholder="…" autocomplete="off" spellcheck="false" maxlength="24" required></label><button id="clock-check" type="submit" class="clock-action" aria-label="Comprobar palabra" title="Comprobar palabra">${icon('check')}</button><button id="clock-continue" type="button" class="clock-action" aria-label="${index===2?'Volver con Tic-Tac':'Siguiente pieza'}" title="${index===2?'Volver con Tic-Tac':'Siguiente pieza'}" hidden>${icon('arrow')}</button><div id="clock-feedback" class="visually-hidden" role="status" aria-live="polite"></div></form></div></div>`);
   $('#modal-content').dataset.clockIndex=index;state.clockScreen=index;save();syncClockView();
   $('#clock-answer').addEventListener('input',()=>{$('#clock-answer').removeAttribute('aria-invalid');$('#clock-feedback').textContent='';});
   $('#clock-form').addEventListener('submit',event=>{
