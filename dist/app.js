@@ -356,11 +356,10 @@ function preloadImage(filename){
 async function prepareChapter(){
   const loader=$('#chapter-loader'),retry=$('#loader-retry');
   loader.setAttribute('aria-busy','true');retry.hidden=true;
-  $('#loader-status').textContent='Preparando la aventura…';
+  $('#loader-status').textContent='Siguiendo el rastro de César…';
   const updateProgress=()=>{
     const percent=Math.round(loadedImages.size/chapterImages.length*100);
     $('#loader-progress').value=percent;
-    $('#loader-percent').textContent=`${percent} %`;
   };
   updateProgress();
   const pending=chapterImages.filter(filename=>!loadedImages.has(filename));
