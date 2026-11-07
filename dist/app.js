@@ -5,10 +5,10 @@ const LETTER_HTML="<article class=\"cesar-letter\"><p class=\"letter-date\">Vigo
 const dialogueLines=[{"speaker": "Lola Bitácora", "text": "¡Mire la ría, profesor! Vigo es todavía más bonita que en los mapas. Aunque venir hasta Galicia por una carta misteriosa… eso sí que no estaba en nuestros planes."}, {"speaker": "Profesor Criptóbal", "text": "La escribió y firmó un tal César. Nos pide ayuda: ha desaparecido la baliza del puerto y alguien envía órdenes usando su nombre."}, {"speaker": "Lola Bitácora", "text": "Y dentro del sobre venía esto. Pesa lo suyo… tiene dos discos, letras por todas partes y una pequeña muesca. No parece una moneda de recuerdo."}, {"speaker": "Profesor Criptóbal", "text": "Todavía no sabemos para qué sirve. César escribió: «Al llegar al Casco Vello, enfrente la A a la D». Después dejó seis letras: WDOOHU."}, {"speaker": "Lola Bitácora", "text": "Voy a apoyar la maleta en ese banco. Saquemos la carta y la pieza. Quizá las letras no estén ahí de adorno."}, {"speaker": "Profesor Criptóbal", "text": "Buena idea. Acabamos de llegar a Vigo y ya tenemos un lugar que encontrar. Empecemos por leer con cuidado lo que nos ha escrito César."}];
 const clockshopLines=[
   {speaker:'Lola Bitácora',text:'Aquí está: «Relojería Tic-Tac». Pero la puerta está cerrada… Profesor, este timbre tiene una ranura. ¡Parece que hay que introducir una contraseña!'},
-  {speaker:'Profesor Criptóbal',text:'Qué recibimiento tan peculiar. Encima de la ranura pone «HASH MD5». Y debajo hay una placa con una sola palabra: «ABRIR».'},
-  {speaker:'Lola Bitácora',text:'¿Probamos con ABRIR? Aunque, si fuera tan fácil, la señora Tic-Tac podría haber dejado una llave debajo del felpudo.'},
+  {speaker:'Profesor Criptóbal',text:'Qué recibimiento tan peculiar. Encima de la ranura pone «HASH MD5». Y debajo hay una placa con una sola palabra: «RELOJ».'},
+  {speaker:'Lola Bitácora',text:'¿Probamos con RELOJ? Aunque, si fuera tan fácil, la señora Tic-Tac podría haber dejado una llave debajo del felpudo.'},
   {speaker:'Profesor Criptóbal',text:'Creo que nos pide la huella de esa palabra. MD5 transforma un texto en una cadena de treinta y dos caracteres. No es como los discos de César: aquí no se descifra un mensaje.'},
-  {speaker:'Lola Bitácora',text:'Entonces la palabra de la placa es la pista… ABRIR, en mayúsculas. ¡Esta relojera se toma muy en serio las visitas!'},
+  {speaker:'Lola Bitácora',text:'Entonces la palabra de la placa es la pista… RELOJ, en mayúsculas. ¡Esta relojera se toma muy en serio las visitas!'},
   {speaker:'Profesor Criptóbal',text:'Examinemos el timbre de cerca. Introduzcamos la contraseña en la ranura y pulsemos el botón. A ver si la señora Tic-Tac nos recibe.'}
 ];
 
@@ -196,11 +196,11 @@ function restoreCheckpointHistory(){
   }
 }
 function showDoorPuzzle(){
-  openModal('ENIGMA 002 · HASH MD5',`<form id="door-form" class="bell-closeup" aria-label="El timbre de Clotilde: HASH MD5, placa ABRIR"><img class="bell-art" src="assets/timbre-primer-plano.png" alt="Timbre de latón sobre la pared de granito: inscripción HASH MD5, una ranura, un pulsador redondo y una placa que dice ABRIR" draggable="false"><input id="door-answer" type="text" aria-label="Contraseña del timbre" aria-describedby="door-feedback" autocomplete="off" autocapitalize="off" spellcheck="false" maxlength="32" placeholder="Contraseña…" required><button type="submit" class="bell-push" aria-label="Pulsar el timbre" title="Pulsar el timbre"></button><div id="door-feedback" role="status" aria-live="polite"></div></form>`);
+  openModal('ENIGMA 002 · HASH MD5',`<form id="door-form" class="bell-closeup" aria-label="El timbre de Clotilde: HASH MD5, placa RELOJ"><img class="bell-art" src="assets/timbre-reloj.png" alt="Timbre de latón sobre la pared de granito: inscripción HASH MD5, una ranura, un pulsador redondo y una placa que dice RELOJ" draggable="false"><input id="door-answer" type="text" aria-label="Contraseña del timbre" aria-describedby="door-feedback" autocomplete="off" autocapitalize="off" spellcheck="false" maxlength="32" placeholder="Contraseña…" required><button type="submit" class="bell-push" aria-label="Pulsar el timbre" title="Pulsar el timbre"></button><div id="door-feedback" role="status" aria-live="polite"></div></form>`);
   $('#door-answer').addEventListener('input',()=>{$('#door-answer').removeAttribute('aria-invalid');$('#door-feedback').textContent='';});
   $('#door-form').addEventListener('submit',event=>{
     event.preventDefault();const answer=$('#door-answer').value.trim().toLowerCase();
-    if(answer!=='79a81a55520ad1640f63430608c5198d'){
+    if(answer!=='ce13c02063cd17f3a7346cda69a74ce8'){
       $('#door-feedback').textContent='El timbre no responde. La contraseña no encaja.';
       $('#door-answer').setAttribute('aria-invalid','true');$('#door-answer').focus();return;
     }

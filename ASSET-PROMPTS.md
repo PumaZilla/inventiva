@@ -50,6 +50,12 @@ Create a production-ready transparent PNG game prop: an antique brass two-ring a
 
 # Gestos y fachada de la relojería
 
+## Timbre: placa RELOJ
+
+Asset actual: `dist/assets/timbre-reloj.png`, editado con Imagegen integrado a partir del primer plano anterior. La clave pasa a ser el MD5 de RELOJ, en mayúsculas y sin espacios. Los prompts anteriores se conservan como historial.
+
+Precise text edit of supplied game prop. Change ONLY the engraved word on the LOWER small brass plaque from 'ABRIR' to 'RELOJ' (R E L O J), same large dark brown serif uppercase type, centered and same scale. Preserve absolutely everything else unchanged: upper HASH MD5 inscription, dark input slot shape and placement, round brass bell button, wall, door strip, lighting, texture, frame, dimensions and composition. No additional lettering. Lower plaque must read exactly RELOJ. Preserve opaque background.
+
 ## Clotilde: pupilas centradas
 
 Asset definitivo: `dist/assets/clotilde-gestos-v3.png`, generado con Imagegen integrado. Pupilas redondas pequeñas dentro de cada lente, separadas del borde, en ambas poses.

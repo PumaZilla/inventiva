@@ -16,7 +16,7 @@ Abrir http://localhost:4173. No requiere instalación ni compilación.
 2. Carta y dispositivo: WDOOHU conduce a TALLER.
 3. Regreso directo a los diálogos de Criptóbal y Lola.
 4. Llegada a la relojería cerrada y conversación sobre el timbre.
-5. Reto MD5: introducir la huella de ABRIR directamente en la ranura y pulsar el timbre ilustrado. Sin calculadora integrada.
+5. Reto MD5: introducir la huella de RELOJ directamente en la ranura y pulsar el timbre ilustrado. Sin calculadora integrada.
 6. Regreso al diálogo cuando se libera el cerrojo y entrada al interior de la relojería.
 7. La señora Tic-Tac exige que demuestren su inteligencia reparando un reloj antes de ayudarles.
 8. Tres pantallas: palabra en binario, octal y hexadecimal. Cada acierto instala un engranaje; la tercera pieza pone el mecanismo en marcha.
@@ -43,14 +43,14 @@ Criptóbal y Lola tienen dos gestos, cada uno con boca cerrada o abierta. Quien 
 - `dist/assets/reloj-bolsillo.png`: reloj de bolsillo con tres huecos.
 - `dist/assets/nota-codificada.png`: papel ilustrado para los códigos.
 - `dist/assets/engranaje-reloj.png`: pieza transparente que se instala con cada acierto.
-- `dist/assets/timbre-primer-plano.png`: primer plano del timbre; la ranura y el pulsador son interactivos.
+- `dist/assets/timbre-reloj.png`: primer plano del timbre; la ranura y el pulsador son interactivos.
 - `ASSET-PROMPTS.md`: prompts y procedencia de las ilustraciones. Las versiones previas se conservan como alternativas sin usarse en el juego.
 
 ## Validación
 
 `node tests/md5.test.cjs` comprueba vectores RFC, UTF-8, mayúsculas y límites del relleno. El recorrido de navegador verifica carta → diálogos → fachada → timbre → diálogos, respuestas conservadas al retroceder, recarga, migración de partidas antiguas, boca fija y personaje oyente oscuro. No se detectaron errores de JavaScript.
 
-La solución del timbre es `79a81a55520ad1640f63430608c5198d`. MD5 solo se usa para explicar hashes mediante un rompecabezas; no protege contraseñas reales. Referencias técnicas: [RFC 1321](https://www.rfc-editor.org/rfc/rfc1321) y [RFC 6151](https://www.rfc-editor.org/rfc/rfc6151).
+La solución del timbre es `ce13c02063cd17f3a7346cda69a74ce8`. MD5 solo se usa para explicar hashes mediante un rompecabezas; no protege contraseñas reales. Referencias técnicas: [RFC 1321](https://www.rfc-editor.org/rfc/rfc1321) y [RFC 6151](https://www.rfc-editor.org/rfc/rfc6151).
 
 
 ## Reparación del reloj
