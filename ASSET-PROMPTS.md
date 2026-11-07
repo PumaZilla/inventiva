@@ -192,3 +192,24 @@ Prompt de libro abierto:
 
 Edición final del capítulo:
 > Precise edit of the supplied game illustration. Remove ONLY the magnifying glass at the upper left and the cap with goggles at the upper right. Fill those areas with the same flat illustrated wooden tabletop. Keep everything else EXACTLY unchanged: open burgundy book, its position and scale, map of Vigo on the LEFT page, all page ornaments and text on the RIGHT reading 'Capitulo 1: Llegada a la ciudad', the warm muted palette, clean dark-brown outlines and flat cel-shaded painted cartoon style. Do not add any props. No change to the book or writing. Same landscape3:2 framing.
+# Variantes finales a pantalla completa, proporciones y ortografía
+
+Assets activos generados mediante ImageGen integrada:
+- `dist/assets/libro-portada-v2.png`
+- `dist/assets/libro-portada-vertical-v2.png`
+- `dist/assets/libro-capitulo-v2.png`
+- `dist/assets/libro-capitulo-vertical-v2.png`
+
+Las variantes verticales se usan en pantallas estrechas; todas cubren la ventana. Se aumentó la gorra y se redujo la lupa para corregir su escala relativa. Los capítulos incluyen la tilde de «Capítulo».
+
+Prompt de portada horizontal:
+> Edit the existing illustrated game title screen to correct physical SCALE ONLY. Lola's cap must look like a real full-sized headwear item for an adolescent/adult, not a miniature. Make the taupe cap with goggles about 85 percent of the book COVER width, and reduce the magnifying glass so its circular lens diameter is only ONE THIRD of the cap width. Keep the book large and title exactly 'Investigadores Inventiva', no spelling change. Arrange cap at upper right, glass left, book center slightly left if needed; avoid covering any title letters. Preserve the same flat drawn cartoon style, simple brown contours, two-tone shading, wood table palette, no photorealism. Keep all key objects inside frame with natural overlap allowed, table fills all edges. Landscape3:2.
+
+Prompt de portada vertical:
+> Correct physical proportions in this portrait cartoon title screen. The cap should be full-sized adolescent/adult headwear: increase it to about 85 percent of the book COVER width. REDUCE the magnifying glass so its round lens diameter is only ONE THIRD of the cap width, a normal handheld glass rather than a giant. Keep cap and glass above book, plenty of wood around them. Preserve book and exact gold title 'Investigadores Inventiva'. Same flat hand-drawn brown outlines and cel-shaded muted colors, no realistic textures. Maintain portrait9:16 edge-to-edge wooden table; keep book title centered in safe area. No added props or text.
+
+Prompt de capítulo horizontal:
+> Precise edit to this flat cartoon open-book illustration. Correct the chapter heading to EXACT Spanish spelling WITH ACCENT: 'Capítulo 1:' followed by 'Llegada a' and 'la ciudad'. The acute accent must be clearly drawn over the í in Capítulo. Map labels must read exactly 'Vigo', 'Ría de Vigo', 'Casco Vello', 'Castro'. Preserve left map/right heading composition, ornaments and cel-shaded brown-outline style. Reduce the entire open book's size by about 15 percent, centered, leaving more of the SAME illustrated wood table visible around all four sides; this gives responsive crop safety. No cap or magnifying glass, no new objects. Table fills entire canvas, no bars. Landscape3:2.
+
+Prompt de capítulo vertical:
+> Precise edit to this portrait cartoon open-book illustration. Correct right chapter heading to EXACT Spanish spelling WITH ACCENT: 'Capítulo 1:' then 'Llegada a' then 'la ciudad'. Clearly draw the acute accent over í in Capítulo. Left map labels: 'Vigo', 'Ría de Vigo', 'Casco Vello', 'Castro'. Shrink the whole open book about 12 percent centered so its outer edges lie within the middle 80 percent of the image WIDTH for mobile cropping; title must remain readable. Keep same simple dark brown outlines, flat colors, cream pages, no photorealism. Wooden tabletop fills whole portrait9:16 frame, no bars. No cap, magnifying glass or other objects.

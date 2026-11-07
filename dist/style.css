@@ -296,13 +296,14 @@ dialog.clock-screen{background:#33271b;border:0;border-radius:0;box-shadow:none;
 /* Both evidence actions share the same row, independent of prop height. */
 #game[hidden],#book-intro[hidden]{display:none}
 #book-intro{position:fixed;inset:0;z-index:20;isolation:isolate;overflow:hidden;background:#7f4b30;display:grid;place-items:center}
-#book-intro::before{content:"";position:absolute;inset:-35px;z-index:-1;background:linear-gradient(#50331a44,#50331a44),url('assets/libro-portada.png') center/cover;filter:blur(24px)}
-#book-intro[data-page="chapter"]::before{background-image:linear-gradient(#50331a44,#50331a44),url('assets/libro-capitulo.png')}
-.book-intro-art{width:100%;height:100%;min-height:0;object-fit:contain;pointer-events:none;user-select:none}
+#book-intro::before{content:"";position:absolute;inset:-35px;z-index:-1;background:linear-gradient(#50331a44,#50331a44),url('assets/libro-portada-v2.png') center/cover;filter:blur(24px)}
+#book-intro[data-page="chapter"]::before{background-image:linear-gradient(#50331a44,#50331a44),url('assets/libro-capitulo-v2.png')}
+.book-intro-picture{position:absolute;inset:0;display:block;width:100%;height:100%}
+.book-intro-art{display:block;width:100%;height:100%;min-height:0;object-fit:cover;pointer-events:none;user-select:none}
 #book-next{position:absolute;right:max(25px,env(safe-area-inset-right));bottom:max(22px,env(safe-area-inset-bottom));display:flex;align-items:center;justify-content:center;gap:14px;width:248px;height:62px;padding:12px 20px;border:0;background:url('assets/boton-resolver.png') center/100% 100% no-repeat;box-shadow:none;color:#ffe6ae;text-shadow:0 1px 2px #23140b;font:21px Georgia,serif}
 #book-next svg{width:22px;height:22px}
 #book-next:hover{filter:brightness(1.12)}
-#book-back,#book-fullscreen{position:absolute;top:max(18px,env(safe-area-inset-top));background:#302419dc}
+#book-back,#book-fullscreen{position:absolute;z-index:5;top:max(18px,env(safe-area-inset-top));background:#302419f2;pointer-events:auto}
 #book-back{left:max(22px,env(safe-area-inset-left))}#book-back svg{transform:rotate(180deg)}
 #book-fullscreen{right:max(22px,env(safe-area-inset-right))}
 @media(max-width:650px){#book-next{width:218px;height:56px;font-size:19px;right:max(14px,env(safe-area-inset-right));bottom:max(18px,env(safe-area-inset-bottom))}#book-back,#book-fullscreen{top:max(13px,env(safe-area-inset-top))}#book-back{left:14px}#book-fullscreen{right:14px}}

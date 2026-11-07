@@ -52,7 +52,7 @@ const BOX_CODE='98765';
 story['box-open']=[
   {speaker:'Lola Bitácora',text:'¡Clic! ¿Lo ha oído, profesor? La cerradura ha cedido. Espere… hay una nota dentro de la caja.'},
   {speaker:'Profesor Criptóbal',text:'Sácala con cuidado, Lola. Parece que César nos ha dejado el siguiente paso de nuestra investigación.'},
-  {speaker:'Lola Bitácora',text:'Habla de alguien llamado profe Kike y de una estatua. Y debajo hay unos números… Acerquemos la nota para leerla bien.'}
+  {speaker:'Lola Bitácora',text:'Habla del profe Kike y de una estatua. Y debajo hay unos números… Acerquemos la nota para leerla bien.'}
 ];
 let state={chapterVersion:2,completed:[],doorUnlocked:false,gears:0,clockScreen:null,boxScreen:false,secretNoteScreen:false,boxUnlocked:false,boxDigits:'00000',phase:'arrival',line:0};
 try{
@@ -107,7 +107,7 @@ function render(){
   setDialogue(line.text,line.speaker);
   $('#dialogue-next').disabled=false;
   $('#dialogue-next').style.visibility='';
-  $('#story-back').disabled=navigationHistory.length===0;
+  $('#story-back').disabled=navigationHistory.length===0&&!(state.phase==='arrival'&&state.line===0);
 }
 function enterStory(phase,line){
   clearTimeout(foldNoteTimer);if(resetBoxNote)resetBoxNote();
@@ -182,6 +182,7 @@ function captureView(){
 }
 function rememberView(){if(restoringNavigation)return;navigationHistory.push(captureView());$('#story-back').disabled=false;}
 function goBack(){
+  if(!$('#modal').open&&state.phase==='arrival'&&state.line===0){showBook('chapter');return;}
   const previous=navigationHistory.pop();if(!previous)return;
   if(previous.type==='intro'){showBook('chapter');return;}
   // Rewind the clock with the story: a revisited base must be solved again.
@@ -204,7 +205,7 @@ function goBack(){
     restoringNavigation=true;
     try{previous.type==='letter'?showLetter():previous.type==='clock'?showClockPuzzle(previous.index):previous.type==='box'?showBox():showDoorPuzzle();}finally{restoringNavigation=false;}
   }
-  $('#story-back').disabled=navigationHistory.length===0;
+  $('#story-back').disabled=navigationHistory.length===0&&!(state.phase==='arrival'&&state.line===0);
 }
 $('#story-back').addEventListener('click',goBack);
 function restoreCheckpointHistory(){
@@ -273,7 +274,7 @@ function showClockPuzzle(index){
   $('#clock-continue').addEventListener('click',()=>{if(index<2)showClockPuzzle(index+1);else{rememberView();enterStory('clock-solved',0);}});
 }
 
-const BOX_MESSAGE='Levantate y dibuja en la pizarra un animal cuya primera letra coincida con la primera letra de tu nombre';
+const BOX_MESSAGE='Levántate y dibuja en la pizarra un animal cuya primera letra coincida con la primera letra de tu nombre';
 function showBox(){
   clearTimeout(foldNoteTimer);
   openModal('LA CAJA DE CÉSAR',`<div class="box-workbench"><section class="box-prop-panel" aria-label="La caja antigua de César"><div class="antique-box"><img src="assets/caja-cesar.png" alt="Caja antigua de madera y latón, cerrada con una combinación de cinco cifras" draggable="false"><div class="box-lock" role="group" aria-label="Cerradura de cinco números">${[...state.boxDigits].map((digit,i)=>`<button type="button" class="box-digit" aria-label="Cifra ${i+1}: ${digit}. Cambiar número">${digit}</button>`).join('')}</div></div><button type="button" id="unlock-box" class="primary-button illustrated-note-button">Desbloquear</button><p id="box-feedback" role="status" aria-live="polite"></p></section><section class="box-note-panel" aria-label="La nota de César"><div class="box-note"><img class="folded-note" src="assets/nota-doblada.png" alt="Una nota doblada" draggable="false"><div id="unfolded-note" class="unfolded-note" hidden><p>${BOX_MESSAGE}</p></div></div><button type="button" id="unfold-note" class="primary-button illustrated-note-button" aria-expanded="false" aria-controls="unfolded-note">Desdoblar</button><span id="note-status" class="visually-hidden" role="status" aria-live="polite"></span></section></div>`);
@@ -296,7 +297,7 @@ function showBox(){
 }
 
 function showSecretNote(){
-  openModal('LA NOTA DEL COFRE',`<article class="secret-note-paper" aria-label="La nota encontrada dentro del cofre"><p>Dirígete al profe Kike de nuevo y dile el nombre de esta estatua seguida de la palabra secreta</p><p class="statue-coordinates">42.237819, -8.724906</p><p class="secret-word-line"><span class="secret-word">PESCADO</span></p></article>`);
+  openModal('LA NOTA DEL COFRE',`<article class="secret-note-paper" aria-label="La nota encontrada dentro del cofre"><p>Dirígete al profe Kike de nuevo y dile el nombre de esta estatua seguido de la palabra secreta</p><p class="statue-coordinates">42.237819, -8.724906</p><p class="secret-word-line"><span class="secret-word">PESCADO</span></p></article>`);
   state.secretNoteScreen=true;save();
 }
 
@@ -305,7 +306,7 @@ function showBook(page='cover'){
   clearTimeout(foldNoteTimer);if(resetBoxNote)resetBoxNote();
   if($('#modal').open)$('#modal').close();
   $('#game').hidden=true;intro.hidden=false;intro.dataset.page=page;
-  intro.innerHTML=`<h1 class="visually-hidden">${chapter?'Capitulo 1: Llegada a la ciudad':'Investigadores Inventiva'}</h1><img class="book-intro-art" src="assets/${chapter?'libro-capitulo.png':'libro-portada.png'}" alt="${chapter?'Libro abierto: mapa de Vigo dibujado a pluma en la página izquierda; Capitulo 1: Llegada a la ciudad en la derecha':'Libro cerrado ornamentado con el título Investigadores Inventiva, sobre una mesa junto a la lupa del profesor y la gorra de Lola'}" draggable="false">${chapter?`<button id="book-back" class="round-control" type="button" aria-label="Anterior" title="Anterior">${icon('arrow')}</button>`:''}<button id="book-fullscreen" class="round-control" type="button" aria-label="Activar pantalla completa" title="Pantalla completa">${$('#fullscreen').innerHTML}</button><button id="book-next" type="button">${chapter?'Pasar de página':'Empezar a leer'}${icon('arrow')}</button>`;
+  intro.innerHTML=`<h1 class="visually-hidden">${chapter?'Capítulo 1: Llegada a la ciudad':'Investigadores Inventiva'}</h1><picture class="book-intro-picture"><source media="(max-aspect-ratio: 3/4)" srcset="assets/${chapter?'libro-capitulo-vertical-v2.png':'libro-portada-vertical-v2.png'}"><img class="book-intro-art" src="assets/${chapter?'libro-capitulo-v2.png':'libro-portada-v2.png'}" alt="${chapter?'Libro abierto: mapa de Vigo dibujado a pluma en la página izquierda; Capítulo 1: Llegada a la ciudad en la derecha':'Libro cerrado ornamentado con el título Investigadores Inventiva, sobre una mesa junto a la lupa del profesor y la gorra de Lola'}" draggable="false"></picture>${chapter?`<button id="book-back" class="round-control" type="button" aria-label="Anterior" title="Anterior">${icon('arrow')}</button>`:''}<button id="book-fullscreen" class="round-control" type="button" aria-label="Activar pantalla completa" title="Pantalla completa">${$('#fullscreen').innerHTML}</button><button id="book-next" type="button">${chapter?'Pasar de página':'Empezar a leer'}${icon('arrow')}</button>`;
   $('#book-next').addEventListener('click',()=>chapter?resumeReading():showBook('chapter'));
   if(chapter)$('#book-back').addEventListener('click',()=>showBook('cover'));
   $('#book-fullscreen').addEventListener('click',()=>$('#fullscreen').click());

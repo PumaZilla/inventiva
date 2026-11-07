@@ -79,7 +79,7 @@ Después de reparar el reloj, Tic-Tac cuenta que César dejó una caja para la p
 
 La cerradura tiene cinco cifras: se pueden cambiar pulsándolas, con las flechas del teclado o escribiendo un dígito. Se guardan en la partida. La combinación correcta es `98765`. La cerradura solo se abre al pulsar Desbloquear con esa combinación; cambiar las cifras no la abre. Lola y el profesor descubren una nota en el interior, que se muestra tras sus diálogos. El progreso y la navegación hacia atrás se conservan tras recargar.
 
-Desdoblar revela exactamente: «Levantate y dibuja en la pizarra un animal cuya primera letra coincida con la primera letra de tu nombre». Un temporizador de 5000 ms vuelve a doblar la nota y permite abrirla de nuevo. Salir de la pantalla cancela el temporizador; volver o recargar presenta la nota plegada. Anterior regresa al diálogo inmediatamente anterior.
+Desdoblar revela exactamente: «Levántate y dibuja en la pizarra un animal cuya primera letra coincida con la primera letra de tu nombre». Un temporizador de 5000 ms vuelve a doblar la nota y permite abrirla de nuevo. Salir de la pantalla cancela el temporizador; volver o recargar presenta la nota plegada. Anterior regresa al diálogo inmediatamente anterior.
 
 Validado en escritorio, móvil vertical y horizontal; sin desbordamiento. Comprobados el mensaje, plegado automático, cifras persistentes, recarga y navegación.
 
@@ -89,8 +89,10 @@ Al retroceder a una base del reloj, esa palabra queda pendiente de nuevo y se re
 
 ## Portada y apertura del capítulo
 
-Al cargar el juego se muestra el libro cerrado Investigadores Inventiva, acompañado de la lupa y la gorra de Lola. Empezar a leer lleva al libro abierto: mapa ilustrado de Vigo a pluma a la izquierda, Capitulo 1: Llegada a la ciudad a la derecha. En esta segunda imagen no hay lupa ni gorra. Pasar de página entra en la partida guardada, o en el primer diálogo de llegada a Vigo si es una partida nueva. Anterior en el primer diálogo vuelve al libro; la apertura no borra el progreso.
+Al cargar el juego se muestra el libro cerrado Investigadores Inventiva, acompañado de la lupa y la gorra de Lola. Empezar a leer lleva al libro abierto: mapa ilustrado de Vigo a pluma a la izquierda, Capítulo 1: Llegada a la ciudad a la derecha. En esta segunda imagen no hay lupa ni gorra. Pasar de página entra en la partida guardada, o en el primer diálogo de llegada a Vigo si es una partida nueva. Anterior en el primer diálogo vuelve al libro; la apertura no borra el progreso.
 
 Las ilustraciones finales usan como referencias directas el interior de la relojería y los sprites, con contornos marrones y sombreado plano. Assets: dist/assets/libro-portada.png y dist/assets/libro-capitulo.png.
 
-Texto final: «Dirígete al profe Kike de nuevo y dile el nombre de esta estatua seguida de la palabra secreta». Coordenadas y palabra oculta se mantienen.
+Texto final: «Dirígete al profe Kike de nuevo y dile el nombre de esta estatua seguido de la palabra secreta». Coordenadas y palabra oculta se mantienen.
+
+Las imágenes de inicio llenan la ventana con object-fit: cover y variantes verticales. Las versiones v2 corrigen las proporciones de gorra y lupa y la tilde de Capítulo. Anterior desde el primer diálogo abre el capítulo; Anterior en el capítulo vuelve a la portada. Revisión ortográfica de diálogos, notas, controles y rótulos de las imágenes.
