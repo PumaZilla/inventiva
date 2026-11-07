@@ -48,7 +48,9 @@ const story={
   ]
 };
 const KEY='niebla-cifra-vigo-v1';
-let state={chapterVersion:2,completed:[],doorUnlocked:false,gears:0,clockScreen:null,boxScreen:false,boxDigits:'00000',phase:'arrival',line:0};
+const BOX_CODE='98765';
+story['box-open']=[{speaker:'Lola Bitácora',text:'¡Clic! ¿Lo ha oído, profesor? La cerradura ha cedido. ¡Hemos abierto la caja de César!'}];
+let state={chapterVersion:2,completed:[],doorUnlocked:false,gears:0,clockScreen:null,boxScreen:false,boxUnlocked:false,boxDigits:'00000',phase:'arrival',line:0};
 try{
   const saved=JSON.parse(localStorage.getItem(KEY));
   if(saved&&Array.isArray(saved.completed)){
@@ -60,6 +62,7 @@ try{
       if(state.phase==='workshop'&&Number.isInteger(saved.clockScreen))state.clockScreen=Math.max(0,Math.min(2,state.gears,saved.clockScreen));
       state.boxScreen=saved.boxScreen===true&&state.phase==='clock-solved'&&state.line===story['clock-solved'].length-1;
       if(typeof saved.boxDigits==='string'&&/^\d{5}$/.test(saved.boxDigits))state.boxDigits=saved.boxDigits;
+      state.boxUnlocked=saved.boxUnlocked===true;
     }else{
       // Retain the letter clue; obsolete challenges no longer determine the story.
       state.completed=letterSolved?[0]:[];
@@ -72,7 +75,7 @@ const navigationHistory=[];
 function save(){try{localStorage.setItem(KEY,JSON.stringify(state));}catch{toast('Guardado no disponible: mantén esta pestaña abierta');}}
 function toast(msg){$('#toast').textContent=msg;$('#toast').classList.add('visible');clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('#toast').classList.remove('visible'),3500);}
 function setScene(shop){
-  const inside=state.phase==='workshop'||state.phase==='clock-solved';
+  const inside=state.phase==='workshop'||state.phase==='clock-solved'||state.phase==='box-open';
   $('#game').classList.toggle('at-clockshop',shop||inside);
   $('#game').classList.toggle('inside-workshop',inside);
   $('.scene-art').src=inside?'assets/relojeria-interior.png':shop?'assets/relojeria-cerrada-v2.png':'assets/vigo-casco-vello.png';
@@ -97,8 +100,9 @@ function render(){
   setScene(state.phase==='clockshop'||state.phase==='door-solved');
   const lines=story[state.phase],line=lines[state.line];
   setDialogue(line.text,line.speaker);
-  $('#dialogue-next').disabled=false;
-  $('#dialogue-next').style.visibility='';
+  const end=state.phase==='box-open';
+  $('#dialogue-next').disabled=end;
+  $('#dialogue-next').style.visibility=end?'hidden':'';
   $('#story-back').disabled=navigationHistory.length===0;
 }
 function enterStory(phase,line){
@@ -182,16 +186,16 @@ function goBack(){
     modal.showModal();modal.scrollTop=previous.scroll;fitLetterScreen();
     if(previous.clockIndex!==null){$('#modal-content').dataset.clockIndex=previous.clockIndex;state.clockScreen=previous.clockIndex;syncClockView();save();}
     if(previous.box){state.boxScreen=true;save();}
-  }else if(previous.type==='letter'||previous.type==='door'||previous.type==='clock'){
+  }else if(previous.type==='letter'||previous.type==='door'||previous.type==='clock'||previous.type==='box'){
     restoringNavigation=true;
-    try{previous.type==='letter'?showLetter():previous.type==='clock'?showClockPuzzle(previous.index):showDoorPuzzle();}finally{restoringNavigation=false;}
+    try{previous.type==='letter'?showLetter():previous.type==='clock'?showClockPuzzle(previous.index):previous.type==='box'?showBox():showDoorPuzzle();}finally{restoringNavigation=false;}
   }
   $('#story-back').disabled=navigationHistory.length===0;
 }
 $('#story-back').addEventListener('click',goBack);
 function restoreCheckpointHistory(){
   // Rebuild only the current narrative path, never obsolete challenges.
-  const phases=['arrival','letter-solved','clockshop','door-solved','workshop','clock-solved'];
+  const phases=['arrival','letter-solved','clockshop','door-solved','workshop','clock-solved','box-open'];
   for(const phase of phases){
     const count=phase===state.phase?state.line:story[phase].length;
     for(let line=0;line<count;line++)navigationHistory.push({type:'story',phase,line});
@@ -203,6 +207,7 @@ function restoreCheckpointHistory(){
     if(phase==='arrival')navigationHistory.push({type:'letter',phase,line:story[phase].length-1});
     if(phase==='clockshop')navigationHistory.push({type:'door',phase,line:story[phase].length-1});
     if(phase==='workshop')for(let index=0;index<3;index++)navigationHistory.push({type:'clock',phase,line:story[phase].length-1,index});
+    if(phase==='clock-solved')navigationHistory.push({type:'box',phase,line:story[phase].length-1});
   }
 }
 function showDoorPuzzle(){
@@ -259,7 +264,7 @@ function showBox(){
   openModal('LA CAJA DE CÉSAR',`<div class="box-workbench"><section class="antique-box" aria-label="La caja antigua de César"><img src="assets/caja-cesar.png" alt="Caja antigua de madera y latón, cerrada con una combinación de cinco cifras" draggable="false"><div class="box-lock" role="group" aria-label="Cerradura de cinco números">${[...state.boxDigits].map((digit,i)=>`<button type="button" class="box-digit" aria-label="Cifra ${i+1}: ${digit}. Cambiar número">${digit}</button>`).join('')}</div></section><section class="box-note-panel" aria-label="La nota de César"><div class="box-note"><img class="folded-note" src="assets/nota-doblada.png" alt="Una nota doblada" draggable="false"><div id="unfolded-note" class="unfolded-note" hidden><p>${BOX_MESSAGE}</p></div></div><button type="button" id="unfold-note" class="primary-button illustrated-note-button" aria-expanded="false" aria-controls="unfolded-note">Desdoblar</button><span id="note-status" class="visually-hidden" role="status" aria-live="polite"></span></section></div>`);
   state.boxScreen=true;save();
   document.querySelectorAll('.box-digit').forEach((button,index)=>{
-    const setDigit=digit=>{const digits=[...state.boxDigits];digits[index]=String(digit);state.boxDigits=digits.join('');button.textContent=digit;button.setAttribute('aria-label',`Cifra ${index+1}: ${digit}. Cambiar número`);save();};
+    const setDigit=digit=>{const digits=[...state.boxDigits];digits[index]=String(digit);state.boxDigits=digits.join('');button.textContent=digit;button.setAttribute('aria-label',`Cifra ${index+1}: ${digit}. Cambiar número`);save();if(state.boxDigits===BOX_CODE){rememberView();state.boxUnlocked=true;enterStory('box-open',0);}};
     button.addEventListener('click',()=>setDigit((Number(state.boxDigits[index])+1)%10));
     button.addEventListener('keydown',event=>{if(/^[0-9]$/.test(event.key)){event.preventDefault();setDigit(Number(event.key));}else if(event.key==='ArrowDown'||event.key==='ArrowUp'){event.preventDefault();setDigit((Number(state.boxDigits[index])+(event.key==='ArrowUp'?1:9))%10);}});
   });

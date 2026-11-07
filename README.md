@@ -77,7 +77,7 @@ Verificado en navegador con respuestas mezcladas y espaciadas en los cinco retos
 
 Después de reparar el reloj, Tic-Tac cuenta que César dejó una caja para la pareja de detectives que iba a llegar a Vigo. Los diálogos llevan al primer plano de la caja antigua y su nota plegada.
 
-La cerradura tiene cinco cifras: se pueden cambiar pulsándolas, con las flechas del teclado o escribiendo un dígito. Se guardan en la partida. Esta entrega todavía no define una combinación correcta ni una apertura de la caja.
+La cerradura tiene cinco cifras: se pueden cambiar pulsándolas, con las flechas del teclado o escribiendo un dígito. Se guardan en la partida. La combinación correcta es `98765`. Al completarla, la cerradura se abre automáticamente y Lola lo confirma en el diálogo. El progreso y la navegación hacia atrás se conservan tras recargar.
 
 Desdoblar revela exactamente: «Levantate y dibuja en la pizarra un animal cuya primera letra coincida con la primera letra de tu nombre». Un temporizador de 5000 ms vuelve a doblar la nota y permite abrirla de nuevo. Salir de la pantalla cancela el temporizador; volver o recargar presenta la nota plegada. Anterior regresa al diálogo inmediatamente anterior.
 
