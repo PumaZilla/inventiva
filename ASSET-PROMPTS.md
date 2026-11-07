@@ -50,6 +50,12 @@ Create a production-ready transparent PNG game prop: an antique brass two-ring a
 
 # Gestos y fachada de la relojería
 
+## Clotilde: pupilas centradas
+
+Asset definitivo: `dist/assets/clotilde-gestos-v3.png`, generado con Imagegen integrado. Pupilas redondas pequeñas dentro de cada lente, separadas del borde, en ambas poses.
+
+Precise surgical correction of the FACE/EYES only in this two-cell transparent sprite sheet. Preserve all other geometry, character identity, hair, clothes, hands, pocket watch, body positions, closed left mouth and open right mouth. Current problem: the eye in the smaller far-side glasses lens is pressed against the outer frame and looks deformed. In BOTH character faces ERASE and REDRAW the entire two spectacles lenses and BOTH eyes cleanly: two simple thin round gold wire rims, clear lenses showing skin tone, exactly ONE small dark brown DOT pupil neatly CENTERED INSIDE each lens. Each pupil must be a small modest dot only 15 percent of the lens diameter, same apparent size, fully surrounded on all sides by visible skin-colored lens interior, never touching frame. No long stretched oval eyes, no extra pupil, no stray black marks or eyes above glasses, no lens reflection that resembles an eye. Two tidy thin eyebrows above glasses, tiny gentle nose between and below lenses. Preserve three-quarter LEFT-facing head orientation but make each eye readable and normal, gentle friendly expression, simple clean cartoon eyes. Both pupils centered in their lens and looking toward conversation partner at left without hugging edges. Keep the same equal-cell landscape4:3 sprite sheet and TRUE transparent background. All pixels outside the eyes/glasses region should remain as similar as possible. No additional shadow/glow/background.
+
 # Corrección de gafas y reto visual de bolsillo
 
 ## clotilde-gestos-v2.png

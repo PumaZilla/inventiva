@@ -39,7 +39,7 @@ Criptóbal y Lola tienen dos gestos, cada uno con boca cerrada o abierta. Quien 
 - `dist/assets/vigo-casco-vello.png`: primer escenario.
 - `dist/assets/relojeria-cerrada-v2.png`: segundo escenario, ajustado al estilo del primero, timbre sin texto.
 - `dist/assets/relojeria-interior.png`: interior sin personajes.
-- `dist/assets/clotilde-gestos-v2.png`: hoja transparente de dos poses, boca cerrada/abierta, sin animación; gafas corregidas con un ojo por lente.
+- `dist/assets/clotilde-gestos-v3.png`: hoja transparente de dos poses, boca cerrada/abierta, sin animación; gafas corregidas con un ojo por lente.
 - `dist/assets/reloj-bolsillo.png`: reloj de bolsillo con tres huecos.
 - `dist/assets/nota-codificada.png`: papel ilustrado para los códigos.
 - `dist/assets/engranaje-reloj.png`: pieza transparente que se instala con cada acierto.
