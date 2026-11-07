@@ -35,7 +35,11 @@ const story={
   'clock-solved':[
     {speaker:'Lola Bitácora',text:'¡Tic… tac… tic… tac! ¡Ha vuelto a funcionar! Los tres engranajes están en su sitio, señora Tic-Tac.'},
     {speaker:'Señora Tic-Tac',text:'Buen oído y buena cabeza. Han cumplido su parte, y yo cumpliré la mía: les ayudaré. César estuvo aquí antes de enviar aquella carta.'},
-    {speaker:'Profesor Criptóbal',text:'Entonces escuchamos con atención. Cuéntenos qué ocurrió, señora Tic-Tac.'}
+    {speaker:'Profesor Criptóbal',text:'Entonces escuchamos con atención. Cuéntenos qué ocurrió, señora Tic-Tac.'},
+    {speaker:'Señora Tic-Tac',text:'César me dejó una caja. «Guárdala para la pareja de detectives que vendrá a Vigo», me dijo. Ahora sé que se refería a ustedes.'},
+    {speaker:'Lola Bitácora',text:'¡Qué antigua parece! Y mire esa cerradura, profesor: tiene cinco números. César no pensaba ponérnoslo fácil.'},
+    {speaker:'Señora Tic-Tac',text:'También dejó esta nota doblada, junto a la caja. No la he leído; era para ustedes.'},
+    {speaker:'Profesor Criptóbal',text:'Gracias, señora Tic-Tac. Lola, desdoblemos la nota. Veamos qué quiere contarnos César esta vez.'}
   ],
   'door-solved':[
     {speaker:'Lola Bitácora',text:'¡Clic! ¿Lo ha oído, profesor? El cerrojo se ha soltado. ¡La huella era la contraseña!'},
@@ -44,7 +48,7 @@ const story={
   ]
 };
 const KEY='niebla-cifra-vigo-v1';
-let state={chapterVersion:2,completed:[],doorUnlocked:false,gears:0,clockScreen:null,phase:'arrival',line:0};
+let state={chapterVersion:2,completed:[],doorUnlocked:false,gears:0,clockScreen:null,boxScreen:false,boxDigits:'00000',phase:'arrival',line:0};
 try{
   const saved=JSON.parse(localStorage.getItem(KEY));
   if(saved&&Array.isArray(saved.completed)){
@@ -54,6 +58,8 @@ try{
       if(Object.hasOwn(story,saved.phase))state.phase=saved.phase;
       state.line=Number.isInteger(saved.line)?Math.max(0,Math.min(saved.line,story[state.phase].length-1)):0;
       if(state.phase==='workshop'&&Number.isInteger(saved.clockScreen))state.clockScreen=Math.max(0,Math.min(2,state.gears,saved.clockScreen));
+      state.boxScreen=saved.boxScreen===true&&state.phase==='clock-solved'&&state.line===story['clock-solved'].length-1;
+      if(typeof saved.boxDigits==='string'&&/^\d{5}$/.test(saved.boxDigits))state.boxDigits=saved.boxDigits;
     }else{
       // Retain the letter clue; obsolete challenges no longer determine the story.
       state.completed=letterSolved?[0]:[];
@@ -61,7 +67,7 @@ try{
     }
   }
 }catch{}
-let toastTimer,restoringNavigation=false;
+let toastTimer,foldNoteTimer,resetBoxNote,restoringNavigation=false;
 const navigationHistory=[];
 function save(){try{localStorage.setItem(KEY,JSON.stringify(state));}catch{toast('Guardado no disponible: mantén esta pestaña abierta');}}
 function toast(msg){$('#toast').textContent=msg;$('#toast').classList.add('visible');clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('#toast').classList.remove('visible'),3500);}
@@ -91,19 +97,19 @@ function render(){
   setScene(state.phase==='clockshop'||state.phase==='door-solved');
   const lines=story[state.phase],line=lines[state.line];
   setDialogue(line.text,line.speaker);
-  const end=state.phase==='clock-solved'&&state.line===lines.length-1;
-  $('#dialogue-next').disabled=end;
-  $('#dialogue-next').style.visibility=end?'hidden':'';
+  $('#dialogue-next').disabled=false;
+  $('#dialogue-next').style.visibility='';
   $('#story-back').disabled=navigationHistory.length===0;
 }
 function enterStory(phase,line){
+  clearTimeout(foldNoteTimer);if(resetBoxNote)resetBoxNote();
   if($('#modal').open)$('#modal').close();
-  state.phase=phase;state.line=line;state.clockScreen=null;save();render();
+  state.phase=phase;state.line=line;state.clockScreen=null;state.boxScreen=false;save();render();
 }
 function openModal(kicker,html){
   rememberView();
   const modal=$('#modal');
-  modal.className=kicker==='LA CARTA DE CÉSAR'?'letter-screen':kicker==='EL RELOJ DE TIC-TAC'?'puzzle-screen clock-screen':'puzzle-screen door-screen';
+  modal.className=kicker==='LA CARTA DE CÉSAR'?'letter-screen':kicker==='LA CAJA DE CÉSAR'?'puzzle-screen clock-screen box-screen':kicker==='EL RELOJ DE TIC-TAC'?'puzzle-screen clock-screen':'puzzle-screen door-screen';
   $('#modal-kicker').textContent=kicker;$('#modal-content').innerHTML=html;
   if(!modal.open)modal.showModal();modal.scrollTop=0;
 }
@@ -124,6 +130,7 @@ $('#dialogue-next').addEventListener('click',()=>{
   else if(state.phase==='clockshop')showDoorPuzzle();
   else if(state.phase==='door-solved'){rememberView();enterStory('workshop',0);}
   else if(state.phase==='workshop')showClockPuzzle(Math.min(state.gears,2));
+  else if(state.phase==='clock-solved')showBox();
 });
 $('#close-modal').addEventListener('click',closeModal);
 $('#modal').addEventListener('cancel',event=>{event.preventDefault();goBack();});
@@ -161,7 +168,7 @@ if(document.fonts)document.fonts.ready.then(fitLetterScreen);
 // Keep actual modal nodes: inputs, disk alignment and listeners survive Back.
 function captureView(){
   const modal=$('#modal');
-  if(modal.open)return {type:'screen',nodes:[...$('#modal-content').childNodes],classes:modal.className,kicker:$('#modal-kicker').textContent,scroll:modal.scrollTop,phase:state.phase,line:state.line,clockIndex:modal.classList.contains('clock-screen')?Number($('#modal-content').dataset.clockIndex):null};
+  if(modal.open)return {type:'screen',nodes:[...$('#modal-content').childNodes],classes:modal.className,kicker:$('#modal-kicker').textContent,scroll:modal.scrollTop,phase:state.phase,line:state.line,box:modal.classList.contains('box-screen'),clockIndex:modal.classList.contains('clock-screen')&&!modal.classList.contains('box-screen')?Number($('#modal-content').dataset.clockIndex):null};
   return {type:'story',phase:state.phase,line:state.line};
 }
 function rememberView(){if(restoringNavigation)return;navigationHistory.push(captureView());$('#story-back').disabled=false;}
@@ -174,6 +181,7 @@ function goBack(){
     $('#modal-content').replaceChildren(...previous.nodes);
     modal.showModal();modal.scrollTop=previous.scroll;fitLetterScreen();
     if(previous.clockIndex!==null){$('#modal-content').dataset.clockIndex=previous.clockIndex;state.clockScreen=previous.clockIndex;syncClockView();save();}
+    if(previous.box){state.boxScreen=true;save();}
   }else if(previous.type==='letter'||previous.type==='door'||previous.type==='clock'){
     restoringNavigation=true;
     try{previous.type==='letter'?showLetter():previous.type==='clock'?showClockPuzzle(previous.index):showDoorPuzzle();}finally{restoringNavigation=false;}
@@ -188,6 +196,7 @@ function restoreCheckpointHistory(){
     const count=phase===state.phase?state.line:story[phase].length;
     for(let line=0;line<count;line++)navigationHistory.push({type:'story',phase,line});
     if(phase===state.phase){
+      if(state.boxScreen)navigationHistory.push({type:'story',phase,line:state.line});
       if(state.clockScreen!==null){navigationHistory.push({type:'story',phase,line:state.line});for(let index=0;index<state.clockScreen;index++)navigationHistory.push({type:'clock',phase,line:state.line,index});}
       break;
     }
@@ -244,7 +253,26 @@ function showClockPuzzle(index){
   $('#clock-continue').addEventListener('click',()=>{if(index<2)showClockPuzzle(index+1);else{rememberView();enterStory('clock-solved',0);}});
 }
 
+const BOX_MESSAGE='Levantate y dibuja en la pizarra un animal cuya primera letra coincida con la primera letra de tu nombre';
+function showBox(){
+  clearTimeout(foldNoteTimer);
+  openModal('LA CAJA DE CÉSAR',`<div class="box-workbench"><section class="antique-box" aria-label="La caja antigua de César"><img src="assets/caja-cesar.png" alt="Caja antigua de madera y latón, cerrada con una combinación de cinco cifras" draggable="false"><div class="box-lock" role="group" aria-label="Cerradura de cinco números">${[...state.boxDigits].map((digit,i)=>`<button type="button" class="box-digit" aria-label="Cifra ${i+1}: ${digit}. Cambiar número">${digit}</button>`).join('')}</div></section><section class="box-note-panel" aria-label="La nota de César"><div class="box-note"><img class="folded-note" src="assets/nota-doblada.png" alt="Una nota doblada" draggable="false"><div id="unfolded-note" class="unfolded-note" hidden><p>${BOX_MESSAGE}</p></div></div><button type="button" id="unfold-note" class="primary-button illustrated-note-button" aria-expanded="false" aria-controls="unfolded-note">Desdoblar</button><span id="note-status" class="visually-hidden" role="status" aria-live="polite"></span></section></div>`);
+  state.boxScreen=true;save();
+  document.querySelectorAll('.box-digit').forEach((button,index)=>{
+    const setDigit=digit=>{const digits=[...state.boxDigits];digits[index]=String(digit);state.boxDigits=digits.join('');button.textContent=digit;button.setAttribute('aria-label',`Cifra ${index+1}: ${digit}. Cambiar número`);save();};
+    button.addEventListener('click',()=>setDigit((Number(state.boxDigits[index])+1)%10));
+    button.addEventListener('keydown',event=>{if(/^[0-9]$/.test(event.key)){event.preventDefault();setDigit(Number(event.key));}else if(event.key==='ArrowDown'||event.key==='ArrowUp'){event.preventDefault();setDigit((Number(state.boxDigits[index])+(event.key==='ArrowUp'?1:9))%10);}});
+  });
+  const button=$('#unfold-note'),folded=$('.folded-note'),unfolded=$('#unfolded-note'),status=$('#note-status');
+  resetBoxNote=()=>{folded.hidden=false;unfolded.hidden=true;button.disabled=false;button.setAttribute('aria-expanded','false');status.textContent='La nota se ha vuelto a doblar.';};
+  button.addEventListener('click',()=>{
+    clearTimeout(foldNoteTimer);folded.hidden=true;unfolded.hidden=false;button.disabled=true;button.setAttribute('aria-expanded','true');status.textContent=BOX_MESSAGE;
+    foldNoteTimer=setTimeout(resetBoxNote,5000);
+  });
+}
+
 restoreCheckpointHistory();
 render();
 if(state.clockScreen!==null){restoringNavigation=true;try{showClockPuzzle(state.clockScreen);}finally{restoringNavigation=false;}}
+if(state.boxScreen){restoringNavigation=true;try{showBox();}finally{restoringNavigation=false;}}
 save();

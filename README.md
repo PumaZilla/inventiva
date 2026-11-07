@@ -73,3 +73,12 @@ Todos los retos eliminan espacios en blanco, incluidos los interiores, y compara
 Los aciertos de binario y octal avanzan automáticamente a la siguiente pantalla. Al completar hexadecimal se ocultan la nota y el input, conservando su espacio de composición, y aparece Continuar en el centro vertical y horizontal de esa zona. Los tres engranajes permanecen instalados.
 
 Verificado en navegador con respuestas mezcladas y espaciadas en los cinco retos, avance 1→2→3, reanudación tras recargar, Anterior y Continuar.
+# La caja de César
+
+Después de reparar el reloj, Tic-Tac cuenta que César dejó una caja para la pareja de detectives que iba a llegar a Vigo. Los diálogos llevan al primer plano de la caja antigua y su nota plegada.
+
+La cerradura tiene cinco cifras: se pueden cambiar pulsándolas, con las flechas del teclado o escribiendo un dígito. Se guardan en la partida. Esta entrega todavía no define una combinación correcta ni una apertura de la caja.
+
+Desdoblar revela exactamente: «Levantate y dibuja en la pizarra un animal cuya primera letra coincida con la primera letra de tu nombre». Un temporizador de 5000 ms vuelve a doblar la nota y permite abrirla de nuevo. Salir de la pantalla cancela el temporizador; volver o recargar presenta la nota plegada. Anterior regresa al diálogo inmediatamente anterior.
+
+Validado en escritorio, móvil vertical y horizontal; sin desbordamiento. Comprobados el mensaje, plegado automático, cifras persistentes, recarga y navegación.

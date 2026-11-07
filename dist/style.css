@@ -251,3 +251,27 @@ dialog.clock-screen{background:#33271b;border:0;border-radius:0;box-shadow:none;
 .clock-clues.is-complete .clock-note,.clock-clues.is-complete #clock-form{visibility:hidden;pointer-events:none}
 .clock-clues.is-complete #clock-continue{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);visibility:visible;pointer-events:auto;width:190px;height:58px;min-height:58px;font:20px Georgia,serif;display:grid;place-items:center}
 @media(max-width:650px){#clock-form{min-height:46px}.clock-clues.is-complete #clock-continue{width:180px;height:54px;min-height:54px;font-size:18px}}
+
+/* César's keepsake box and its briefly unfolded note. */
+.box-workbench{display:grid;grid-template-columns:minmax(0,620px) minmax(0,470px);gap:30px;align-items:center;width:100%;max-width:1150px;min-height:0}
+.antique-box{position:relative;container-type:inline-size;width:100%;max-width:calc(100dvh - 90px);justify-self:center;aspect-ratio:1;filter:drop-shadow(0 14px 12px #130b0880)}
+.antique-box>img{display:block;width:100%;height:100%;object-fit:contain;pointer-events:none}
+.box-lock{position:absolute;left:30.7%;top:56.3%;width:38.9%;height:11.6%;display:grid;grid-template-columns:repeat(5,1fr);gap:3.1%}
+.box-digit{min-width:0;min-height:0;border:0;border-radius:3px;padding:0;background:transparent;box-shadow:none;color:#503019;font:7cqw/1 Georgia,serif;text-shadow:0 1px 0 #fff4c9;touch-action:manipulation}
+.box-digit:hover{background:#d2a14b22;color:#29180b}.box-digit:active{transform:none;background:#bc8b4433}.box-digit:focus-visible{outline:2px solid #fff0bb;outline-offset:3px}
+.box-note-panel{display:grid;justify-items:center;gap:12px;width:100%;min-width:0}
+.box-note{width:100%;aspect-ratio:3/2;position:relative;display:grid;place-items:center}
+.folded-note{display:block;width:92%;filter:drop-shadow(0 8px 8px #160c0780)}
+.unfolded-note{position:absolute;inset:0;display:grid;place-items:center;padding:13% 10%;background:url('assets/nota-codificada.png') center/100% 100% no-repeat;filter:drop-shadow(0 8px 8px #160c0780)}
+.unfolded-note p{margin:0;font:italic clamp(17px,2vw,26px)/1.45 Georgia,serif;color:#51351e;text-align:center}
+.box-note [hidden]{display:none}
+.box-note-panel .illustrated-note-button{width:190px;min-height:58px;padding:12px 20px;justify-content:center;border:0;border-radius:0;background:url('assets/boton-resolver.png') center/100% 100% no-repeat;box-shadow:none;font:20px Georgia,serif;color:#ffe6ae;text-shadow:0 1px 2px #23140b}
+.illustrated-note-button:disabled{opacity:.55;cursor:default}
+@media(max-width:650px){
+  .box-workbench{grid-template-columns:1fr;gap:0;justify-items:center;align-content:center;height:100%}
+  .antique-box{width:min(90vw,calc(100dvh - 360px),400px);max-width:none}
+  .box-note-panel{max-width:400px;gap:6px}
+  .unfolded-note p{font-size:clamp(16px,4.6vw,20px);line-height:1.4}
+  .box-note-panel .illustrated-note-button{min-height:50px;width:180px;font-size:18px}
+}
+@media(min-width:651px) and (max-height:600px){.box-workbench{gap:20px}.box-note-panel{max-width:440px;justify-self:center}.unfolded-note p{font-size:clamp(16px,2vw,21px)}.box-note-panel .illustrated-note-button{min-height:48px}.box-note{max-width:calc((100dvh - 140px)*1.5)}}

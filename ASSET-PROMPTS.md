@@ -166,3 +166,15 @@ Use case: stylized-concept. Production UI asset for a Victorian illustrated dete
 
 Use case: stylized-concept. Production UI asset for an illustrated Victorian detective adventure game. One elegant horizontal rectangular button/plaque, aspect ratio 3:1, fills 94 percent width and 86 percent height, front-on orthographic. Warm dark amber enamel/aged brown leather inset, substantial rounded BRASS double rim, tiny understated rivets at left and right, crisp brown ink contours and hand-painted cel shading matching supplied brass disk reference. The center must be completely EMPTY, dark smooth warm brown for later ivory HTML text. No letters, no text, no symbol, no word Resolver baked into art. Large clean center writing area. Simple beautiful 19th century craftsmanship, highlights upper left, softly rounded corners. True transparent background outside the button. No tabletop, no other objects, no perspective. Avoid excessive tiny ornament. This is an illustrated game button not a photograph.
 
+# Caja de César y nota plegada
+
+Generadas con la herramienta integrada `image_gen`; originales conservados y PNG con transparencia copiados a `dist/assets/`.
+
+- `caja-cesar.png`: caja cerrada con cinco rodillos sin números impresos. Las cifras interactivas se superponen en HTML.
+- `nota-doblada.png`: nota plegada. Al desdoblarla se reutiliza `nota-codificada.png` y se compone el mensaje exacto en HTML.
+
+Prompt caja:
+> Use case: illustration-story. Asset: isolated game prop, antique closed wooden box for a Victorian detective puzzle set in Vigo in 1893. Warm hand-painted 2D adventure-game illustration, thin clean dark-brown outlines, softly textured gouache, walnut and aged brass, consistent with a cozy illustrated clockmaker shop. Show a beautiful old walnut keepsake chest with worn edges, ornate brass corner fittings, closed flat lid. Camera almost straight frontal, a little above so top visible, symmetrical front face horizontal and undistorted. On the FRONT CENTER at 62% image height, one broad rectangular brass combination-lock plate with FIVE equally spaced blank ivory vertical digit rollers in a horizontal row. Do not paint any digits or letters: live HTML digits will be overlaid on those five blank windows. Box fills almost whole width with comfortable transparent padding, square canvas, entire object visible. No other objects, no text, no background, no hands. Real transparent background.
+
+Prompt nota plegada:
+> Use case: illustration-story. Asset: isolated folded paper game prop. A single old cream paper note neatly folded into a small horizontal rectangle, with visible overlapping folded edges, subtly irregular worn corners, warm amber paper texture and thin brown ink outlines. Cozy hand-painted 2D Victorian detective adventure game style, soft gouache shading. Viewed directly from above, horizontal not tilted. A folded NOTE, not an envelope: no triangular envelope flap, no wax seal. No writing or symbols. One centered object, generous transparent padding, landscape 3:2 canvas. Real transparent background.
