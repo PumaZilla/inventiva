@@ -86,3 +86,11 @@ Validado en escritorio, móvil vertical y horizontal; sin desbordamiento. Compro
 La nota interior conserva el texto indicado, las coordenadas `42.237819, -8.724906` y la palabra `PESCADO`. Esta palabra es texto seleccionable negro sobre fondo negro; `::selection` le da contraste al seleccionarla. La nota interior permanece abierta, se guarda entre recargas y Anterior regresa al último diálogo. La nota plegada exterior mantiene su temporizador de cinco segundos.
 
 Al retroceder a una base del reloj, esa palabra queda pendiente de nuevo y se retiran sus engranajes posteriores. Volver a los diálogos anteriores al reloj reinicia sus tres etapas. La nota dirige ahora a «profe Kike». Los botones Desbloquear y Desdoblar comparten una fila, también en móvil.
+
+## Portada y apertura del capítulo
+
+Al cargar el juego se muestra el libro cerrado Investigadores Inventiva, acompañado de la lupa y la gorra de Lola. Empezar a leer lleva al libro abierto: mapa ilustrado de Vigo a pluma a la izquierda, Capitulo 1: Llegada a la ciudad a la derecha. En esta segunda imagen no hay lupa ni gorra. Pasar de página entra en la partida guardada, o en el primer diálogo de llegada a Vigo si es una partida nueva. Anterior en el primer diálogo vuelve al libro; la apertura no borra el progreso.
+
+Las ilustraciones finales usan como referencias directas el interior de la relojería y los sprites, con contornos marrones y sombreado plano. Assets: dist/assets/libro-portada.png y dist/assets/libro-capitulo.png.
+
+Texto final: «Dirígete al profe Kike de nuevo y dile el nombre de esta estatua seguida de la palabra secreta». Coordenadas y palabra oculta se mantienen.

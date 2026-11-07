@@ -183,6 +183,7 @@ function captureView(){
 function rememberView(){if(restoringNavigation)return;navigationHistory.push(captureView());$('#story-back').disabled=false;}
 function goBack(){
   const previous=navigationHistory.pop();if(!previous)return;
+  if(previous.type==='intro'){showBook('chapter');return;}
   // Rewind the clock with the story: a revisited base must be solved again.
   const clockIndex=previous.type==='clock'?previous.index:previous.type==='screen'?previous.clockIndex:null;
   if(previous.phase==='workshop')state.gears=clockIndex??0;
@@ -208,6 +209,7 @@ function goBack(){
 $('#story-back').addEventListener('click',goBack);
 function restoreCheckpointHistory(){
   // Rebuild only the current narrative path, never obsolete challenges.
+  navigationHistory.push({type:'intro'});
   const phases=['arrival','letter-solved','clockshop','door-solved','workshop','clock-solved','box-open'];
   for(const phase of phases){
     const count=phase===state.phase?state.line:story[phase].length;
@@ -294,13 +296,33 @@ function showBox(){
 }
 
 function showSecretNote(){
-  openModal('LA NOTA DEL COFRE',`<article class="secret-note-paper" aria-label="La nota encontrada dentro del cofre"><p>Dirigiros a profe Kike y decidle el nombre de esta estatua y la palabra en clave</p><p class="statue-coordinates">42.237819, -8.724906</p><p class="secret-word-line"><span class="secret-word">PESCADO</span></p></article>`);
+  openModal('LA NOTA DEL COFRE',`<article class="secret-note-paper" aria-label="La nota encontrada dentro del cofre"><p>Dirígete al profe Kike de nuevo y dile el nombre de esta estatua seguida de la palabra secreta</p><p class="statue-coordinates">42.237819, -8.724906</p><p class="secret-word-line"><span class="secret-word">PESCADO</span></p></article>`);
   state.secretNoteScreen=true;save();
 }
 
+function showBook(page='cover'){
+  const chapter=page==='chapter',intro=$('#book-intro');
+  clearTimeout(foldNoteTimer);if(resetBoxNote)resetBoxNote();
+  if($('#modal').open)$('#modal').close();
+  $('#game').hidden=true;intro.hidden=false;intro.dataset.page=page;
+  intro.innerHTML=`<h1 class="visually-hidden">${chapter?'Capitulo 1: Llegada a la ciudad':'Investigadores Inventiva'}</h1><img class="book-intro-art" src="assets/${chapter?'libro-capitulo.png':'libro-portada.png'}" alt="${chapter?'Libro abierto: mapa de Vigo dibujado a pluma en la página izquierda; Capitulo 1: Llegada a la ciudad en la derecha':'Libro cerrado ornamentado con el título Investigadores Inventiva, sobre una mesa junto a la lupa del profesor y la gorra de Lola'}" draggable="false">${chapter?`<button id="book-back" class="round-control" type="button" aria-label="Anterior" title="Anterior">${icon('arrow')}</button>`:''}<button id="book-fullscreen" class="round-control" type="button" aria-label="Activar pantalla completa" title="Pantalla completa">${$('#fullscreen').innerHTML}</button><button id="book-next" type="button">${chapter?'Pasar de página':'Empezar a leer'}${icon('arrow')}</button>`;
+  $('#book-next').addEventListener('click',()=>chapter?resumeReading():showBook('chapter'));
+  if(chapter)$('#book-back').addEventListener('click',()=>showBook('cover'));
+  $('#book-fullscreen').addEventListener('click',()=>$('#fullscreen').click());
+}
+function resumeReading(){
+  $('#book-intro').hidden=true;$('#game').hidden=false;
+  if(!navigationHistory.length)navigationHistory.push({type:'intro'});
+  render();
+  restoringNavigation=true;
+  try{
+    if(state.clockScreen!==null)showClockPuzzle(state.clockScreen);
+    else if(state.boxScreen)showBox();
+    else if(state.secretNoteScreen)showSecretNote();
+  }finally{restoringNavigation=false;}
+  save();
+}
 restoreCheckpointHistory();
 render();
-if(state.clockScreen!==null){restoringNavigation=true;try{showClockPuzzle(state.clockScreen);}finally{restoringNavigation=false;}}
-if(state.boxScreen){restoringNavigation=true;try{showBox();}finally{restoringNavigation=false;}}
-if(state.secretNoteScreen){restoringNavigation=true;try{showSecretNote();}finally{restoringNavigation=false;}}
 save();
+showBook('cover');
