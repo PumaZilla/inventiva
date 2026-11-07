@@ -96,3 +96,14 @@ Las ilustraciones finales usan como referencias directas el interior de la reloj
 Texto final: «Dirígete al profe Kike de nuevo y dile el nombre de esta estatua seguido de la palabra secreta». Coordenadas y palabra oculta se mantienen.
 
 Las imágenes de inicio llenan la ventana con object-fit: cover y variantes verticales. Las versiones v2 corrigen las proporciones de gorra y lupa y la tilde de Capítulo. Anterior desde el primer diálogo abre el capítulo; Anterior en el capítulo vuelve a la portada. Revisión ortográfica de diálogos, notas, controles y rótulos de las imágenes.
+# Publicación en GitHub Pages
+
+Repositorio: https://github.com/PumaZilla/inventiva
+
+El código editable sigue en `dist/`. `python3 scripts/build_pages.py` genera `_site/`: su `index.html` redirige a `./capitulo1/`, y el juego con todos sus recursos se publica dentro de `capitulo1/`. La redirección usa una ruta relativa para funcionar bajo `/inventiva/` y conserva parámetros y fragmentos cuando JavaScript está disponible.
+
+El workflow `.github/workflows/pages.yml` publica en cada push a `main`, o manualmente desde Actions. En Settings → Pages, la fuente debe ser GitHub Actions.
+
+Dominio elegido: https://inventiva.kike.wtf/capitulo1/
+
+En Settings → Pages, el dominio personalizado es `inventiva.kike.wtf`. En Cloudflare, crear un CNAME `inventiva` → `pumazilla.github.io` (sin el nombre del repositorio). La redirección de la raíz también funciona en este dominio. El dominio de Pages se configura en GitHub; el workflow de Actions no depende de un archivo CNAME.

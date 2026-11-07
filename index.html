@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="refresh" content="0; url=./capitulo1/">
+  <title>Investigadores Inventiva</title>
+  <script>
+    const chapter = new URL('./capitulo1/', location.href);
+    chapter.search = location.search;
+    chapter.hash = location.hash;
+    location.replace(chapter.href);
+  </script>
+</head>
+<body>
+  <p><a href="./capitulo1/">Empezar a leer Investigadores Inventiva</a></p>
+</body>
+</html>
