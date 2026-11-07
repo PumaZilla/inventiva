@@ -64,3 +64,12 @@ Los números 1, 2 y 3 son prefijos fijos del campo de respuesta. Cada grupo de d
 Se comprobó el recorrido completo, error sin recompensa, un engranaje por acierto, guardado entre pantallas, regreso tras recargar y vistas móvil/escritorio. Los personajes mantienen la boca fija y el oyente oscurecido; el mecanismo del reloj gira al completarlo y respeta reducción de movimiento.
 
 Lola se refleja horizontalmente cuando ocupa la izquierda para mirar a Tic-Tac. El profesor mira a la derecha y Tic-Tac a la izquierda. Se mantienen el oscurecimiento del oyente y las bocas estáticas.
+
+
+## Validación de respuestas y avance
+
+Todos los retos eliminan espacios en blanco, incluidos los interiores, y comparan sin distinguir mayúsculas/minúsculas. La carta y las palabras mantienen también la normalización de tildes. El timbre usa ahora RELOJ como pista.
+
+Los aciertos de binario y octal avanzan automáticamente a la siguiente pantalla. Al completar hexadecimal se ocultan la nota y el input, conservando su espacio de composición, y aparece Continuar en el centro vertical y horizontal de esa zona. Los tres engranajes permanecen instalados.
+
+Verificado en navegador con respuestas mezcladas y espaciadas en los cinco retos, avance 1→2→3, reanudación tras recargar, Anterior y Continuar.

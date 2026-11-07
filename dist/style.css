@@ -211,7 +211,7 @@ dialog.clock-screen{background:#33271b;border:0;border-radius:0;box-shadow:none;
 .gear-0{left:35.5%;top:52%}.gear-1{left:61.7%;top:52%}.gear-2{left:48.1%;top:70.8%}
 .is-running .repair-gear{animation:clock-gears 16s linear infinite}.is-running .gear-1{animation-direction:reverse}
 @keyframes clock-gears{to{transform:translate(-50%,-50%) rotate(360deg)}}
-.clock-clues{width:100%;min-width:0}
+.clock-clues{position:relative;width:100%;min-width:0}
 .clock-note{position:relative;display:grid;place-items:center;aspect-ratio:3/2;width:100%;padding:14% 8%;background:url('assets/nota-codificada.png') center/100% 100% no-repeat;filter:drop-shadow(0 8px 9px #1b100740)}
 .encoded-word{display:flex;gap:8px 12px;flex-wrap:wrap;justify-content:center;align-content:center;color:#51351e;text-align:center}
 .encoded-word span{font:bold clamp(16px,1.65vw,22px)/1.7 monospace;letter-spacing:1px}
@@ -245,3 +245,9 @@ dialog.clock-screen{background:#33271b;border:0;border-radius:0;box-shadow:none;
   .clock-action{width:48px;flex-basis:48px;min-height:46px;padding:10px}
 }
 @media(min-width:651px) and (max-height:600px){.clock-workbench{gap:25px;grid-template-columns:minmax(0,340px) minmax(0,430px)}.clock-screen #modal-content{padding-top:45px}.clock-note{aspect-ratio:1.9}.encoded-word span{font-size:17px}.clock-action{min-height:46px}}
+
+/* Preserve the note/answer footprint and center the final action within it. */
+#clock-form{min-height:54px}
+.clock-clues.is-complete .clock-note,.clock-clues.is-complete #clock-form{visibility:hidden;pointer-events:none}
+.clock-clues.is-complete #clock-continue{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);visibility:visible;pointer-events:auto;width:190px;height:58px;min-height:58px;font:20px Georgia,serif;display:grid;place-items:center}
+@media(max-width:650px){#clock-form{min-height:46px}.clock-clues.is-complete #clock-continue{width:180px;height:54px;min-height:54px;font-size:18px}}

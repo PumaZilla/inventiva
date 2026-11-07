@@ -1,5 +1,6 @@
 'use strict';
 const $=s=>document.querySelector(s);
+const normalizeAnswer=value=>value.normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/\s+/g,'').toUpperCase();
 const icon=id=>`<svg aria-hidden="true"><use href="#i-${id}"/></svg>`;
 const LETTER_HTML="<article class=\"cesar-letter\"><p class=\"letter-date\">Vigo, 14 de noviembre de 1893</p><p>Profesor Criptóbal:</p><p>Venga a Vigo con Lola. La baliza del puerto ha desaparecido y alguien está enviando órdenes con mi nombre. No sé en quién confiar.</p><p>En este sobre encontrará una pieza de latón. Guárdela: dos letras pueden señalar el camino.</p><p>Al llegar al Casco Vello, enfrente la <strong>A</strong> a la <strong>D</strong> y busque:</p><strong class=\"cipher\">WDOOHU</strong><p>Pregunten allí por Clotilde Tic-Tac. Les contaré el resto cuando sea seguro.</p><p class=\"letter-signature\">César</p></article>";
 const dialogueLines=[{"speaker": "Lola Bitácora", "text": "¡Mire la ría, profesor! Vigo es todavía más bonita que en los mapas. Aunque venir hasta Galicia por una carta misteriosa… eso sí que no estaba en nuestros planes."}, {"speaker": "Profesor Criptóbal", "text": "La escribió y firmó un tal César. Nos pide ayuda: ha desaparecido la baliza del puerto y alguien envía órdenes usando su nombre."}, {"speaker": "Lola Bitácora", "text": "Y dentro del sobre venía esto. Pesa lo suyo… tiene dos discos, letras por todas partes y una pequeña muesca. No parece una moneda de recuerdo."}, {"speaker": "Profesor Criptóbal", "text": "Todavía no sabemos para qué sirve. César escribió: «Al llegar al Casco Vello, enfrente la A a la D». Después dejó seis letras: WDOOHU."}, {"speaker": "Lola Bitácora", "text": "Voy a apoyar la maleta en ese banco. Saquemos la carta y la pieza. Quizá las letras no estén ahí de adorno."}, {"speaker": "Profesor Criptóbal", "text": "Buena idea. Acabamos de llegar a Vigo y ya tenemos un lugar que encontrar. Empecemos por leer con cuidado lo que nos ha escrito César."}];
@@ -109,7 +110,7 @@ function openModal(kicker,html){
 function closeModal(){goBack();}
 function checkAnswer(event){
   event.preventDefault();
-  const answer=$('#answer').value.trim().normalize('NFD').replace(/[\u0300-\u036f]/g,'').toUpperCase();
+  const answer=normalizeAnswer($('#answer').value);
   if(answer!=='TALLER'){
     $('#feedback').textContent='No encaja todavía. Prueba otra palabra.';
     $('#answer').setAttribute('aria-invalid','true');$('#answer').focus();return;
@@ -129,7 +130,7 @@ $('#modal').addEventListener('cancel',event=>{event.preventDefault();goBack();})
 $('#fullscreen').addEventListener('click',async()=>{try{if(document.fullscreenElement)await document.exitFullscreen();else if(document.documentElement.requestFullscreen)await document.documentElement.requestFullscreen();else toast('El juego ya ocupa toda la ventana. Este navegador no admite el modo de pantalla completa.');}catch{toast('El navegador no permite ampliar más la ventana. El juego sigue ocupando todo el espacio disponible.');}});
 document.addEventListener('fullscreenchange',()=>{const active=Boolean(document.fullscreenElement);$('#fullscreen').setAttribute('aria-pressed',String(active));$('#fullscreen').setAttribute('aria-label',active?'Salir de pantalla completa':'Activar pantalla completa');});
 function showLetter(){
-  openModal('LA CARTA DE CÉSAR',`<button type="button" id="letter-back" class="round-control" aria-label="Anterior" title="Anterior">${icon('arrow')}</button><div class="letter-and-object"><section class="letter-evidence" aria-label="Carta recibida antes del viaje">${LETTER_HTML}</section><section class="object-panel" aria-label="Pieza de latón y solución"><div id="brass-object"></div><form id="letter-answer-form"><div class="letter-answer-row"><input id="answer" type="text" aria-label="Solución de la carta" aria-describedby="feedback" placeholder="Tu respuesta…" autocomplete="off" spellcheck="false" maxlength="40" required><button type="submit" class="primary-button illustrated-resolve"><span>Resolver</span></button></div><div class="feedback" id="feedback" role="status" aria-live="polite"></div></form></section></div>`);
+  openModal('LA CARTA DE CÉSAR',`<button type="button" id="letter-back" class="round-control" aria-label="Anterior" title="Anterior">${icon('arrow')}</button><div class="letter-and-object"><section class="letter-evidence" aria-label="Carta recibida antes del viaje">${LETTER_HTML}</section><section class="object-panel" aria-label="Pieza de latón y solución"><div id="brass-object"></div><form id="letter-answer-form"><div class="letter-answer-row"><input id="answer" type="text" aria-label="Solución de la carta" aria-describedby="feedback" placeholder="Tu respuesta…" autocomplete="off" spellcheck="false" maxlength="256" required><button type="submit" class="primary-button illustrated-resolve"><span>Resolver</span></button></div><div class="feedback" id="feedback" role="status" aria-live="polite"></div></form></section></div>`);
   mountBrassObject(true);
   fitLetterScreen();
   $('#letter-back').addEventListener('click',closeModal);
@@ -196,10 +197,10 @@ function restoreCheckpointHistory(){
   }
 }
 function showDoorPuzzle(){
-  openModal('ENIGMA 002 · HASH MD5',`<form id="door-form" class="bell-closeup" aria-label="El timbre de Clotilde: HASH MD5, placa RELOJ"><img class="bell-art" src="assets/timbre-reloj.png" alt="Timbre de latón sobre la pared de granito: inscripción HASH MD5, una ranura, un pulsador redondo y una placa que dice RELOJ" draggable="false"><input id="door-answer" type="text" aria-label="Contraseña del timbre" aria-describedby="door-feedback" autocomplete="off" autocapitalize="off" spellcheck="false" maxlength="32" placeholder="Contraseña…" required><button type="submit" class="bell-push" aria-label="Pulsar el timbre" title="Pulsar el timbre"></button><div id="door-feedback" role="status" aria-live="polite"></div></form>`);
+  openModal('ENIGMA 002 · HASH MD5',`<form id="door-form" class="bell-closeup" aria-label="El timbre de Clotilde: HASH MD5, placa RELOJ"><img class="bell-art" src="assets/timbre-reloj.png" alt="Timbre de latón sobre la pared de granito: inscripción HASH MD5, una ranura, un pulsador redondo y una placa que dice RELOJ" draggable="false"><input id="door-answer" type="text" aria-label="Contraseña del timbre" aria-describedby="door-feedback" autocomplete="off" autocapitalize="off" spellcheck="false" maxlength="256" placeholder="Contraseña…" required><button type="submit" class="bell-push" aria-label="Pulsar el timbre" title="Pulsar el timbre"></button><div id="door-feedback" role="status" aria-live="polite"></div></form>`);
   $('#door-answer').addEventListener('input',()=>{$('#door-answer').removeAttribute('aria-invalid');$('#door-feedback').textContent='';});
   $('#door-form').addEventListener('submit',event=>{
-    event.preventDefault();const answer=$('#door-answer').value.trim().toLowerCase();
+    event.preventDefault();const answer=normalizeAnswer($('#door-answer').value).toLowerCase();
     if(answer!=='ce13c02063cd17f3a7346cda69a74ce8'){
       $('#door-feedback').textContent='El timbre no responde. La contraseña no encaja.';
       $('#door-answer').setAttribute('aria-invalid','true');$('#door-answer').focus();return;
@@ -221,19 +222,24 @@ function syncClockView(){
   $('#clock-answer').readOnly=solved;
   $('#clock-check').hidden=solved;$('#clock-continue').hidden=!solved;
   $('#clock-form').classList.toggle('is-solved',solved);
+  const complete=index===2&&state.gears===3;
+  $('.clock-clues').classList.toggle('is-complete',complete);
+  if(complete){$('#clock-continue').textContent='Continuar';$('#clock-continue').setAttribute('aria-label','Continuar');$('#clock-continue').title='Continuar';}
   if(solved){$('#clock-answer').value=clockWords[index].word;$('#clock-feedback').textContent=state.gears===3?'¡Tic-tac! El reloj vuelve a funcionar.':'¡Encaja! Un engranaje más en su sitio.';}
 }
 function showClockPuzzle(index){
   index=Math.max(0,Math.min(index,state.gears,2));
   const puzzle=clockWords[index],code=[...puzzle.word].map(letter=>letter.charCodeAt(0).toString(puzzle.base).toUpperCase().padStart(puzzle.width,'0'));
-  openModal('EL RELOJ DE TIC-TAC',`<div class="clock-workbench"><div class="repair-clock" role="img" aria-label="Reloj de bolsillo con huecos para tres engranajes"><img class="repair-clock-art" src="assets/reloj-bolsillo.png" alt="" draggable="false">${[0,1,2].map(i=>`<img class="repair-gear gear-${i}" src="assets/engranaje-reloj.png" alt="" hidden>`).join('')}</div><div class="clock-clues"><div class="clock-note" role="group" aria-label="Nota en ${puzzle.name.toLowerCase()}, base ${puzzle.base}"><div class="encoded-word">${code.map(group=>`<span>${group}</span>`).join(' ')}</div></div><form id="clock-form"><label class="numbered-answer" for="clock-answer"><span class="answer-number" aria-hidden="true">${index+1}</span><input id="clock-answer" type="text" aria-label="Palabra de la prueba ${index+1}" aria-describedby="clock-feedback" placeholder="…" autocomplete="off" spellcheck="false" maxlength="24" required></label><button id="clock-check" type="submit" class="clock-action" aria-label="Comprobar palabra" title="Comprobar palabra">${icon('check')}</button><button id="clock-continue" type="button" class="clock-action" aria-label="${index===2?'Volver con Tic-Tac':'Siguiente pieza'}" title="${index===2?'Volver con Tic-Tac':'Siguiente pieza'}" hidden>${icon('arrow')}</button><div id="clock-feedback" class="visually-hidden" role="status" aria-live="polite"></div></form></div></div>`);
+  openModal('EL RELOJ DE TIC-TAC',`<div class="clock-workbench"><div class="repair-clock" role="img" aria-label="Reloj de bolsillo con huecos para tres engranajes"><img class="repair-clock-art" src="assets/reloj-bolsillo.png" alt="" draggable="false">${[0,1,2].map(i=>`<img class="repair-gear gear-${i}" src="assets/engranaje-reloj.png" alt="" hidden>`).join('')}</div><div class="clock-clues"><div class="clock-note" role="group" aria-label="Nota en ${puzzle.name.toLowerCase()}, base ${puzzle.base}"><div class="encoded-word">${code.map(group=>`<span>${group}</span>`).join(' ')}</div></div><form id="clock-form"><label class="numbered-answer" for="clock-answer"><span class="answer-number" aria-hidden="true">${index+1}</span><input id="clock-answer" type="text" aria-label="Palabra de la prueba ${index+1}" aria-describedby="clock-feedback" placeholder="…" autocomplete="off" spellcheck="false" maxlength="256" required></label><button id="clock-check" type="submit" class="clock-action" aria-label="Comprobar palabra" title="Comprobar palabra">${icon('check')}</button><button id="clock-continue" type="button" class="clock-action" aria-label="${index===2?'Volver con Tic-Tac':'Siguiente pieza'}" title="${index===2?'Volver con Tic-Tac':'Siguiente pieza'}" hidden>${icon('arrow')}</button><div id="clock-feedback" class="visually-hidden" role="status" aria-live="polite"></div></form></div></div>`);
   $('#modal-content').dataset.clockIndex=index;state.clockScreen=index;save();syncClockView();
   $('#clock-answer').addEventListener('input',()=>{$('#clock-answer').removeAttribute('aria-invalid');$('#clock-feedback').textContent='';});
   $('#clock-form').addEventListener('submit',event=>{
     event.preventDefault();
-    const answer=$('#clock-answer').value.trim().normalize('NFD').replace(/[\u0300-\u036f]/g,'').toUpperCase();
+    const answer=normalizeAnswer($('#clock-answer').value);
     if(answer!==puzzle.word){$('#clock-feedback').textContent='Esa palabra no encaja. Revisa cada grupo y su base.';$('#clock-answer').setAttribute('aria-invalid','true');$('#clock-answer').focus();return;}
     if(state.gears===index)state.gears++;save();syncClockView();
+    if(index<2){showClockPuzzle(index+1);$('#clock-answer').focus();}
+    else $('#clock-continue').focus();
   });
   $('#clock-continue').addEventListener('click',()=>{if(index<2)showClockPuzzle(index+1);else{rememberView();enterStory('clock-solved',0);}});
 }
