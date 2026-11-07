@@ -49,8 +49,12 @@ const story={
 };
 const KEY='niebla-cifra-vigo-v1';
 const BOX_CODE='98765';
-story['box-open']=[{speaker:'Lola Bitácora',text:'¡Clic! ¿Lo ha oído, profesor? La cerradura ha cedido. ¡Hemos abierto la caja de César!'}];
-let state={chapterVersion:2,completed:[],doorUnlocked:false,gears:0,clockScreen:null,boxScreen:false,boxUnlocked:false,boxDigits:'00000',phase:'arrival',line:0};
+story['box-open']=[
+  {speaker:'Lola Bitácora',text:'¡Clic! ¿Lo ha oído, profesor? La cerradura ha cedido. Espere… hay una nota dentro de la caja.'},
+  {speaker:'Profesor Criptóbal',text:'Sácala con cuidado, Lola. Parece que César nos ha dejado el siguiente paso de nuestra investigación.'},
+  {speaker:'Lola Bitácora',text:'Habla de alguien llamado Kike y de una estatua. Y debajo hay unos números… Acerquemos la nota para leerla bien.'}
+];
+let state={chapterVersion:2,completed:[],doorUnlocked:false,gears:0,clockScreen:null,boxScreen:false,secretNoteScreen:false,boxUnlocked:false,boxDigits:'00000',phase:'arrival',line:0};
 try{
   const saved=JSON.parse(localStorage.getItem(KEY));
   if(saved&&Array.isArray(saved.completed)){
@@ -63,6 +67,7 @@ try{
       state.boxScreen=saved.boxScreen===true&&state.phase==='clock-solved'&&state.line===story['clock-solved'].length-1;
       if(typeof saved.boxDigits==='string'&&/^\d{5}$/.test(saved.boxDigits))state.boxDigits=saved.boxDigits;
       state.boxUnlocked=saved.boxUnlocked===true;
+      state.secretNoteScreen=saved.secretNoteScreen===true&&state.phase==='box-open'&&state.line===story['box-open'].length-1;
     }else{
       // Retain the letter clue; obsolete challenges no longer determine the story.
       state.completed=letterSolved?[0]:[];
@@ -100,20 +105,19 @@ function render(){
   setScene(state.phase==='clockshop'||state.phase==='door-solved');
   const lines=story[state.phase],line=lines[state.line];
   setDialogue(line.text,line.speaker);
-  const end=state.phase==='box-open';
-  $('#dialogue-next').disabled=end;
-  $('#dialogue-next').style.visibility=end?'hidden':'';
+  $('#dialogue-next').disabled=false;
+  $('#dialogue-next').style.visibility='';
   $('#story-back').disabled=navigationHistory.length===0;
 }
 function enterStory(phase,line){
   clearTimeout(foldNoteTimer);if(resetBoxNote)resetBoxNote();
   if($('#modal').open)$('#modal').close();
-  state.phase=phase;state.line=line;state.clockScreen=null;state.boxScreen=false;save();render();
+  state.phase=phase;state.line=line;state.clockScreen=null;state.boxScreen=false;state.secretNoteScreen=false;save();render();
 }
 function openModal(kicker,html){
   rememberView();
   const modal=$('#modal');
-  modal.className=kicker==='LA CARTA DE CÉSAR'?'letter-screen':kicker==='LA CAJA DE CÉSAR'?'puzzle-screen clock-screen box-screen':kicker==='EL RELOJ DE TIC-TAC'?'puzzle-screen clock-screen':'puzzle-screen door-screen';
+  modal.className=kicker==='LA CARTA DE CÉSAR'?'letter-screen':kicker==='LA NOTA DEL COFRE'?'puzzle-screen clock-screen secret-note-screen':kicker==='LA CAJA DE CÉSAR'?'puzzle-screen clock-screen box-screen':kicker==='EL RELOJ DE TIC-TAC'?'puzzle-screen clock-screen':'puzzle-screen door-screen';
   $('#modal-kicker').textContent=kicker;$('#modal-content').innerHTML=html;
   if(!modal.open)modal.showModal();modal.scrollTop=0;
 }
@@ -135,6 +139,7 @@ $('#dialogue-next').addEventListener('click',()=>{
   else if(state.phase==='door-solved'){rememberView();enterStory('workshop',0);}
   else if(state.phase==='workshop')showClockPuzzle(Math.min(state.gears,2));
   else if(state.phase==='clock-solved')showBox();
+  else if(state.phase==='box-open')showSecretNote();
 });
 $('#close-modal').addEventListener('click',closeModal);
 $('#modal').addEventListener('cancel',event=>{event.preventDefault();goBack();});
@@ -172,7 +177,7 @@ if(document.fonts)document.fonts.ready.then(fitLetterScreen);
 // Keep actual modal nodes: inputs, disk alignment and listeners survive Back.
 function captureView(){
   const modal=$('#modal');
-  if(modal.open)return {type:'screen',nodes:[...$('#modal-content').childNodes],classes:modal.className,kicker:$('#modal-kicker').textContent,scroll:modal.scrollTop,phase:state.phase,line:state.line,box:modal.classList.contains('box-screen'),clockIndex:modal.classList.contains('clock-screen')&&!modal.classList.contains('box-screen')?Number($('#modal-content').dataset.clockIndex):null};
+  if(modal.open)return {type:'screen',nodes:[...$('#modal-content').childNodes],classes:modal.className,kicker:$('#modal-kicker').textContent,scroll:modal.scrollTop,phase:state.phase,line:state.line,box:modal.classList.contains('box-screen'),secretNote:modal.classList.contains('secret-note-screen'),clockIndex:modal.classList.contains('clock-screen')&&!modal.classList.contains('box-screen')&&!modal.classList.contains('secret-note-screen')?Number($('#modal-content').dataset.clockIndex):null};
   return {type:'story',phase:state.phase,line:state.line};
 }
 function rememberView(){if(restoringNavigation)return;navigationHistory.push(captureView());$('#story-back').disabled=false;}
@@ -186,6 +191,7 @@ function goBack(){
     modal.showModal();modal.scrollTop=previous.scroll;fitLetterScreen();
     if(previous.clockIndex!==null){$('#modal-content').dataset.clockIndex=previous.clockIndex;state.clockScreen=previous.clockIndex;syncClockView();save();}
     if(previous.box){state.boxScreen=true;save();}
+    if(previous.secretNote){state.secretNoteScreen=true;save();}
   }else if(previous.type==='letter'||previous.type==='door'||previous.type==='clock'||previous.type==='box'){
     restoringNavigation=true;
     try{previous.type==='letter'?showLetter():previous.type==='clock'?showClockPuzzle(previous.index):previous.type==='box'?showBox():showDoorPuzzle();}finally{restoringNavigation=false;}
@@ -200,7 +206,7 @@ function restoreCheckpointHistory(){
     const count=phase===state.phase?state.line:story[phase].length;
     for(let line=0;line<count;line++)navigationHistory.push({type:'story',phase,line});
     if(phase===state.phase){
-      if(state.boxScreen)navigationHistory.push({type:'story',phase,line:state.line});
+      if(state.boxScreen||state.secretNoteScreen)navigationHistory.push({type:'story',phase,line:state.line});
       if(state.clockScreen!==null){navigationHistory.push({type:'story',phase,line:state.line});for(let index=0;index<state.clockScreen;index++)navigationHistory.push({type:'clock',phase,line:state.line,index});}
       break;
     }
@@ -261,12 +267,16 @@ function showClockPuzzle(index){
 const BOX_MESSAGE='Levantate y dibuja en la pizarra un animal cuya primera letra coincida con la primera letra de tu nombre';
 function showBox(){
   clearTimeout(foldNoteTimer);
-  openModal('LA CAJA DE CÉSAR',`<div class="box-workbench"><section class="antique-box" aria-label="La caja antigua de César"><img src="assets/caja-cesar.png" alt="Caja antigua de madera y latón, cerrada con una combinación de cinco cifras" draggable="false"><div class="box-lock" role="group" aria-label="Cerradura de cinco números">${[...state.boxDigits].map((digit,i)=>`<button type="button" class="box-digit" aria-label="Cifra ${i+1}: ${digit}. Cambiar número">${digit}</button>`).join('')}</div></section><section class="box-note-panel" aria-label="La nota de César"><div class="box-note"><img class="folded-note" src="assets/nota-doblada.png" alt="Una nota doblada" draggable="false"><div id="unfolded-note" class="unfolded-note" hidden><p>${BOX_MESSAGE}</p></div></div><button type="button" id="unfold-note" class="primary-button illustrated-note-button" aria-expanded="false" aria-controls="unfolded-note">Desdoblar</button><span id="note-status" class="visually-hidden" role="status" aria-live="polite"></span></section></div>`);
+  openModal('LA CAJA DE CÉSAR',`<div class="box-workbench"><section class="box-prop-panel" aria-label="La caja antigua de César"><div class="antique-box"><img src="assets/caja-cesar.png" alt="Caja antigua de madera y latón, cerrada con una combinación de cinco cifras" draggable="false"><div class="box-lock" role="group" aria-label="Cerradura de cinco números">${[...state.boxDigits].map((digit,i)=>`<button type="button" class="box-digit" aria-label="Cifra ${i+1}: ${digit}. Cambiar número">${digit}</button>`).join('')}</div></div><button type="button" id="unlock-box" class="primary-button illustrated-note-button">Desbloquear</button><p id="box-feedback" role="status" aria-live="polite"></p></section><section class="box-note-panel" aria-label="La nota de César"><div class="box-note"><img class="folded-note" src="assets/nota-doblada.png" alt="Una nota doblada" draggable="false"><div id="unfolded-note" class="unfolded-note" hidden><p>${BOX_MESSAGE}</p></div></div><button type="button" id="unfold-note" class="primary-button illustrated-note-button" aria-expanded="false" aria-controls="unfolded-note">Desdoblar</button><span id="note-status" class="visually-hidden" role="status" aria-live="polite"></span></section></div>`);
   state.boxScreen=true;save();
   document.querySelectorAll('.box-digit').forEach((button,index)=>{
-    const setDigit=digit=>{const digits=[...state.boxDigits];digits[index]=String(digit);state.boxDigits=digits.join('');button.textContent=digit;button.setAttribute('aria-label',`Cifra ${index+1}: ${digit}. Cambiar número`);save();if(state.boxDigits===BOX_CODE){rememberView();state.boxUnlocked=true;enterStory('box-open',0);}};
+    const setDigit=digit=>{const digits=[...state.boxDigits];digits[index]=String(digit);state.boxDigits=digits.join('');button.textContent=digit;button.setAttribute('aria-label',`Cifra ${index+1}: ${digit}. Cambiar número`);$('#box-feedback').textContent='';save();};
     button.addEventListener('click',()=>setDigit((Number(state.boxDigits[index])+1)%10));
     button.addEventListener('keydown',event=>{if(/^[0-9]$/.test(event.key)){event.preventDefault();setDigit(Number(event.key));}else if(event.key==='ArrowDown'||event.key==='ArrowUp'){event.preventDefault();setDigit((Number(state.boxDigits[index])+(event.key==='ArrowUp'?1:9))%10);}});
+  });
+  $('#unlock-box').addEventListener('click',()=>{
+    if(state.boxDigits!==BOX_CODE){$('#box-feedback').textContent='La cerradura sigue cerrada. Prueba otra combinación.';return;}
+    rememberView();state.boxUnlocked=true;enterStory('box-open',0);
   });
   const button=$('#unfold-note'),folded=$('.folded-note'),unfolded=$('#unfolded-note'),status=$('#note-status');
   resetBoxNote=()=>{folded.hidden=false;unfolded.hidden=true;button.disabled=false;button.setAttribute('aria-expanded','false');status.textContent='La nota se ha vuelto a doblar.';};
@@ -276,8 +286,14 @@ function showBox(){
   });
 }
 
+function showSecretNote(){
+  openModal('LA NOTA DEL COFRE',`<article class="secret-note-paper" aria-label="La nota encontrada dentro del cofre"><p>Dirigiros a Kike y decidle el nombre de esta estatua y la palabra en clave</p><p class="statue-coordinates">42.237819, -8.724906</p><p class="secret-word-line"><span class="secret-word">PESCADO</span></p></article>`);
+  state.secretNoteScreen=true;save();
+}
+
 restoreCheckpointHistory();
 render();
 if(state.clockScreen!==null){restoringNavigation=true;try{showClockPuzzle(state.clockScreen);}finally{restoringNavigation=false;}}
 if(state.boxScreen){restoringNavigation=true;try{showBox();}finally{restoringNavigation=false;}}
+if(state.secretNoteScreen){restoringNavigation=true;try{showSecretNote();}finally{restoringNavigation=false;}}
 save();
